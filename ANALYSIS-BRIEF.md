@@ -155,6 +155,170 @@ Start with these files for the highest-signal analysis:
 
 ## Output Format
 
-Produce a single markdown document with clearly labeled Phase 1 (Review) and Phase 2 (Specification) sections. Use code blocks for all type definitions and function signatures. Where you see design trade-offs, state your recommendation and the alternative you rejected with reasoning.
+Your output will be compared directly against reviews from other AI models. To enable structured comparison, you MUST follow this exact document template. Do not skip sections, rename sections, or reorder them. Every section must be present even if brief.
 
-Do NOT produce actual Python implementation code. Produce the analysis and specification that an implementation team would work from.
+Do NOT produce actual Python implementation code. Produce the analysis and specification that an implementation team would work from. Use code blocks for all type definitions and function signatures.
+
+### Required Document Structure
+
+```
+# PlatformForge Orchestrator — Architecture Review & Re-Architecture Specification
+
+**Reviewing Model:** [Your model name and version]
+**Date:** [Date]
+**Files Analyzed:** [List all files you read from the repository]
+
+---
+
+## PHASE 1: ARCHITECTURE REVIEW
+
+### 1.1 System Comprehension Summary
+[Demonstrate your understanding of the orchestrator's architecture in 2-4 paragraphs.
+Cover: overall flow, conversation layer, synthesis layer, review pipeline, 
+cross-phase state management, and publishing. Reference specific function names 
+and line ranges.]
+
+### 1.2 Architectural Problems
+[Number each problem sequentially. For EACH problem, use this exact format:]
+
+**Problem N: [Title]**
+- **Location:** [Function names and line ranges]
+- **What happens:** [Factual description of the behavior]
+- **Why it is a problem:** [Architectural reasoning, not just "it's bad"]
+- **Evidence:** [Specific data from the evidence files — scores, deltas, 
+  contradiction counts, metrics. Cite filenames.]
+
+### 1.3 Root Cause Analysis
+[For each major problem identified in 1.2, trace it to its architectural root cause.
+Group related problems that share a root cause. Use this format:]
+
+**Root Cause A: [Title]**
+- **Problems it causes:** [Reference problem numbers from 1.2]
+- **Architectural mechanism:** [How the architecture makes this inevitable]
+- **Evidence chain:** [Data path from code to observed failure]
+
+### 1.4 Fragility Map (Top 10)
+[Rank-ordered. For EACH entry, use this exact format:]
+
+**Rank N: [Function/subsystem name] ([line range])**
+- **Why it is fragile:** [One sentence]
+- **Blast radius:** [What breaks if this breaks]
+- **Recommended fix:** [One sentence]
+
+### 1.5 Cross-Phase Consistency Analysis
+[Analyze how the system manages (or fails to manage) facts across phases.
+Reference cross-phase-consistency.json specifically. Cover:]
+- Current consistency score and number of issues found
+- Categories of drift (pricing, counts, permissions, services, etc.)
+- Architectural cause of each drift category
+- Which phases are most affected and why
+
+### 1.6 Review Pipeline Effectiveness
+[Analyze the 4-layer review pipeline using evidence data. Cover:]
+- L1 initial miss counts per phase (cite review-pipeline JSONs)
+- Correction deltas per phase (characters added during review)
+- Whether the pipeline is doing review work or authorship work
+- Expert review finding quality (sample from expert-review JSONs)
+- Re-engagement effectiveness (reference interview briefs)
+- Net assessment: is the pipeline achieving its design intent?
+
+---
+
+## PHASE 2: RE-ARCHITECTURE SPECIFICATION
+
+### 2.1 Module Map
+[For EACH module, use this exact format:]
+
+**Module: [filename.py]**
+- **Responsibility:** [Single sentence]
+- **Imports from:** [List other project modules, max 3]
+- **Public API:**
+  ```python
+  [Function signatures with full type hints]
+  ```
+
+[After all modules, include:]
+**Data Flow Diagram:**
+```
+[ASCII or text diagram showing which modules call which]
+```
+
+### 2.2 Data Contracts
+[Use code blocks for every type definition. Group as:]
+
+**2.2.1 Core Types**
+```python
+[Pydantic models or dataclasses for fundamental objects]
+```
+
+**2.2.2 Cross-Phase State Registry Schema**
+```python
+[The state store schema with supersession rules]
+```
+
+**2.2.3 Patch/Correction Types**
+```python
+[Patch object, finding object, correction result]
+```
+
+**2.2.4 Review Types**
+```python
+[Review result, finding set, merge result]
+```
+
+### 2.3 Synthesis Redesign
+[Cover each of these explicitly:]
+- Template parsing: how templates become section checklists
+- Generation flow: section-by-section, bounded groups, or other approach
+- Validation gates: where validate_deliverable() sits, what blocks on failure
+- State registry interaction: how synthesis reads/writes canonical facts
+- **Trade-off noted:** [Any design choice where you picked one option over another.
+  State what you chose, what you rejected, and why.]
+
+### 2.4 Review Pipeline Redesign
+[Cover each of these explicitly:]
+- Execution model: sequential, parallel, or hybrid — with reasoning
+- Finding merge and deduplication logic
+- Correction application method (patch-based, regeneration, or hybrid)
+- Topic ID preservation through founder re-engagement
+- Revalidation trigger logic: which layers re-review which changed sections
+- **Trade-off noted:** [Same format as above]
+
+### 2.5 Configuration & Model Support
+[Provide the actual config schema. Must show:]
+- How 4 model tiers are defined (Haiku 4.5, Sonnet 4.5, Sonnet 4.6 std, Sonnet 4.6 high)
+- How a single config change switches all roles
+- Token budget table per role per model tier
+- Thinking mode toggle logic
+- Cost ceiling enforcement mechanism
+
+### 2.6 Migration Order
+[Numbered sequence. For EACH step:]
+
+**Step N: [What to build]**
+- **Source:** Extract from main.py lines [X-Y] / Write fresh
+- **Validation:** [How to verify this module works before proceeding]
+- **Dependencies:** [Which prior steps must be complete]
+- **Estimated complexity:** Small / Medium / Large
+
+[End with:]
+**Main.py retirement criteria:** [Explicit conditions under which the old 
+file can be deleted]
+
+**First end-to-end test possible after:** Step [N]
+
+---
+
+## SUMMARY
+
+### Top 3 Highest-Impact Changes
+[Rank ordered. One sentence each with expected impact.]
+
+### Estimated Total Migration Complexity
+[Small / Medium / Large / Very Large — with reasoning]
+
+### Risks and Open Questions
+[Anything you are uncertain about or that needs human judgment]
+```
+
+Follow this template exactly. Every section header must match. Every sub-format must match. This enables direct section-by-section comparison across reviewing models.
