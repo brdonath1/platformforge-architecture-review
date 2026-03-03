@@ -1,0 +1,17 @@
+{
+  "id": "msg_test_002",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {"type": "tool_use", "id": "toolu_test_001", "name": "web_search", "input": {"query": "PlatformForge competitors"}},
+    {"type": "text", "text": "Based on the search results, here are the findings."}
+  ],
+  "model": "claude-haiku-4-5-20251001",
+  "stop_reason": "tool_use",
+  "usage": {
+    "input_tokens": 150,
+    "output_tokens": 50,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  }
+}
