@@ -1,0 +1,269 @@
+{
+  "layer": 2,
+  "layer_name": "Domain Expert",
+  "phase": "4",
+  "findings": [
+    {
+      "id": "L2-1",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 1: FOUNDATIONAL ENTITIES, TABLE: organizations",
+      "issue": "The `config` JSONB column lacks specification of valid keys, structure, or validation rules, making it a potential data quality risk and insufficient for Phase 5 implementation.",
+      "evidence": "From deliverable: \"config: JSONB | DEFAULT '{}' | Operator-specific configuration: service fee percentage, email templates, course list, commission structure. Stored as JSON for flexibility without schema changes.\" No nested structure, validation rules, or example JSON provided.",
+      "recommendation": "Specify the required and optional keys within the config JSONB (e.g., config.service_fee_percent: decimal, config.email_templates: object with keys like 'booking_confirmation', config.commission_structure: enum), include a JSON schema or example, and document validation constraints (e.g., service_fee_percent must be 0-50)."
+    },
+    {
+      "id": "L2-2",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 2: BOOKINGS & CORE WORKFLOW, TABLE: bookings",
+      "issue": "The `status` enum lists 11 state values but provides no explicit state machine definition, making it unclear which transitions are valid (e.g., can status jump from 'confirmed' to 'awaiting_payment'?) and creating data integrity risk.",
+      "evidence": "From deliverable: \"status: TEXT | NOT NULL, DEFAULT 'pending_rafael_review' | Valid values (in order): 'pending_rafael_review' \u2192 'pending_course_confirmations' \u2192 'awaiting_payment' \u2192 'confirmed' \u2192 'pre_trip' \u2192 'during_trip' \u2192 'completed' \u2192 'awaiting_feedback' \u2192 'feedback_received'. Can also be 'cancelled' or 'archived'.\" The phrase \"(in order)\" implies sequence but does not formally define a state machine with valid transitions.",
+      "recommendation": "Create an explicit state machine definition in the Data Dictionary showing valid transitions (e.g., pending_rafael_review can transition ONLY to {approved, declined}; confirmed can transition ONLY to {pre_trip, cancelled}; etc.) with any bypass rules (e.g., Rafael can jump to 'archived' from any state). Include this in Phase 5's migration validation logic."
+    },
+    {
+      "id": "L2-3",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 3: FINANCIAL TRACKING, TABLE: booking_modifications",
+      "issue": "The `payment_adjustment_status` field design is incomplete: it tracks adjustment status ('pending', 'invoice_sent', 'paid', 'refunded') but does not link to actual payment/refund transactions in the `payments` table, making financial reconciliation ambiguous.",
+      "evidence": "From deliverable: \"payment_adjustment_status: TEXT | DEFAULT 'pending' | 'pending' (decision made, not yet invoiced/refunded), 'invoice_sent' (charged client), 'paid' (client paid additional), 'refunded' (refund issued).\" But there is no foreign key to `payments(id)` to link the adjustment to the actual transaction.",
+      "recommendation": "Add a nullable foreign key `payment_transaction_id UUID REFERENCES payments(id)` to `booking_modifications` to explicitly link each adjustment to its payment/refund transaction. Update the status flow to require this link when payment_adjustment_status moves to 'invoice_sent' or 'refunded'."
+    },
+    {
+      "id": "L2-4",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 4: CLIENT EXPERIENCE & FEEDBACK, TABLE: client_communications",
+      "issue": "The `direction` enum includes 'outbound' and 'inbound', but the table does not distinguish between system-generated outbound messages (email from Stripe, itinerary PDF) and user-initiated outbound messages (Lucia's email), which is critical for audit logging accuracy.",
+      "evidence": "From deliverable: \"direction: TEXT | NOT NULL | 'outbound' (Ocean Golf \u2192 Client), 'inbound' (Client \u2192 Ocean Golf).\" But the `is_system_generated` boolean exists at the end, suggesting the distinction is important. However, the design mixes direction and source concerns without clarity.",
+      "recommendation": "Refactor to separate concerns: keep `direction` for message flow (outbound/inbound), keep `is_system_generated` for automation flag, and add a `message_source` enum ('system_automation' | 'user_lucia' | 'user_rafael' | 'user_client') to disambiguate who/what triggered the message. Update the index to include `(client_id, is_system_generated, message_source)` for filtering automation from user-driven comms."
+    },
+    {
+      "id": "L2-5",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 6: COMPLIANCE & AUDIT, TABLE: audit_logs",
+      "issue": "The `before_values` and `after_values` JSONB columns lack specification of how to handle sensitive data (e.g., when a refund is audited, are payment amounts included in JSONB? credit card partial data?), creating potential security and privacy liability.",
+      "evidence": "From deliverable: \"before_values: JSONB | Previous state of the record (all columns as JSON)\" and \"after_values: JSONB | New state of the record\" with no guidance on sensitive field handling.",
+      "recommendation": "Add explicit rule in Data Dictionary: sensitive fields (credit card numbers, full payment amounts if PCI-relevant, client SSN if ever stored) must be masked or excluded from audit_logs JSONB. Include allowlist of which columns are safe to audit (e.g., status changes, dates) vs. which must be masked (payment details reference stripe_payment_intent_id only, never full amounts in audit log). Add a `masked_fields TEXT[] DEFAULT '{}'` column to optionally document which fields were masked."
+    },
+    {
+      "id": "L2-6",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 1: FOUNDATIONAL ENTITIES, TABLE: clients",
+      "issue": "GDPR deletion workflow is incomplete: the schema includes `gdpr_deletion_executed_at` timestamp but does not define what \"executed\" means\u2014does it mean soft-delete only, or soft-delete + anonymization? Anonymization is mentioned in behavioral rules but not enforced in schema.",
+      "evidence": "From deliverable: \"When a client requests GDPR deletion, the process is: 1. Set deleted_at = NOW() 2. Anonymize personal fields: set full_name = '[DELETED]', email = NULL, phone = NULL 3. Retain booking history in anonymized form.\" This is described behaviorally, not as a schema constraint or trigger. The `clients` table has no field to track anonymization state.",
+      "recommendation": "Add `gdpr_anonymized_at TIMESTAMP WITH TIME ZONE | NULL` and `gdpr_anonymization_status TEXT | 'pending_anonymization' | 'anonymized'` to the `clients` table. Document a stored procedure or migration trigger that, when GDPR deletion is executed, atomically: 1. Sets deleted_at, 2. Anonymizes personal fields, 3. Sets gdpr_anonymized_at = NOW(), 4. Logs action to audit_logs. Include this procedure in Phase 5 schema migration file."
+    },
+    {
+      "id": "L2-7",
+      "category": "should-improve",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 2: BOOKINGS & CORE WORKFLOW, TABLE: golfers",
+      "issue": "The `handicap` field is INTEGER but provides no constraint documentation on valid range, making it unclear if negative values, 0, or >36 are allowed, creating data quality risk.",
+      "evidence": "From deliverable: \"handicap: INTEGER | | Golf handicap (1-36 typically). Used for course selection and tee time requests.\" The word \"typically\" indicates uncertainty, and no CHECK constraint or validation rule is specified.",
+      "recommendation": "Add CHECK constraint to the schema: `CHECK (handicap IS NULL OR (handicap >= 0 AND handicap <= 36))`. If handicaps outside this range are possible (e.g., elite players with negative handicaps), adjust the constraint and document the business rule in the Data Dictionary."
+    },
+    {
+      "id": "L2-8",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 2: BOOKINGS & CORE WORKFLOW, TABLE: course_requests",
+      "issue": "The `response_deadline` field is a calculated timestamp (24 hours from request), but the schema does not document how this field is populated (auto-calculated trigger vs. manual), creating ambiguity for Phase 5 implementation.",
+      "evidence": "From deliverable: \"response_deadline: TIMESTAMP WITH TIME ZONE | 24 hours from requested_at. If no response by this time, escalate.\" But no mention of whether this is a DEFAULT CURRENT_TIMESTAMP + INTERVAL '24 hours' expression, a trigger, or manually populated by application code.",
+      "recommendation": "Document explicitly: \"response_deadline is auto-calculated as requested_at + INTERVAL '24 hours' via DEFAULT expression in the table schema. DO NOT populate manually.\" Include this in the Phase 5 schema DDL with explicit DEFAULT clause. Alternatively, if this is application-calculated, document the calculation rule (with timezone handling) in Phase 5 API documentation."
+    },
+    {
+      "id": "L2-9",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 2: BOOKINGS & CORE WORKFLOW, TABLE: course_request_communications",
+      "issue": "The `response_text` field (free text) lacks length constraint or sanitization guidance, creating risk of bloated records and potential security issues if rich text or malicious content is logged.",
+      "evidence": "From deliverable: \"response_text: TEXT | | What they said: 'Yes, Friday 8am confirmed for 4 golfers' or 'Can only do 8:30am' or 'Sorry, tournament that day'.\" No length limit, encoding, or sanitization rules specified.",
+      "recommendation": "Add column constraint: `response_text VARCHAR(2000) | NOT NULL` to limit size. Document in Data Dictionary that response_text is plain text only (no HTML/markdown), and Phase 5 application code must strip/escape any markup before storing. Consider adding a `response_text_sanitized BOOLEAN DEFAULT FALSE` column for tracking if content has been validated."
+    },
+    {
+      "id": "L2-10",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA - Overall",
+      "issue": "The schema lacks definition of `deleted_at` filtering behavior across all tables: should queries globally exclude soft-deleted records by default, or is filtering application-code responsibility? This is critical for data integrity and must be consistent.",
+      "evidence": "From behavioral rules: \"Soft deletes are used for recovery and compliance. Queries automatically exclude soft-deleted records (WHERE deleted_at IS NULL).\" But there is no schema-level enforcement (e.g., Views that enforce the filter, RLS policies that block deleted rows, or database triggers that enforce the default).",
+      "recommendation": "Implement soft-delete enforcement at the database level: (1) Create a VIEW for each table (e.g., `bookings_active`) that automatically filters WHERE deleted_at IS NULL, or (2) Add RLS policy on each table: `CREATE POLICY \"exclude_soft_deleted\" ON bookings FOR SELECT USING (deleted_at IS NULL)`, or (3) Document clearly in Data Dictionary that Phase 5 application code MUST include `WHERE deleted_at IS NULL` in every SELECT query. Choose one approach and enforce it consistently across all 28 tables. If approach (3), add validation to Phase 7 code review checklist."
+    },
+    {
+      "id": "L2-11",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 5: Growth Phase Infrastructure (Ready Oct 2026), TABLE: churn_flags",
+      "issue": "The `churn_risk_score` field is defined as DECIMAL(3,2) (range 0.00-9.99), which is incorrect for a probability score that should range 0.0-1.0 (e.g., 0.65 = 65% churn risk). The column definition is mathematically invalid.",
+      "evidence": "From deliverable: \"churn_risk_score: DECIMAL(3, 2) | | 0.0-1.0: probability they won't rebook. Calculated from NPS score and satisfaction ratings.\" DECIMAL(3,2) allows values 0-999.99, not 0-1.0.",
+      "recommendation": "Change column definition to `churn_risk_score DECIMAL(3, 2) CHECK (churn_risk_score >= 0.0 AND churn_risk_score <= 1.0)` OR use `NUMERIC(3,2)` with explicit constraint, or switch to `REAL` if floating-point precision is acceptable. Update the Data Dictionary to clarify the 0.0-1.0 range with an example (e.g., 0.65 = 65% churn probability)."
+    },
+    {
+      "id": "L2-12",
+      "category": "should-improve",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 1: FOUNDATIONAL ENTITIES, TABLE: users",
+      "issue": "The `role` field is a plain TEXT enum but does not enforce role membership (e.g., how is the set of valid roles ['owner', 'operations', 'finance', 'support', 'member'] enforced?). This creates risk of data corruption via invalid roles.",
+      "evidence": "From deliverable: \"role: TEXT | NOT NULL, DEFAULT 'member' | User's role determining what they can see/do: 'owner' (Rafael), 'operations' (Lucia), 'finance', 'support', 'member'. Controls UI features and API permissions.\" No CHECK constraint or foreign key to a roles table.",
+      "recommendation": "Either (1) add CHECK constraint: `CHECK (role IN ('owner', 'operations', 'finance', 'support', 'member'))`, or (2) create a `roles` lookup table (`id, role_name, permissions_json`) and add `role_id UUID REFERENCES roles(id)` to users. Option (1) is sufficient for MVP; option (2) is more flexible for Expansion Phase if role definitions need to be operator-specific. Document the choice in Phase 5 schema DDL."
+    },
+    {
+      "id": "L2-13",
+      "category": "must-fix",
+      "section": "PART 4: PLAIN-ENGLISH DATA DICTIONARY (SUMMARY), Core Tables at a Glance",
+      "issue": "The Plain-English Data Dictionary (Section 4) is a summary only and refers to \"complete description\" in \"Data Dictionary\" section, but no actual complete Data Dictionary table is provided in the deliverable with full column documentation.",
+      "evidence": "From Phase 4 outputs template: \"**5. Data Dictionary** \u2014 The definitive reference for every table, every column, and every relationship in the schema... For each column: data type, whether it's required, what it stores, what values are valid, and any business rules that constrain it.\" Section 4 is a summary; the full Data Dictionary is missing.",
+      "recommendation": "Create a comprehensive Data Dictionary table (or Appendix) listing: for each of the 28 tables, every column with data type, NOT NULL constraint, valid values (enum or range), business rules, and usage context. This is required for Phase 5 implementation and Phase 7 development team reference. Include this as Appendix C or extend Section 4."
+    },
+    {
+      "id": "L2-14",
+      "category": "must-fix",
+      "section": "PART 5: SECURITY MODEL, Row-Level Security (RLS): Operator Isolation",
+      "issue": "The RLS policy examples use `(SELECT operator_id FROM users WHERE id = auth.uid())` but do not specify what happens if the user record does not exist or is soft-deleted\u2014this creates a SQL logic gap that could allow unauthorized access or cause operational failures.",
+      "evidence": "From deliverable: \"CREATE POLICY 'Users see only own operator's data' ON bookings FOR SELECT USING (operator_id = (SELECT operator_id FROM users WHERE id = auth.uid()));\" No handling of NULL result if user not found, or if user.deleted_at IS NOT NULL.",
+      "recommendation": "Enhance RLS policy to be explicit about the subquery edge case: either add `WHERE deleted_at IS NULL` to the subquery (ensuring deleted users have no access), or modify to `USING (operator_id = COALESCE((SELECT operator_id FROM users WHERE id = auth.uid() AND deleted_at IS NULL), 'INVALID_OPERATOR'))` to deny access if user is soft-deleted or missing. Document the chosen approach in Phase 5 RLS policy definition. Test this edge case in Phase 7 security testing."
+    },
+    {
+      "id": "L2-15",
+      "category": "must-fix",
+      "section": "PART 6: DEPLOYMENT CHECKLIST (Sept 2026), \u2705 All RLS Policies",
+      "issue": "The deployment checklist states \"All RLS Policies on every table\" is ready, but only 14 tables have RLS policies documented in the schema. The remaining 14 tables (growth + expansion tables) have no RLS policies specified, creating incomplete security architecture.",
+      "evidence": "From deliverable: \"Core MVP Tables (14): ... \u2705 All RLS Policies on every table\" but examination of the schema shows that growth phase tables (analytics_events, support_issues, churn_flags) and expansion tables (membership_tiers, referral_tracking, etc.) have no RLS policies defined in the schema sections.",
+      "recommendation": "Either (1) document RLS policies for all 28 tables (including Growth/Expansion/Future tables), even if policies are identical to MVP patterns, OR (2) clarify in the checklist that \"RLS Policies\" refers only to MVP/deferred tables and Growth/Expansion/Future tables inherit RLS policies when features are activated. Add explicit RLS policy definitions for all tables to the schema, including statement like \"RLS enforces: SELECT only where operator_id matches user's operator_id; UPDATE/DELETE restricted by role\" for each table."
+    },
+    {
+      "id": "L2-16",
+      "category": "should-improve",
+      "section": "PART 3: RLS Policy Document, Introduction",
+      "issue": "The section promises \"RLS Policy Document\" as a distinct deliverable but the content is embedded in Part 5 (Security Model) with no separate, dedicated RLS policy reference that Phase 5 developers can use directly to implement policies.",
+      "evidence": "From Phase 4 outputs template: \"**3. RLS Policy Document** \u2014 Row Level Security policies for every table. For each table: the select, insert, update, and delete policies, expressed as rules tied to the authenticated user's role and organization.\" But the deliverable integrates RLS into the security section without a dedicated policy reference document.",
+      "recommendation": "Create Appendix D (RLS Policy Specification) listing every RLS policy for every table in the format: Table Name | Policy Name | Action (SELECT/INSERT/UPDATE/DELETE) | Rule (in SQL) | Role-Based Restrictions. This will serve as the reference for Phase 5 implementation and ensure no policy is overlooked."
+    },
+    {
+      "id": "L2-17",
+      "category": "must-fix",
+      "section": "PART 1: CORE ARCHITECTURE & DESIGN PHILOSOPHY, Multi-Operator Isolation: The Foundation",
+      "issue": "The RLS policy example states `operator_id = (SELECT operator_id FROM users WHERE id = auth.uid())`, but D2 (User Universe Mapping) established that some users (Course Contacts, Secondary Golfers) have no platform login and thus no auth.uid(). The policy does not account for these non-authenticated user types, creating incomplete operator isolation design.",
+      "evidence": "From deliverable: \"When Rafael logs in, the system knows his operator_id = 'rafael_cabo'...\" But D2 shows Course Contacts authenticate via email links (no login) and Secondary Golfers access shared itineraries (no login). These user types cannot be filtered by auth.uid().",
+      "recommendation": "Clarify RLS policy scope: policies apply to authenticated users only (Rafael, Lucia, Clients, Finance Manager, CSM). For unauthenticated access (Course Contacts via email links, Secondary Golfers via shareable links), implement separate authorization: (1) Email one-click links are signed tokens with operator_id and booking_id embedded; (2) Shareable itinerary links use UUID-based access (shareable_link_uuid as primary key, no auth.uid() check). Document this two-tier authorization model (authenticated RLS vs. token-based unauthenticated) in Phase 5 security architecture."
+    },
+    {
+      "id": "L2-18",
+      "category": "should-improve",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 2: BOOKINGS & CORE WORKFLOW, TABLE: bookings",
+      "issue": "The `created_by_user_id` field can be NULL or reference a user who is later deleted/soft-deleted, making audit trail incomplete. The design does not enforce immutability of the creator reference.",
+      "evidence": "From deliverable: \"created_by_user_id: UUID | REFERENCES users(id) | Which team member created this booking (usually system, but can be Rafael if manually entered)\" with no NOT NULL constraint and no mention of handling if the user is deleted.",
+      "recommendation": "Either (1) add NOT NULL constraint and require a 'system' or 'admin' user record that is never deleted, OR (2) denormalize by storing user_email in addition to user_id so the creator's name is preserved even if the user record is deleted. Document the chosen approach in Phase 5; include this in audit trail testing (Phase 7)."
+    },
+    {
+      "id": "L2-19",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 3: FINANCIAL TRACKING, TABLE: payments",
+      "issue": "The `refunded_by_user_id` field allows NULL (for non-refunded payments) but lacks NOT NULL constraint for refunded payments, creating incomplete audit trail if a refund is issued without logging who authorized it.",
+      "evidence": "From deliverable: \"refunded_by_user_id: UUID | REFERENCES users(id) | Which team member authorized the refund (usually Rafael)\" with no constraint enforcing that if refunded_at IS NOT NULL, then refunded_by_user_id MUST NOT BE NULL.",
+      "recommendation": "Add CHECK constraint: `CHECK ((refunded_at IS NULL AND refunded_by_user_id IS NULL) OR (refunded_at IS NOT NULL AND refunded_by_user_id IS NOT NULL))` to ensure refund audit trail is complete. Include this constraint in Phase 5 schema DDL."
+    },
+    {
+      "id": "L2-20",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 2: BOOKINGS & CORE WORKFLOW, TABLE: course_requests",
+      "issue": "The `is_escalated` boolean and `escalated_at` timestamp can become inconsistent (e.g., is_escalated = TRUE but escalated_at = NULL, or vice versa), violating data integrity.",
+      "evidence": "From deliverable: \"is_escalated: BOOLEAN | DEFAULT FALSE | TRUE if 24h response deadline has passed and no response received. Triggers Rafael escalation.\" and \"escalated_at: TIMESTAMP WITH TIME ZONE | | When escalation was triggered\" with no CHECK constraint linking these fields.",
+      "recommendation": "Add CHECK constraint: `CHECK ((is_escalated = FALSE AND escalated_at IS NULL) OR (is_escalated = TRUE AND escalated_at IS NOT NULL))` to ensure the two fields remain consistent. Include this in Phase 5 schema DDL."
+    },
+    {
+      "id": "L2-21",
+      "category": "should-improve",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 4: CLIENT EXPERIENCE & FEEDBACK, TABLE: itineraries",
+      "issue": "The `shareable_link_uuid` is UNIQUE, but there is no documented mechanism to regenerate/rotate this link if it is leaked or if the itinerary is updated, creating potential security risk.",
+      "evidence": "From deliverable: \"shareable_link_uuid: UUID | UNIQUE | Unique, anonymous URL token for sharing itinerary with secondary golfers (no login required). They visit: https://oceangolf.com/itinerary/[uuid].\" No mention of link rotation or regeneration mechanism.",
+      "recommendation": "Add column `shareable_link_rotated_at TIMESTAMP WITH TIME ZONE | NULL` and document in Data Dictionary that (1) original link is valid until shareable_link_expires_at, (2) if client requests a new link (e.g., to revoke secondary access), a new UUID is generated and old UUID becomes invalid, (3) the old UUID is retained in a audit table for compliance. Implement link rotation in Phase 5."
+    },
+    {
+      "id": "L2-22",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA - Overall, Indexes",
+      "issue": "The deliverable states \"50+ indexes on critical query patterns\" in the Executive Summary, but the schema documentation only shows 30-40 explicitly listed indexes. The actual number and completeness of indexes are underdocumented.",
+      "evidence": "From deliverable: \"**Total Indexes:** 50+ indexes on critical query patterns (foreign keys, WHERE clauses, status, dates, RLS columns)\" in executive summary, but counting all explicit `idx_*` indexes listed in schema sections yields approximately 35-40, not 50+.",
+      "recommendation": "Create Appendix E (Indexing Strategy & Complete Index List) documenting all 50+ indexes with: table name, column(s), index type (B-tree, hash, partial), WHERE clause if partial, and query pattern it optimizes. Include rationale for each index. This will ensure Phase 5 implements the full indexing strategy and allows Phase 8 to validate performance assumptions."
+    },
+    {
+      "id": "L2-23",
+      "category": "should-improve",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 1: FOUNDATIONAL ENTITIES, TABLE: courses",
+      "issue": "The `commission_type` field is ENUM ('percent', 'flat') but the schema does not enforce that commission_rate_percent is NULL when commission_type = 'flat', creating data quality ambiguity.",
+      "evidence": "From deliverable: \"commission_type: TEXT | DEFAULT 'percent' | 'percent' (15% of green fee) or 'flat' ($150 per booking). Determines how to calculate costs.\" But there is no constraint linking commission_type to commission_rate_percent validation.",
+      "recommendation": "Add CHECK constraint: `CHECK ((commission_type = 'percent' AND commission_rate_percent IS NOT NULL) OR (commission_type = 'flat' AND commission_rate_percent IS NULL))` OR add separate column `commission_rate_flat_cents INTEGER` to explicitly distinguish the two models and ensure no ambiguity. Document the chosen approach in Phase 5."
+    },
+    {
+      "id": "L2-24",
+      "category": "must-fix",
+      "section": "PART 1: CORE ARCHITECTURE & DESIGN PHILOSOPHY, Field-Level Security: VIEWs as a Second Layer",
+      "issue": "The VIEW `bookings_for_operations` is documented as excluding `rafael_strategy_notes`, but there is no mention of how queries are enforced to use the VIEW instead of the full table, or how to prevent Lucia from querying the underlying table directly if she has direct database access.",
+      "evidence": "From deliverable: \"CREATE VIEW bookings_for_operations AS SELECT ... FROM bookings ... -- Explicitly NOT including: rafael_strategy_notes\" But there is no mention of RLS policies preventing direct table access, or documentation of how the application enforces VIEW usage.",
+      "recommendation": "Add RLS policy to the bookings table: `CREATE POLICY \"lucia_cannot_see_strategy_notes\" ON bookings FOR SELECT AS lucia USING (false)` (deny direct access) and document that Lucia must query the VIEW instead. OR, in Phase 5, document that application code explicitly queries the bookings_for_operations VIEW and never queries the bookings table for non-Rafael users. Include this enforcement in Phase 7 code review checklist."
+    },
+    {
+      "id": "L2-25",
+      "category": "should-improve",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 3: FINANCIAL TRACKING, TABLE: costs",
+      "issue": "The `cost_type` field allows any TEXT value without enum constraints (examples: 'green_fee', 'commission', 'villa_nightly', etc.), but no exhaustive list of valid cost types is provided, creating risk of data quality inconsistency (e.g., 'green_fee' vs. 'greenfee' vs. 'course_green_fee').",
+      "evidence": "From deliverable: \"cost_type: TEXT | NOT NULL | What kind of cost: 'green_fee', 'commission', 'villa_nightly', 'meal_total', 'driver_fee', 'activity_fee', etc.\" The \"etc.\" indicates an open set, but no validation mechanism is defined.",
+      "recommendation": "Either (1) create a `cost_types` lookup table with all valid cost_type values and add `cost_type_id UUID REFERENCES cost_types(id)`, OR (2) add CHECK constraint to costs table: `CHECK (cost_type IN ('green_fee', 'commission', 'villa_nightly', 'meal_total', 'driver_fee', 'activity_fee', ...))` with exhaustive list. Document the chosen approach and the full list of valid cost_type values in the Data Dictionary for Phase 5."
+    },
+    {
+      "id": "L2-26",
+      "category": "must-fix",
+      "section": "Decision Ledger, D55-P4-015: Payment Adjustment Tracking for Financial Reconciliation",
+      "issue": "D55-P4-015 documents a decision about the booking_modifications table's payment adjustment tracking, but the schema section on booking_modifications does not fully align with this decision: the decision mentions \"Lucia must follow up on pending adjustments\" but there is no `assigned_to` or `follow_up_owner` field in the table to track who is responsible for the follow-up.",
+      "evidence": "From decision ledger: \"Lucia must follow up on pending adjustments to avoid revenue loss.\" But the booking_modifications table has no field tracking who is responsible for the follow-up or its status beyond payment_adjustment_status.",
+      "recommendation": "Add fields to booking_modifications to track follow-up responsibility: `follow_up_owner_user_id UUID REFERENCES users(id) | NULL`, `follow_up_status TEXT DEFAULT 'pending'` (pending/completed/escalated), `follow_up_completed_at TIMESTAMP WITH TIME ZONE | NULL`. Include `idx_booking_mods_followup_owner` index to support Lucia's dashboard query: \"Show me all adjustments assigned to me that need follow-up.\""
+    },
+    {
+      "id": "L2-27",
+      "category": "should-improve",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 1: FOUNDATIONAL ENTITIES, TABLE: organizations",
+      "issue": "The `is_demo_tenant` boolean is documented as supporting demo data isolation, but there is no documented retention/reset procedure for demo data (e.g., how often is demo data reset? what is the retention period?), making the design incomplete for operational use.",
+      "evidence": "From deliverable: \"is_demo_tenant: BOOLEAN | DEFAULT FALSE | TRUE if this is demo data (isolated, reset weekly). FALSE for production.\" The phrase \"reset weekly\" is mentioned in template behavioral rules but not in the schema or operational procedures.",
+      "recommendation": "Document in Phase 8 Operations: (1) automated job that resets demo tenant data every Sunday 00:00 UTC, (2) what \"reset\" means (truncate all tables with operator_id = 'demo_operator', re-seed with fixture data from version control), (3) retention of demo data during the week for testing, (4) exclusion of demo data from analytics/reporting. Include backup and recovery procedures for demo data."
+    },
+    {
+      "id": "L2-28",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 2: BOOKINGS & CORE WORKFLOW, TABLE: vendor_bookings",
+      "issue": "The `vendor_type` enum field ('villa', 'restaurant', 'transportation', 'activity') has no constraint, and the schema does not document how different vendor types have different required fields (e.g., a villa requires check_in_time/check_out_time, but a restaurant requires reservation_time only). This creates schema flexibility at the cost of data integrity.",
+      "evidence": "From deliverable: \"vendor_type: TEXT | NOT NULL | 'villa', 'restaurant', 'transportation', 'activity'\" and many fields like \"scheduled_date, scheduled_time, num_people, special_requests\" apply differently depending on vendor_type, but no constraint or CHECK clause ensures type-specific field validity.",
+      "recommendation": "Add CHECK constraint to enforce valid enum values: `CHECK (vendor_type IN ('villa', 'restaurant', 'transportation', 'activity'))`. Separately, add validation documentation in Data Dictionary: e.g., \"If vendor_type = 'villa', scheduled_time MUST BE NULL (check-in/check-out handled via booking dates). If vendor_type = 'restaurant', scheduled_time MUST NOT BE NULL.\" Include this validation in Phase 5 application code and Phase 7 testing."
+    },
+    {
+      "id": "L2-29",
+      "category": "should-improve",
+      "section": "Decision Ledger, D55-P4-014: Database Portability (No Vendor Lock-In)",
+      "issue": "Decision D55-P4-014 claims \"No Supabase-specific SQL syntax in the schema,\" but the schema uses several Supabase-specific features that are NOT standard PostgreSQL: `gen_random_uuid()` for UUID generation (Supabase-specific syntax, not standard SQL), JSONB type (PostgreSQL extension, not ANSI SQL), and references to Supabase storage URLs in itineraries.",
+      "evidence": "From schema: \"id: UUID | PRIMARY KEY | DEFAULT gen_random_uuid()\" \u2014 This is Supabase function syntax. Standard PostgreSQL uses `gen_random_uuid()` or `uuid_generate_v4()` via pgcrypto extension. From itineraries table: \"pdf_url: TEXT | ... (e.g., 'https://storage.supabase.co/...')\" \u2014 Hard-coded reference to Supabase storage API.",
+      "recommendation": "Clarify the portability claim: (1) Use `uuid_generate_v4()` instead of `gen_random_uuid()` (both work in Supabase but uuid_generate_v4 is more portable), (2) Store file URLs as relative paths ('itineraries/B-2024-001.pdf') instead of absolute Supabase URLs, allowing the storage service to be swapped without schema changes, (3) Document that JSONB is a PostgreSQL extension and future migrations to other databases must support JSON/JSONB equivalents. Update D55-P4-014 to be more precise: \"No Supabase-specific FEATURES baked in\" rather than \"No Supabase-specific SQL syntax.\""
+    },
+    {
+      "id": "L2-30",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA, SECTION 4: CLIENT EXPERIENCE & FEEDBACK, TABLE: post_trip_surveys",
+      "issue": "The survey includes fields like `favorite_course_id` and `disliked_course_id` with foreign key references to courses, but does not handle the case where a course has been archived or deleted since the trip (soft-deleted), making the foreign key potentially invalid.",
+      "evidence": "From deliverable: \"favorite_course_id: UUID | REFERENCES courses(id) | Which course did they love (for future recommendations)\" \u2014 If the course is later soft-deleted (courses.deleted_at IS NOT NULL), the foreign key is still valid but the course may no longer exist in the active course list, creating confusing data.",
+      "recommendation": "Add columns to track course names in addition to IDs: `favorite_course_name TEXT | NULL` and `disliked_course_name TEXT | NULL` (denormalized for resilience). Or, document in Data Dictionary that foreign key references to deleted courses are acceptable; Phase 5 queries must explicitly `AND courses.deleted_at IS NULL` to exclude deleted courses. Include test cases in Phase 7 to verify behavior when referenced courses are deleted."
+    },
+    {
+      "id": "L2-31",
+      "category": "should-improve",
+      "section": "PART 1: CORE ARCHITECTURE & DESIGN PHILOSOPHY, Soft Deletes & Audit Trails: Compliance & Recovery",
+      "issue": "The soft-delete implementation relies on application-level filtering (WHERE deleted_at IS NULL) but does not enforce this at the database level (e.g., via RLS or Views), creating risk that developer mistakes will expose soft-deleted data to clients.",
+      "evidence": "From deliverable: \"Queries automatically exclude soft-deleted records (WHERE deleted_at IS NULL).\" This is described as automatic but not enforced by the database schema itself. If a developer forgets the WHERE clause or a mistake in ORM mapping occurs, deleted data could be exposed.",
+      "recommendation": "Implement soft-delete enforcement at database level: (1) Create Views for each table that filter deleted_at IS NULL by default, or (2) Add RLS policy: `CREATE POLICY \"enforce_soft_delete\" ON bookings FOR SELECT USING (deleted_at IS NULL)`. Document this enforcement in Phase 5 and include it in Phase 7 code review checklist: \"All SELECT queries must either use the _active VIEW or explicitly include `WHERE deleted_at IS NULL`.\""
+    },
+    {
+      "id": "L2-32",
+      "category": "must-fix",
+      "section": "PART 2: COMPLETE DATABASE SCHEMA - Overall, Uniqueness Constraints",
+      "issue": "Multiple tables have UNIQUE constraints on fields that should include operator_id for multi-tenant safety, but do not: for example, `users.email` is UNIQUE globally, but should be UNIQUE(operator_id, email) to allow different operators to have users with the same email address.",
+      "evidence": "From deliverable: \"UNIQUE CONSTRAINTS: ... UNIQUE (operator_id, email)\" is documented for users, which is correct. But examining the courses table, `course_name` is not constrained at all, and could theoretically have duplicates within the same operator. The design is inconsistent.",
+      "recommendation": "Audit all UNIQUE constraints: (1) Confirm that any natural key (email, course_name, etc.) is scoped to operator_id via composite UNIQUE constraint, (2) Add explicit constraints where missing (e.g., `courses.course_name` should have `UNIQUE(operator_id, course_name)` to prevent duplicate course names within an operator), (3) Document this pattern in Phase 5 schema standard: \"All natural keys include operator_id in the UNIQUE constraint.\""
+    }
+  ],
+  "summary": {
+    "must_fix": 22,
+    "should_improve": 10,
+    "consider": 0,
+    "total": 32
+  }
+}

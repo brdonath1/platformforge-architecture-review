@@ -1,0 +1,125 @@
+{
+  "layer": 3,
+  "layer_name": "Downstream Consumer",
+  "phase": "6b",
+  "findings": [
+    {
+      "id": "D8-1",
+      "category": "must-fix",
+      "section": "Page Inventory (Section 3.1-3.4)",
+      "issue": "Page inventory table in Section 3.6 is incomplete and lacks D3 Feature Registry reconciliation that template mandates as non-optional.",
+      "evidence": "Template states: \"MANDATORY \u2014 D3 reconciliation check: After constructing the page inventory, perform a systematic comparison against the D3 Feature Registry. D3 Feature Registry is a mandatory input for this reconciliation \u2014 it is loaded per the context_load_manifest. If D3 cannot be loaded, this reconciliation cannot proceed and Phase 6B is blocked until D3 is available. Every MVP feature in D3 must map to at least one page in the inventory.\"",
+      "recommendation": "Add reconciliation matrix in Section 3.6 that maps each D3 MVP feature to the page(s) where it appears, and document which features (if any) lack a page assignment before Phase 7 starts."
+    },
+    {
+      "id": "D8-2",
+      "category": "must-fix",
+      "section": "Complete Page Inventory Table (Section 3.6)",
+      "issue": "Section 3.6 summary table lists only 6 core pages but specifies \"20 items total\" including overlays and modals; the comprehensive table promised for \"definitive frontend build map for Phase 7\" is not present with all required columns (API endpoints, Primary Entity, Feature ID mappings).",
+      "evidence": "Template states: \"Produce the complete page inventory. This is the bridge between 'features' and 'screens that get built.' Enumerate every distinct screen in the platform, organized by navigation section. ... Page inventory is the definitive build map for Phase 7. The API Endpoints column lists which D6 endpoints each page calls \u2014 this makes the page inventory self-contained as a frontend build map.\"",
+      "recommendation": "Provide full 20-row table in Section 3.6 with columns: Screen Name, URL Route, Layout Pattern, Primary Components, API Endpoints, Primary Entity, Feature ID(s), Priority Tier, and Notes for ALL pages, overlays, and modals."
+    },
+    {
+      "id": "D8-3",
+      "category": "must-fix",
+      "section": "Page Inventory (Section 3.1, Hunt List detail)",
+      "issue": "Hunt List Detail Panel is described as an \"overlay\" but in the page inventory table (Section 3.6) it appears as both \"Overlay\" and \"Page,\" creating confusion about whether it's a separate route or a visual pattern on the Hunt List page.",
+      "evidence": "Section 3.1 describes it as \"right-side overlay (desktop), bottom sheet (mobile)\" but Section 3.6 lists it as separate entry \"Hunt List Detail Panel\" with unclear URL routing and whether it's a modal, slide-over, or in-page pattern.",
+      "recommendation": "Clarify in Section 3.1 and 3.6 whether the detail panel is: (a) a route-based page (e.g., `/bookings/{id}` that renders as overlay), or (b) a visual pattern on `/hunt` (no separate route). If (a), specify the route. If (b), merge into the Hunt List page entry and remove as separate inventory item."
+    },
+    {
+      "id": "D8-4",
+      "category": "must-fix",
+      "section": "Navigation Architecture (Section 2.1, 2.2, 2.3)",
+      "issue": "Settings page is noted as \"Phase 8 (not MVP)\" but is included in sidebar navigation inventory; unclear whether Settings nav item is hidden on MVP or visible but locked.",
+      "evidence": "Section 2.1 states \"Settings deferred to Phase 8 (when multiple team members exist). Not built for MVP.\" but Section 2.1 table still lists Settings as navigation item with route `/settings`.",
+      "recommendation": "Explicitly state in Section 2.3: \"In MVP, Settings nav item is [hidden entirely / visible but disabled with 'Coming Soon' label / visible with Phase 8 lockout message].\" Choose one and update both narrative and nav visibility matrix."
+    },
+    {
+      "id": "D8-5",
+      "category": "must-fix",
+      "section": "Responsive Behavior (Section 1.3)",
+      "issue": "Right-side Detail Panel specifications state width as \"384px (fixed)\" but no behavior specified for what happens when detail panel width + main content width exceeds viewport on tablet (640-1024px) where 384px detail panel may be impossible to fit.",
+      "evidence": "Section 1.3 shows \"Tablet (640 - 1023px)\" with \"Sidebar visible but narrower\" and \"Detail panel appears below main content as cards or overlay (swipeable)\" but earlier Section 1.2 locks detail panel to 384px width with no breakpoint adjustment.",
+      "recommendation": "Specify detail panel width scaling: \"On tablet (640-1024px), detail panel width reduces to [240px / 300px] or becomes bottom sheet overlay depending on main content width. On mobile, always bottom sheet. Include CSS breakpoint rule in tailwind config for detail panel width.\" Confirm with Lucia during validation."
+    },
+    {
+      "id": "D8-6",
+      "category": "should-improve",
+      "section": "Modal Specifications (Section 3.2, Tier 1-3 Modals)",
+      "issue": "Modals 1-9 are specified with request/response JSON but lack specification of error state (what if API call fails?), loading state (spinner, skeleton?), and whether modals remain open or close on error.",
+      "evidence": "Modal 1 (Send Reminder) shows success path but does not specify: \"If WhatsApp API fails, show error [inline message / toast]? Does modal stay open for retry or close?\"",
+      "recommendation": "Add subsection to each modal spec: \"Error Handling: On API failure, [error message placement], [modal stay/close behavior], [retry mechanism].\" Example: \"On failed send, show red error banner in modal, keep modal open, provide Retry button.\""
+    },
+    {
+      "id": "D8-7",
+      "category": "should-improve",
+      "section": "Real-Time Updates & Connection Lifecycle (Section 3.2, \"Tier 4: System Features\")",
+      "issue": "Real-time hunt list updates specify 30-second polling fallback and WebSocket as preferred, but no guidance on what happens if user tabs away for 30+ minutes and returns\u2014does polling resume? Does WebSocket reconnect? How is stale data handled?",
+      "evidence": "Section 3.2 states \"Polling every 30 seconds fetches updated hunt list\" but does not specify behavior when user returns from inactive tab or when connection is lost for extended period.",
+      "recommendation": "Add specification: \"Tab visibility handling: Pause polling/WebSocket when user tabs away. Resume when tab becomes active again. On resume: [check for stale data / full refresh / silent update].\" Confirm tab management strategy with Lucia."
+    },
+    {
+      "id": "D8-8",
+      "category": "should-improve",
+      "section": "Onboarding (Section 4.1)",
+      "issue": "Post-signup flow assumes Rafael has already set up the system and invited Lucia, but does not specify the onboarding flow that Rafael experiences on Day Zero (empty system, no bookings, no courses, no clients). What does Rafael see first?",
+      "evidence": "Section 4.1 begins \"Lucia's first time using Ocean Golf (after you've set up the system and invited her)\" but does not document what \"set up the system\" entails from Rafael's perspective or what his Day Zero landing page looks like.",
+      "recommendation": "Add Section 4.1.1 \"Rafael's Day Zero Onboarding\" specifying: post-signup landing page for Rafael (hunt list empty? dashboard with setup prompts? courses database empty?), required setup steps (add courses? add first client?), and whether setup wizard exists or it's free-form exploration."
+    },
+    {
+      "id": "D8-9",
+      "category": "should-improve",
+      "section": "Page Inventory Table (Section 3.6)",
+      "issue": "The comprehensive page inventory table is referenced as \"Section 6\" in the executive summary but appears to be in Section 3.6, creating confusion about where the definitive build map lives for Phase 7 reference.",
+      "evidence": "Executive summary: \"MVP Page Inventory (7 Pages)\" lists 6 pages + 9 modals. Section 3.6 title says \"Complete Page Inventory Table (Summary)\" suggesting this is a summary, not the full reference. Template says \"produce the complete table silently in the deliverable where it serves as the definitive build map for Phase 7.\"",
+      "recommendation": "Retitle Section 3.6 \"DEFINITIVE PAGE INVENTORY (Phase 7 Build Map)\" and clarify in executive summary that Section 3.6 is the authoritative source. Ensure all 20 items (6 pages + 3 overlays + 9 modals + 2 system features) appear in a single comprehensive table with all required columns."
+    },
+    {
+      "id": "D8-10",
+      "category": "should-improve",
+      "section": "Tier 2 Approvals & Tier 3 Decisions (Section 3.2)",
+      "issue": "Lucia's tier system is well-specified operationally (what she can do, what needs approval) but lacks specification of how Lucia discovers what tier a change is. For example, when she clicks \"Reschedule,\" how does she know if it's Tier 1 (same course) or Tier 2 (requires approval)?",
+      "evidence": "Section 3.2 (Tier 1-3) describes the tiers but doesn't specify: Does the UI show her \"This is a Tier 1 change (you can approve)\" before she submits? Or does she discover it's Tier 2 only after clicking Submit and seeing \"needs approval\"?",
+      "recommendation": "Add UX specification: \"When Lucia initiates a change, system shows inline message: 'Tier 1: You can approve this immediately' or 'Tier 2: This change requires Rafael's approval.' Show this before the action is submitted, not after.\" Confirm this interaction model with Lucia during validation."
+    },
+    {
+      "id": "D8-11",
+      "category": "consider",
+      "section": "Search Results (Section 3.1, Page 6)",
+      "issue": "Search results page specifies grouping by type (bookings, clients, courses, notes) but does not specify if search can be scoped (e.g., \"search only clients\" filter) or if it always shows all types.",
+      "evidence": "Section 3.1 shows example results grouped by type but template states \"Placeholders for future Phase 8\" without confirming whether MVP search is always global or if scope filter exists.",
+      "recommendation": "Clarify in Section 3.1: \"MVP search is global (searches all types). Phase 8 may add scope filter [to scope search by type: bookings/clients/courses only]. Default: show all types grouped.\""
+    },
+    {
+      "id": "D8-12",
+      "category": "consider",
+      "section": "Notification System (Section 5.1-5.3)",
+      "issue": "Toast notifications are specified with auto-dismiss times (4-5 sec for success, 6 sec for error) but no guidance on whether toasts queue up (if 3 actions fire in quick succession, do 3 toasts stack?) or replace each other.",
+      "evidence": "Section 5.1 specifies \"Maximum visible: 3\" but does not define stacking behavior, animation, or what happens if 4th toast appears when 3 are already visible.",
+      "recommendation": "Add specification: \"Toast stacking: [Stack vertically with 8px gap / Queue and show one at a time / Show 3 max, 4th waits in queue]. If 4th appears while 3 visible: [replace oldest / wait in queue / show count indicator].\" Test this interaction with Lucia."
+    },
+    {
+      "id": "D8-13",
+      "category": "consider",
+      "section": "Accessibility & Screen Reader Considerations (Section 5, implicitly)",
+      "issue": "Page inventory and modal specifications do not include ARIA role/label guidance. For example, hunt list detail panel should specify `role=\"complementary\"` or `role=\"region\"` for screen reader users to understand its purpose.",
+      "evidence": "Section 3.2 describes hunt list detail panel as \"action center\" but does not specify ARIA attributes or semantic HTML structure that screen reader users rely on to understand page composition.",
+      "recommendation": "Add ARIA accessibility checklist to each major page/overlay (Hunt List, Dashboard, Detail Panel): Required ARIA roles, aria-labels, aria-live regions, semantic HTML structure (e.g., `<main>`, `<aside>`, `<nav>`), focus management. Reference D7 Section 5 (accessibility) for WCAG 2.1 requirements."
+    },
+    {
+      "id": "D8-14",
+      "category": "consider",
+      "section": "D-55 Running Ledger (Section 7, Entries D55-P6B-001 through D55-P6B-019)",
+      "issue": "Ledger entries are comprehensive but lack explicit phase-gate information. For example, D55-P6B-010 (Dark Mode Toggle) specifies 150ms transition but does not clarify if this is locked for Phase 7 or if Lucia's 2-day review can change it.",
+      "evidence": "Section 7 shows status as \"LOCKED\" for many entries but template requires entries to specify \"Status: Locked, Status: Pending Lucia review, Status: Phase 8 conditional\" based on founder validation state.",
+      "recommendation": "Update D-55 ledger entries to clarify status: Add a \"Founder Approval State\" column: \"\u2705 Rafael approved, \u23f3 Pending Lucia 2-day review, \u2699\ufe0f Conditional (Phase 8+).\" This makes it clear to Phase 7 which decisions are final vs. awaiting validation."
+    }
+  ],
+  "summary": {
+    "must_fix": 5,
+    "should_improve": 5,
+    "consider": 4,
+    "total": 14
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "quality_score": 8,
+  "critical_issues": [],
+  "contradictions": [
+    "Issue #5 claims the course count error propagated through 'seven documents across six phases' but the seven reference locations listed (D1 \u00a72.1, D1 Risk 5.1, D2 \u00a71.10, D8 FC-015, D8 FC-031, D8 FC-072, D8 pre-build checklist #11) span only 3 deliverables (D1, D2, D8) across 3 phases (Phase 1, Phase 2, Phase 7) \u2014 the 'six phases' count is factually wrong.",
+    "Issue #5 Correction 5 missed at least 4 additional propagation points for the 14\u219215 course count: D3 F-075 ('Priority 1: fourteen course profiles'), D7 Phase 6B \u00a75.1 ('Priority 1 \u2014 Courses (all 14)'), D7 Phase 6C \u00a78.1 ('14 course profiles'), and D7 Phase 6B/6C Proposal Wizard ('Visual grid of 14 courses'). These remain uncorrected despite the report certifying 'All seven document references corrected.'",
+    "Issue #3 revenue impact illustration states '$25/person \u00d7 4 people \u00d7 400 bookings/year = $40,000/year' but the pricing difference ($100 new vs $75 old = $25/person) applies only to the eliminated 7+ group size tier, so the multiplier should be \u22657 people, not 4 \u2014 the calculation is misleading even as a directional estimate."
+  ],
+  "warnings": [
+    "Phase 1 artifact verification (Section 6) states the GLOSSARY contains terms from 'Phases 2, 3, 6C' but omits Phase 5 additions (Edge Function, JWT, PWA, Responsive Web Application, Serverless, Webhook) which are documented in D5 Appendix B.",
+    "The Executive Summary claims 'All five categories of Phase 9's D-57 blind spot coverage were exercised' but the five categories are not enumerated anywhere in the report, making the claim unverifiable by the reader.",
+    "Section 6 Holistic Completeness states 'D20 references all 10 operational deliverables (D9, D10, D11, D12, D13, D14, D16, D17, D18, D19)' but D15 (SEO Configuration Spec) is excluded from this list without explanation \u2014 D20 does not appear to reference D15, which may be intentional (D15 is minimal for a private tool) but is not noted.",
+    "The Methodology Observations section claims '62 observations across 8 phases' but the parenthetical breakdown sums to 62 only by excluding Phases 1 and 4 entirely (Phase 1: 'not explicitly tracked', Phase 4: 'present but truncated'). The total is correct for the phases counted but the framing of '8 phases' is misleading since only 6-7 phases actually contributed tracked observations."
+  ]
+}

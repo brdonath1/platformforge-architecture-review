@@ -1,0 +1,165 @@
+{
+  "layer": 2,
+  "layer_name": "Domain Expert",
+  "phase": "1",
+  "findings": [
+    {
+      "id": "L2-1",
+      "category": "must-fix",
+      "section": "Section 1.2 \u2014 The Platform",
+      "issue": "The elevator pitch repeats the platform name and concept twice identically, suggesting accidental duplication rather than a concise one-paragraph definition.",
+      "evidence": "Section 1.2 contains two paragraph blocks with nearly identical text: \"Ocean Golf is a **luxury concierge operations platform**...\" followed immediately by the same concept restated. The template specifies \"What is it, in one paragraph?\" but the deliverable presents two near-identical paragraphs.",
+      "recommendation": "Consolidate Section 1.2 into a single, crisp one-paragraph elevator pitch (3\u20135 sentences max). Remove the duplication and ensure the pitch is specific enough that any reader immediately understands: what the platform does, who it serves, and why it exists."
+    },
+    {
+      "id": "L2-2",
+      "category": "must-fix",
+      "section": "Section 1.3 \u2014 Target Audience",
+      "issue": "The adjacent market segments (1.3, subsection items 1\u20134) are identified but lack the depth required by the completion gate: \"For each: who they are, what they need, and why they'd use this platform.\"",
+      "evidence": "Template specification states: \"For each: who they are, what they need, and why they'd use this platform.\" Adjacent segments (Corporate Retreat Planners, Destination Wedding, Golf Tour Agencies, Repeat Client Communities) are listed with 2\u20133 sentences each, but several lack explicit articulation of: (a) what their distinct pain point is, (b) what adaptation Ocean Golf would require to serve them, and (c) what makes them attractive beyond \"they overlap with primary audience.\" Example: Corporate Retreat Planners section states \"Platform adaptation: multi-attendee registration\" but does not explain why this segment is valuable or what pain point Ocean Golf solves for them specifically.",
+      "recommendation": "Expand each adjacent segment description to 4\u20136 sentences covering: (1) Who they are, (2) Their distinct pain point or need, (3) What feature/adaptation Ocean Golf needs to serve them, (4) Why they represent growth opportunity (revenue size, repeatable acquisition method, or strategic positioning). Current descriptions are too thin to guide Phase 3 feature prioritization decisions."
+    },
+    {
+      "id": "L2-3",
+      "category": "should-improve",
+      "section": "Section 1.4 \u2014 Expanded Vision",
+      "issue": "The \"Ecosystem Potential\" subsection describes four possible future layers (Venue Partnerships, Multi-Operator Licensing, Booking API, Loyalty Layer) but does not prioritize or sequence them, leaving ambiguity about the strategic order or relative importance.",
+      "evidence": "Section 1.4 lists four ecosystem elements (1\u20134) as parallel possibilities with no indication of which is most critical, which is nearest-term, or which enables others. The growth path (Section 4.2) mentions ecosystem partnerships in Stage 3 but does not reference the specific layers from Section 1.4, creating disconnect between vision and staged execution.",
+      "recommendation": "Either: (a) Rank the four ecosystem layers by strategic importance (which creates defensibility, which drives revenue, which enables others), or (b) Explicitly map them to growth stages in Section 4.2 so a reader can see which ecosystem element is targeted in which stage. This clarification binds Phase 3 prioritization and Phase 7 sequencing."
+    },
+    {
+      "id": "L2-4",
+      "category": "should-improve",
+      "section": "Section 2.2 \u2014 Market Size & Growth",
+      "issue": "The TAM calculation uses layered estimates from three sources but does not clearly reconcile the three resulting ranges into a single stated TAM figure, creating ambiguity about which range represents the final answer.",
+      "evidence": "Section 2.2 derives three separate TAM estimates: (1) $125M\u2013$280M from golf tourism, (2) $2.4M\u2013$19.2M from concierge spend, and (3) $5M\u2013$25M from comparable services. The narrative then states \"Ocean Golf's total addressable market (TAM) is estimated at **$5B\u2013$25B**\" \u2014 a figure that appears disconnected from the preceding calculations and lacks clear derivation. The stated $5B\u2013$25B is a 5x range (compliant with template requirements) but the connection to the three layered calculations is not transparent.",
+      "recommendation": "Clarify the TAM derivation by either: (a) Explaining how the three estimates rollup to the stated $5B\u2013$25B, (b) Selecting one of the three methodologies as the primary TAM (e.g., \"concierge services comparable market = $5M\u2013$25M for Cabo globally, suggesting Ocean Golf TAM of $500M\u2013$2.5B if expanded to all luxury golf destinations\") and noting the others as validation, or (c) Presenting the $5B\u2013$25B as a global luxury concierge TAM and then narrowing to Ocean Golf's realistic initial market of $900K\u2013$4.5M (Los Cabos U.S. clients) as the near-term opportunity. Current presentation is confusing."
+    },
+    {
+      "id": "L2-5",
+      "category": "must-fix",
+      "section": "Section 3 \u2014 Competitive Landscape",
+      "issue": "Section 3 header includes a \"Research Note\" subsection that should appear before Section 3.1 but the section structure is disrupted; additionally, the competitive synthesis (3.N+1 requirement) is missing.",
+      "evidence": "The template specifies \"3.N+1. **Competitive Synthesis**\" as a required subsection after all competitor entries, but the deliverable ends at 3.5 without a synthesis summary. The \"Research Note\" appears as a header note but should be integrated into the narrative. The template requires: \"Where do they all fall short? What opportunity space is unclaimed? The founder's defensible differentiator, stated clearly with structural reasoning.\"",
+      "recommendation": "Restructure Section 3 to include: (1) Remove \"Research Note\" subsection heading and integrate the note as context in Section 3 opening paragraph, (2) Add Section 3.6 \"Competitive Synthesis\" (150\u2013300 words) that explicitly answers: (a) What pattern unites all five competitors' weaknesses, (b) What unclaimed opportunity space exists, (c) How Ocean Golf's differentiator is structural (not aspirational) and defensible against each competitor type. The current Sections 3.N+1 content appears in Section 3.6 but is mislabeled."
+    },
+    {
+      "id": "L2-6",
+      "category": "should-improve",
+      "section": "Section 4.2 \u2014 The Growth Path",
+      "issue": "The trigger conditions for stage transitions are qualitative (\"operational milestones are achieved\") rather than quantitative, making it ambiguous when readiness for the next stage is confirmed.",
+      "evidence": "Stage 1 trigger: \"When Rafael and Lucia have completed 50+ bookings...\" (quantitative, clear). Stage 2 trigger: \"When the platform has successfully handled 300+ distinct clients...\" (quantitative, clear). Stage 3 trigger: \"When Ocean Golf has successfully operationalized at least two of the three partnership types...\" (qualitative, ambiguous \u2014 what does \"successfully operationalized\" mean? Revenue threshold? Booking volume?). Stage 4: \"There is no subsequent stage with a single trigger condition\" (explicitly deferred decision). This inconsistency could confuse Phase 9 monitoring of whether transitions are appropriate.",
+      "recommendation": "For Stage 3 transition, define \"successfully operationalized\" with concrete metrics: e.g., \"at least one venue partnership active with minimum 20 bookings per quarter routed through that partnership\" or \"white-label partnership signed with MOU specifying terms.\" For Stage 4, either define a trigger or explicitly state that Stage 4 is a decision point where Rafael chooses next direction (which is already stated but could be clearer). Ensure triggers are measurable by Phase 8/9."
+    },
+    {
+      "id": "L2-7",
+      "category": "should-improve",
+      "section": "Section 5.1 \u2014 Competitive Risk",
+      "issue": "The competitive risk mitigation relies on \"relationship defensibility\" but does not sufficiently explain what makes relationships defensible against a well-resourced competitor or how the platform strengthens that defensibility beyond \"data assets become more valuable.\"",
+      "evidence": "Mitigation states: \"Ocean Golf's defensibility is built on: (1) years of Rafael's personal relationships... (2) data assets... (3) white-glove positioning...\" But the risk section (5.1) does not explain: What makes a multi-year relationship hard to poach? Can a competitor hire a respected course pro and build relationships in 18\u201324 months? How does the platform *specifically* make relationships harder to leave (e.g., through switching costs)? The mitigation is intuitive but not deeply reasoned.",
+      "recommendation": "Deepen the competitive risk mitigation by: (a) Explaining what switching costs the platform creates for clients (e.g., historical data, preference profiles, trusted advisor continuity), (b) Explaining why course relationships are sticky (volume brings revenue, direct booking requires channel conflict), (c) Acknowledging what a competitor could do (hire a respected local expert, undercut pricing) and when that becomes a material threat (Year 2\u20133 if competitor has capital). This gives Phase 9 a clear monitoring framework."
+    },
+    {
+      "id": "L2-8",
+      "category": "should-improve",
+      "section": "Section 5.9 \u2014 Market Risk: Willingness to Pay",
+      "issue": "The risk assumes clients pay for curation value, but the platform's design (Section 6.2 and 6.3) explicitly enables clients to see available courses, villas, and restaurants independently, which could undermine the curation positioning and pricing power.",
+      "evidence": "Section 5.9 states: \"The platform should NOT enable fully self-service booking without Rafael's input.\" But Section 1.2 and throughout the narrative, clients are described as browsing and selecting, suggesting visibility into the full inventory. This tension is not resolved. If clients can self-service 80% of the booking process, Rafael's service fee becomes harder to justify, particularly for price-sensitive segments. The mitigation (Section 5.9) proposes \"Design the platform to reinforce the curation value\" but does not specify what prevents self-service bookings given the platform's transparent course database.",
+      "recommendation": "Clarify in Phase 3 whether Ocean Golf's platform allows clients to independently book courses and villas (which commoditizes the service) or whether Rafael's approval/curation is a gating step (which maintains positioning). If clients can self-service, accept that pricing power is lower and differentiation is purely relationship-based. If Rafael gates all bookings, document that constraint in D2/D3 so Phase 6/7 design respects it. Current deliverable is ambiguous on this critical design decision."
+    },
+    {
+      "id": "L2-9",
+      "category": "must-fix",
+      "section": "Section 6.3 \u2014 Unit Economics Intuition",
+      "issue": "The revenue-side calculation for commissions uses a 12% \"average\" rate without justification, but earlier in the deliverable (Section 3, Questro Golf entry) mentions 10\u201318% range; the choice of 12% midpoint should be validated against actual course commission agreements.",
+      "evidence": "Section 6.3 states: \"Commission at 12% average = $108\u2013126 per booking\" but Section 3.4 (Questro Golf) notes \"they own/operate their own courses\" and references 10\u201318% as the competitive range. Section 6.3 does not confirm whether Rafael has secured 12% agreements or is assuming this rate. This assumption directly impacts viability math and should be validated before synthesis.",
+      "recommendation": "Verify with Rafael: What commission percentages does he currently have with the 14 Cabo courses? Are these written agreements or informal understanding? What is the range (highest and lowest)? If commissions vary by course, the unit economics model should reflect the weighted average based on Rafael's actual agreements, not a generic 12%. Update the calculation and note the source of the commission assumption."
+    },
+    {
+      "id": "L2-10",
+      "category": "should-improve",
+      "section": "Section 6.3 \u2014 Unit Economics Intuition (Cost Side)",
+      "issue": "The cost-to-serve calculation attributes ~1\u20132 hours to \"course coordination\" but does not distinguish between routine coordination (after platform launch) and relationship-building work that Rafael will continue to own; this conflates operational cost with strategic work that should not be assigned a per-booking cost.",
+      "evidence": "",
+      "recommendation": "Separate \"course coordination\" into: (1) transactional course management (confirmations, schedule changes, special requests) \u2014 these hours should decline sharply as the platform matures and Lucia owns them, estimated $5\u201310 per booking, and (2) relationship management and partnership development \u2014 these hours are strategic overhead, not cost-per-booking, and should be reported as annual fixed cost (Rafael's time dedicated to nurturing course relationships). This clarification improves the unit economics model's accuracy for Phase 5 cost modeling."
+    },
+    {
+      "id": "L2-11",
+      "category": "should-improve",
+      "section": "Section 6.3 \u2014 Unit Economics Intuition (Near-term vs. Mature)",
+      "issue": "The narrative provides unit economics at \"maturity\" (1,500 bookings) but does not model the near-term economics for Year 1 (estimated 180\u2013300 bookings), leaving ambiguity about whether the business is viable in the launch phase before scaling.",
+      "evidence": "Section 6.3 calculates revenue and costs assuming 1,500 annual bookings (mature state) but the completion gate notes Rafael currently serves 180 clients and is targeting Stage 1 stability at ~100\u2013150 clients during peak season (Oct 2026\u2013Mar 2027). At 180 annual bookings, the unit economics math changes: revenue of $550 \u00d7 180 = $99K revenue vs. fixed costs for platform ($500\u20131K/month = $6\u201312K annually) plus variable costs of $120 \u00d7 180 = $21.6K. This yields much tighter (or negative) margins in Year 1. The deliverable does not acknowledge this cash flow and runway concern, which is material for Phase 5 implementation planning.",
+      "recommendation": "Add a \"Near-term Year 1 Economics\" paragraph showing: (1) Expected Year 1 booking volume (180\u2013300), (2) Year 1 revenue at that volume, (3) Year 1 fixed + variable costs, (4) Resulting Year 1 profit/loss. Show how Year 1 operating revenue (or loss) flows into funding for Phase 2 development (D55-P1-011). This transparency helps Phase 8 operations planning and shows whether the bootstrap is viable or whether Rafael needs to maintain day job or secure pre-launch customer commitments."
+    },
+    {
+      "id": "L2-12",
+      "category": "must-fix",
+      "section": "Appendix A \u2014 Decision Ledger",
+      "issue": "Decision Ledger entries D55-P1-001 through D55-P1-016 are complete, but the cross-reference manifest states \"count: 16 entries\" without listing the entries; additionally, some required decision categories from the completion gate are not explicitly represented in the ledger.",
+      "evidence": "Completion gate specifies: \"Decision entries cover at minimum these 6 required categories (7 when regulatory applies): Scope, Target market positioning, Monetization preference, Competitive positioning, Ambition/scale level, Demo environment decision, [Regulatory if applicable].\" The ledger entries include: Scope (D55-P1-001, 002, 006), Target Market (D55-P1-003, 004), Competitive Positioning (D55-P1-007), Monetization (D55-P1-008), Ambition/Scale (D55-P1-005), Demo (D55-P1-014), and Risk/Budget/Compliance (D55-P1-009\u2013013, 015\u2013016). All required categories are present. However, the manifest exports do not list the entry numbers, making it difficult for downstream phases to cross-reference specific decisions.",
+      "recommendation": "In the manifest exports section under \"decision_ledger,\" add a \"entries\" field listing the D55-P1 numbers by category for traceability: e.g., \"entries: [Scope: D55-P1-001, 002, 006; Target Market: D55-P1-003, 004; ...]\" This enables Phase 2\u20139 to locate specific decisions when binding their own work."
+    },
+    {
+      "id": "L2-13",
+      "category": "should-improve",
+      "section": "Appendix A \u2014 Decision Ledger, D55-P1-005",
+      "issue": "The ambition level entry states Ocean Golf is \"lifestyle to growth hybrid\" but does not explicitly address the founder's vision for eventual optionality (acquisition, licensing, continued independence); the binds field mentions \"sustained state\" but is unclear about what Phase 5 and 8 should do to preserve optionality.",
+      "evidence": "D55-P1-005 defines ambition as \"sustainable growth business targeting $1.8M\u2013$2.5M annual revenue... Rafael's ability to step back from operations while maintaining ownership.\" The final sentence acknowledges optionality (\"acquisition possible, licensing possible, continued independence possible\") but does not integrate this into the Platform Binds. This creates downstream ambiguity: Should Phase 5 architecture be designed to be acquirable (clean tech stack, minimal tech debt)? Should Phase 7 build for recurring revenue to increase valuation multiples? Should operations prioritize profitability or growth?",
+      "recommendation": "Expand D55-P1-005 Constraint field to specify: \"Platform should be designed to remain attractive as an independent business (profitability and operational efficiency prioritized) while not precluding acquisition or licensing partnerships. Phase 5 should use standard, maintainable technology that would transfer cleanly to another operator. Phase 8 should build operations that can be handed to a professional manager or acquisition team without critical-person dependency.\" This clarifies architectural and operational principles downstream."
+    },
+    {
+      "id": "L2-14",
+      "category": "should-improve",
+      "section": "Appendix A \u2014 Decision Ledger, D55-P1-010",
+      "issue": "The timeline constraint is aggressive (3-month compressed Phase cycle) but does not address the risk that phases will slip, particularly Phase 6\u20137 concurrent design/build during August\u2013September with no testing buffer before launch.",
+      "evidence": "D55-P1-010 specifies: \"Phase 1 completes by late June 2026... Phase 7 runs Aug\u2013Sep with September launch target.\" This gives Phase 7 (design + build + testing) exactly 2 months for a production launch. Any delay in earlier phases cascades. The risk is not captured in Section 5 (Risk Registry) but the timeline constraint directly impacts Phase 8 launch readiness.",
+      "recommendation": "Add to D55-P1-010 Binds: \"Phase 8 must establish pre-launch verification checklist (functionality testing, payment processing validation, course contact confirmation) with hard launch date. If Phase 7 cannot complete all MVP features before mid-September, launch is deferred to October 1 (still within peak season, reduces pre-launch testing pressure). Phase 8 operations includes manual fallback procedures in case platform reliability issues emerge during peak season (first 100 bookings are piloted with extra support).\" This acknowledges timeline risk without changing the core schedule."
+    },
+    {
+      "id": "L2-15",
+      "category": "should-improve",
+      "section": "GLOSSARY.md",
+      "issue": "The glossary includes 25+ terms but does not prioritize them or distinguish between core domain vocabulary (handicap, green fees, concierge) and business model vocabulary (commission, ARPU, CAC). For a founder reading this, the lack of prioritization could obscure the most critical terms.",
+      "evidence": "GLOSSARY.md lists terms alphabetically (TAM\u2013White-Label) without indication of which are foundational to Ocean Golf's operations. A founder unfamiliar with golf would benefit from a section header like \"Core Golf Terms,\" \"Business Model Terms,\" and \"Growth Terms\" to navigate the vocabulary more intuitively. The current alphabetical listing treats \"Handicap\" (golf-specific) and \"ARPU\" (generic business term) as equally important.",
+      "recommendation": "Consider reorganizing GLOSSARY.md into three sections: (1) Golf & Destination Terms (Cabo, Concierge, Destination Golf, Green Fees, Handicap, Hospitality Model, Peak Season, Tee Time, Villa Rental, Pro Shop), (2) Business & Revenue Terms (Commission, Service Fee, Venue Partnership, White-Label, Operator, CAC, ARPU, Unit Economics, SAM/SOM/TAM), (3) Luxury Positioning Terms (Experience Curation, Corporate Retreat, Bachelor Party, Willingness to Pay, Defensible Moat). This helps downstream readers quickly find domain context. Alternatively, retain alphabetical but add a \"priority\" indicator (\u2b50 = foundational, \u2b50\u2b50 = important, \u2b50\u2b50\u2b50 = reference) for skimmability."
+    },
+    {
+      "id": "L2-16",
+      "category": "should-improve",
+      "section": "demo-requirements-flag.md",
+      "issue": "The demo requirements specify that the aha moment is \"The prospect sees their entire trip... organized in a single clean document\" but do not address what technology or design feature communicates that aha moment clearly enough for Rafael to demo effectively.",
+      "evidence": "demo-requirements-flag.md, Aha Moment field, states the aha but does not prescribe the visual or interaction element that creates the aha. For example: Is the aha moment a single-page PDF itinerary? A dynamic web dashboard? A phone-friendly checklist? Phase 6\u20137 will need to know what UX/UI element best communicates this single idea so the demo design can be optimized for impact.",
+      "recommendation": "Add a \"Demo Design Principle\" field to demo-requirements-flag.md: \"The aha moment should be communicated through [specific UX pattern]: a clean, full-itinerary view showing all confirmations, times, and contacts for one sample trip side-by-side, eliminating the need to open email, WhatsApp, or spreadsheets. Design recommendation for Phase 6: single-screen or short scroll showing the complete trip summary with each element (course, villa, dinner, transport) as a card with confirmation status and contact details visible.\" This bridges demo requirements to design specifications."
+    },
+    {
+      "id": "L2-17",
+      "category": "consider",
+      "section": "Section 4.1 \u2014 The Platform at Full Maturity",
+      "issue": "The description of full maturity mentions \"Lucia's role has evolved\" but does not specify the team structure at maturity (is Lucia still the only other staff, or does Rafael hire additional operational staff, or does he hire course liaisons?). This ambiguity could affect Phase 7 build decisions about team collaboration features.",
+      "evidence": "Section 4.1 states: \"Lucia has become operations manager for Ocean Golf, overseeing: client communication workflows... managing additional administrative staff if Rafael hires one.\" This is conditional and unclear. The growth path (Section 4.2, Stage 3) mentions \"hire of administrative support staff to further offload operational burden from Lucia\" but does not specify whether this hire happens before or after 600\u2013800 clients. This affects platform scope: Does the platform need role-based permissions for multiple operational staff, or can it assume Lucia remains the sole operator staff member through maturity?",
+      "recommendation": "Specify in Section 4.1 the team structure at full maturity (1,200\u20131,500 clients): \"Team structure: Rafael (concierge/decision-maker, 20\u201330 hours/week), Lucia (operations manager, 30\u201340 hours/week), and estimated 1\u20132 administrative assistants for high-volume client communication and coordination (10\u201320 hours/week each, part-time).\" Then use this to clarify platform requirements: Does the platform need multi-user role management, or can it assume Lucia+1 can handle coordination without complex permissions? This guides Phase 3 scope decisions."
+    },
+    {
+      "id": "L2-18",
+      "category": "consider",
+      "section": "Section 2.3 \u2014 Timing",
+      "issue": "The \"why now\" argument emphasizes maturity of development tools and client digital expectations, but does not address a specific market timing signal (e.g., has Los Cabos golf tourism accelerated, are competitors entering the market, is there a seasonal window Rafael needs to capture?). The argument is reasonable but could be stronger with market data.",
+      "evidence": "Section 2.3 states: \"Three factors converge to make Ocean Golf viable now: (1) Operational Technology Maturity... (2) Affluent Customer Expectation for Digital Organization... (3) Repeat Client Opportunity Window.\" Factors 1\u20132 are enablers (tech tools exist, digital expectations exist) but do not create urgency. Factor 3 is the strongest but is vague (\"the window to systematize is now\"). A stronger \"why now\" would include: market growth rate acceleration, competitor entry signals, or lost revenue from operational bottleneck. Current argument is sound but under-developed for investor pitch.",
+      "recommendation": "Strengthen Section 2.3 by adding: \"Rafael is currently at 90%+ capacity with 180 clients and is actively turning away business \u2014 a clear signal that demand exceeds supply. The window to scale operations before a competitor recognizes this market gap is 12\u201318 months. If Ocean Golf launches in September 2026, it captures the peak season before competitors have time to build equivalently strong relationships. If launch slips to 2027, a well-capitalized competitor could hire a local expert and begin competing for the same repeat client base.\" This adds urgency and specificity."
+    },
+    {
+      "id": "L2-19",
+      "category": "consider",
+      "section": "Section 5 \u2014 Risk & Assumption Registry (v1)",
+      "issue": "Risk 5.8 (Mexican Regulatory/Legal) is rated Low-to-Medium severity, but the platform's entire value chain depends on coordinating Mexican vendors (courses, villas, restaurants). A regulatory change that restricts foreign intermediaries or imposes licensing could be High severity if enforcement suddenly occurs during peak season.",
+      "evidence": "Section 5.8 states: \"Severity: Low to Medium (unlikely to be a blocker, but worth researching before scaling).\" However, Ocean Golf's core operation \u2014 coordinating Mexican golf courses and villa rental providers \u2014 could face sudden regulatory scrutiny if Mexican authorities decide to regulate foreign service providers or require specific licensing. The \"Low to Medium\" rating assumes regulatory environment remains stable, but does not account for sudden enforcement risk during high-volume peak seasons.",
+      "recommendation": "Either: (a) Upgrade Section 5.8 severity to Medium if regulatory research (Phase 5) reveals any precedent for sudden enforcement in tourism services, or (b) Add a distinct risk entry for \"Regulatory Enforcement Timing Risk\" (separate from Section 5.8 licensing requirement) rated Medium severity, noting that even if Ocean Golf is technically compliant, sudden enforcement during peak season could disrupt operations. Include in Phase 8 launch checklist: \"Confirm with Mexican accountant that current operating model has no known regulatory risks; obtain written compliance statement if possible.\""
+    }
+  ],
+  "summary": {
+    "must_fix": 5,
+    "should_improve": 11,
+    "consider": 3,
+    "total": 19
+  }
+}

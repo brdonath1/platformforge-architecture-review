@@ -1,0 +1,20 @@
+{
+  "quality_score": 8,
+  "critical_issues": [
+    "Deposit payment characterization in Section 2.1 Stage 5 states the deposit is 'typically 50% of service fees, ~$200\u2013$400 per person' but D1 Section 6.3 clearly identifies deposits ($200\u2013$400/person) and service fees ($75\u2013$125/person) as two independent Stripe charges. Fifty percent of a $75\u2013$125 service fee is $37.50\u2013$62.50, not $200\u2013$400. The dollar amounts are individually correct but the stated relationship between them is wrong and would mislead downstream phases designing the payment flow.",
+    "Team size estimates at full single-operator scale (1,500 clients/year) contradict D1. D2 projects 1 Operator + 1\u20132 Senior Concierges + 3\u20134 Team Members = 5\u20137 total people. D1 Section 1.5 and Section 6.3 explicitly state 'a team of three to four people (the founder plus two to three team members)' and build the labor cost model ($80,000\u2013$120,000/year) on that figure. This discrepancy is never acknowledged or reconciled and would cascade into incorrect cost projections in Phase 10."
+  ],
+  "contradictions": [
+    "D2 Stage 5 deposit description ('50% of service fees') directly conflicts with D1 Section 6.3 and D55-P1-005, which treat deposits and service fees as entirely separate line items processed through Stripe.",
+    "D2 Team Member estimated volume at 1,500 clients/year (3\u20134) plus Senior Concierge volume (1\u20132) yields 4\u20136 non-founder staff, versus D1's explicit '2 to 3 team members' (D1 Section 6.3). Even if the Senior Concierge is considered a promoted Team Member, the combined figures in D2 exceed D1's ceiling by roughly 100%."
+  ],
+  "warnings": [
+    "Section 1 introduction declares three entity categories \u2014 Platform Users, Managed Entities, and Output Recipients \u2014 but no role is ever formally categorized as an Output Recipient in the body. Output Recipients appear only in the cross-reference manifest (clients, group members, course contacts, vendors, Fernando). The third category is promised but never populated.",
+    "Tier numbering is inconsistent: both 'Scale-Emergent Platform Users' and 'Managed Entities' are labeled 'Tier 2.' The structure reads Tier 1, Tier 2, Tier 2, Tier 3, which will confuse cross-referencing.",
+    "CCPA applicability analysis in Appendix D states thresholds 'may be reached' at target scale of 1,500 clients/year, but $25M annual revenue and 100K California consumers are both far beyond this scale. This overstates regulatory exposure and could trigger unnecessary compliance work.",
+    "Senior Concierge role description says they can 'Handle escalated situations\u2026 course cancellations, client complaints, schedule disruptions,' but the permission grid requires them to escalate dispute/refund communications (\ud83d\udd3c) to the Operator. This creates an unaddressed workflow gap where the SC resolves the issue but cannot communicate the resolution to the client.",
+    "Fernando (accountant) is named multiple times in D2 (Operator workflow, D55-P2-027) but never appears in D1. The name is presumably from the Phase 2 conversation, but D2 does not note this as newly surfaced information, which could cause traceability confusion.",
+    "Tier 3 'Scale-Emergent Roles (Abbreviated)' table introduces three additional roles (Destination Operator, Network Referral Coordinator, Corporate Account Manager) without clarifying their count relationship to the stated 12-role total in the manifest. A reader cannot tell if the universe is 12 or 15.",
+    "Risk numbering in Appendix C uses a '2.x' scheme (Risk 2.1\u20132.4), while D1 Section 5 uses a '5.x' scheme (Risks 5.1\u20135.5). Neither phase explains the numbering convention, risking ambiguity when referencing risks across deliverables."
+  ]
+}

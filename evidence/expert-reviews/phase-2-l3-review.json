@@ -1,0 +1,173 @@
+{
+  "layer": 3,
+  "layer_name": "Downstream Consumer",
+  "phase": "2",
+  "findings": [
+    {
+      "id": "L3-1",
+      "category": "must-fix",
+      "section": "1.0 User Role Matrix / 1.1 Core MVP Roles / Rafael",
+      "issue": "Rafael's estimated weekly time commitment projection shows his hours declining from 25-30 hrs/week (current) to 15-20 hrs/week (Year 3), but this contradicts the D1 assumption that relationship maintenance is fixed cost (~40-60 hrs/year), not variable per booking.",
+      "evidence": "D2 Section 1.1 states: \"September 2026 (180 annual clients): ~25-30 hours/week...Year 3 (1,200-1,500 clients): ~15-20 hours/week (relationship maintenance is fixed, not scaling with volume).\" Yet the text acknowledges fixed cost but the time projections show decline with scale.",
+      "recommendation": "Clarify the projection: if relationship maintenance is truly fixed at 40-60 hrs/year (\u22481 hr/week), and that remains flat, then at Year 3 with 1,500 clients, Rafael's transactional work (delegated to Lucia) should represent near-zero hours, and total should be ~1 hr/week for relationship only. Either revise the hours projections to be accurate (~1-2 hrs/week at Year 3, not 15-20), or revise the assumption about fixed relationship cost."
+    },
+    {
+      "id": "L3-2",
+      "category": "must-fix",
+      "section": "1.2 Deferred Roles / Role 5 Finance Manager",
+      "issue": "The Finance Manager role lists \"commission rates per course\" as data they need to view, but there is no mechanism documented for who sets or updates these rates, and no description of how commission rate changes are negotiated or applied retroactively to existing bookings.",
+      "evidence": "D2 Section 1.2, Role 5 states: \"View: commission rates per course, booking revenue attribution.\" But D1 Section 6.3 and D55-P1-008 discuss commission rates in negotiation context with no operational procedure for rate management.",
+      "recommendation": "Add to Finance Manager role definition or to a separate \"Commission Management Workflow\" artifact: procedure for how commission rates are set, negotiated with courses, updated in the system, and applied to bookings (retroactively or prospectively)."
+    },
+    {
+      "id": "L3-3",
+      "category": "must-fix",
+      "section": "4.1 Core Permission Matrix",
+      "issue": "The permission matrix states Lucia \"Cannot view financial data or commission details,\" but Section 5.1 (User Onboarding) lists no training on how Lucia will understand profitability or course performance when she's coordinating with those courses. This creates a gap: Lucia executes the business but cannot see business metrics.",
+      "evidence": "D2 Section 4.1: \"Lucia: Cannot view financial data or commission details.\" D2 Section 5.2: Lucia's onboarding covers decision tiers and templates, but not operational business visibility (which courses are most profitable, which courses are bottlenecks).",
+      "recommendation": "Either: (A) Add limited financial visibility to Lucia's permissions (e.g., \"can view booking volume and confirmation rate per course, but not financial rates or commission details\"), or (B) add a Section 5.2 step explicitly stating \"Rafael provides Lucia with monthly operational summary showing course performance and any partnership changes\" so Lucia knows when to escalate course-specific issues to Rafael."
+    },
+    {
+      "id": "L3-4",
+      "category": "must-fix",
+      "section": "2.1 Rafael's Operational Lifecycle / Stage 5 Post-Trip",
+      "issue": "Stage 5 mentions \"Rafael follows up personally with repeat clients to understand satisfaction and solicit feedback\" but does not specify who makes the post-trip satisfaction survey decision\u2014is it automated (Lucia sends it) or is Rafael manually reaching out? This affects operational load and scalability.",
+      "evidence": "D2 Section 2.1, Stage 5: \"Lucia sends post-trip check-in and satisfaction survey. Rafael follows up personally with repeat clients...\" The text conflates two different workflows (Lucia's automated survey vs. Rafael's personal follow-up) without clarifying when Rafael personally follows up vs. when it's delegated.",
+      "recommendation": "Clarify: \"Lucia sends post-trip satisfaction survey to all clients (automated). Rafael personally follows up with repeat clients (identified as those with 2+ prior bookings) within 1 week of trip completion to discuss results and encourage re-booking. First-time clients are not personally contacted by Rafael unless they flag issues.\""
+    },
+    {
+      "id": "L3-5",
+      "category": "must-fix",
+      "section": "2.3 Course Contact Lifecycle / Stage 3 Availability Updates",
+      "issue": "The availability updates workflow states it \"is optional but valuable\" and that \"courses do not need to maintain their availability calendar,\" but this directly contradicts the operational model where Lucia needs course availability to coordinate with clients. Without knowing course availability, Lucia cannot fulfill her role (D2 Section 2.2).",
+      "evidence": "D2 Section 2.3, Stage 3: \"This may happen monthly or more frequently... Platform should make this easy: course logs in, marks dates as 'blocked,' done. This is optional but valuable.\" vs. D2 Section 2.2, Stage 2: \"Lucia extracts action items: payment collection, villa coordination, transportation setup, pre-trip confirmations.\"",
+      "recommendation": "Revise: Availability updates are not optional\u2014they are essential for the platform to function. However, the burden of maintenance can be managed by: (A) Having Rafael manually update availability during monthly partnership conversations, or (B) Making the course portal extremely simple (one-click date blocking). Document that course contacts are expected to provide blocked dates quarterly at minimum, with Rafael handling interim updates manually."
+    },
+    {
+      "id": "L3-6",
+      "category": "must-fix",
+      "section": "3.0 User Relationship Diagram / Secondary Golfers",
+      "issue": "The diagram shows secondary golfers receive read-only itinerary via shared link with no login, but there is no documented mechanism for how secondary golfers are invited, how they receive the link, and whether they can request changes that route back to the trip organizer or Rafael.",
+      "evidence": "D2 Section 3.0 diagram shows \"Secondary Golfers (GROUP1) No platform access; View itinerary via link.\" but D2 Section 1.1, Clients role does not specify the mechanics of the \"shareable link\" feature or what secondary golfers can do if they have questions/modifications.",
+      "recommendation": "Add to Client role definition (Section 1.1): \"Clients can generate a shareable read-only itinerary link that does not require authentication. Secondary golfers who receive the link can view all trip details but cannot request modifications; any modifications must be requested by the trip organizer through their own platform account.\""
+    },
+    {
+      "id": "L3-7",
+      "category": "should-improve",
+      "section": "1.1 Rafael Role / Decision Authority & Workflows",
+      "issue": "Rafael's decision authority is clearly defined (Tier 1/2/3), but there is no SLA documented for response time. For example, if Lucia escalates a Tier 2 decision to Rafael and he is unavailable, what happens? Does the client booking sit pending indefinitely?",
+      "evidence": "D2 Section 1.1 documents the three tiers but not the response time requirement. D2 Section 2.1 (lifecycle) implies Rafael responds within a reasonable timeframe but does not quantify.",
+      "recommendation": "Add to Rafael's Decision Authority section: \"Response time SLA for escalations: Lucia routes Tier 2 decisions to Rafael with notification. Rafael reviews and approves/denies within 24 hours during peak season, 48 hours during off-season. If Rafael cannot respond within SLA, Lucia may implement temporary hold and contact Rafael via backup channels (WhatsApp, phone).\""
+    },
+    {
+      "id": "L3-8",
+      "category": "should-improve",
+      "section": "4.3 Multi-Tenancy & Data Isolation Rules / For MVP",
+      "issue": "The section states \"All data is tagged with operator_id...even though it's the only operator\" but does not document how operator_id is set during initial system setup or how it would be changed if Rafael's operator instance were ever transferred or sold.",
+      "evidence": "D2 Section 4.3: \"All data is tagged with operator_id = 'rafael_cabo'...All queries filter by operator_id automatically.\" But no documentation of initialization or operator migration procedures.",
+      "recommendation": "Add: \"During initial system setup, operator_id is hardcoded to 'rafael_cabo' for MVP. In Phase 3+, if multi-operator licensing is activated, an admin interface allows creating new operator instances with unique operator_id. Operator data migration (if ownership changes) is documented in Phase 8 operations procedures but is not anticipated for MVP.\""
+    },
+    {
+      "id": "L3-9",
+      "category": "should-improve",
+      "section": "5.0 User Onboarding Requirements / 5.1 Rafael's Onboarding",
+      "issue": "Rafael's onboarding includes \"practice sending a tee time request to a course contact (test with a dummy request)\" but there is no documented test environment or test course contact to practice against. This could be frustrating if Rafael tries to practice and accidentally sends a real request to a real course.",
+      "evidence": "D2 Section 5.1: \"Practice sending a tee time request to a course contact (test with a dummy request).\" No mention of where the dummy request goes or how to distinguish test from production.",
+      "recommendation": "Add: \"Practice requests are sent to a demo course contact email address (e.g., demo@oceangoif.internal) that Rafael controls. This allows testing the notification and confirmation workflow without involving real course contacts. Real course contact emails are added to the system only after Rafael confirms testing is complete.\""
+    },
+    {
+      "id": "L3-10",
+      "category": "should-improve",
+      "section": "6.0 Compliance-Driven Permissions / 6.1 GDPR",
+      "issue": "The section states \"EU clients have right to data access: must be able to download their personal data\" but does not specify who in Ocean Golf's organization has the responsibility to fulfill this request or what the SLA is for processing data access requests.",
+      "evidence": "D2 Section 6.1: \"EU clients have right to data access...Lucia or Finance Manager must be able to process deletion requests.\" But no specification of who initiates fulfillment or response time.",
+      "recommendation": "Add: \"Data access and deletion requests from EU or California clients are processed by Rafael (with Lucia's support). Response time: comply with legal requirements (45 days for GDPR, 45 days for CCPA). Procedure: client submits request via platform or email, Rafael compiles personal data within 20 days, provides download link or file, obtains client confirmation of deletion, system removes data within 25 days.\""
+    },
+    {
+      "id": "L3-11",
+      "category": "should-improve",
+      "section": "7.0 Scale-Emergent User Types / 7.1 Second Operations Manager",
+      "issue": "The trigger condition is \"Lucia's workload reaches 30-35 hours/week\" (D2 Section 7.1) but the core timeline (D2 Section 1.1) already projects Lucia at 20-25 hours/week in March 2027 (Month 6), suggesting the second ops hire would be needed by Month 9-12, not Year 2+. There is a discrepancy between the trigger and the projected timeline.",
+      "evidence": "D2 Section 1.1, Lucia role states: \"March 2027 (300-400 clients, 30-35 bookings/month): ~20-25 hours/week\" but Section 7.1 states second ops manager is needed \"when Lucia's workload reaches 30-35 hours/week; estimated Month 9+\" which would be June 2027, not March 2027.",
+      "recommendation": "Clarify the timeline: either revise the trigger to \"when Lucia reaches 25-30 hours/week\" (which aligns with March 2027 data) and project Month 6-7 for the second ops hire, or revise the March 2027 hours estimate to show Lucia at capacity (30+ hours) so the trigger is clear and internally consistent."
+    },
+    {
+      "id": "L3-12",
+      "category": "consider",
+      "section": "3.0 User Relationship Diagram",
+      "issue": "The diagram shows Rafael at the top with Lucia, Course Contacts, and Finance/CSM reporting to him, but the diagram does not show secondary stakeholders mentioned in D1 who interact with the platform indirectly (villa partners, restaurant partners, activity providers). At scale, these ecosystem partners become important.",
+      "evidence": "D2 Section 1.1 references \"villa partnerships\" and \"restaurant reservations\" as integrated future features, and D1 Section 4.2 (Stage 3) mentions venue partners, but D2 Section 3.0 relationship diagram does not include these actors.",
+      "recommendation": "Consider adding a \"Future\" or \"Stage 3+\" section to the relationship diagram showing venue partners (villas, restaurants, activity providers) connected to Lucia via booking integration, so the diagram hints at the ecosystem expansion planned for Phase 3."
+    },
+    {
+      "id": "L3-13",
+      "category": "consider",
+      "section": "2.0 User Lifecycle Maps / General",
+      "issue": "The lifecycle maps document the \"happy path\" but do not document error or recovery scenarios. For example, what happens in Rafael's lifecycle (Section 2.1, Stage 2) if a requested course denies the booking? How does this flow propagate to the client?",
+      "evidence": "D2 Section 2.1, Stage 2 states: \"Once courses confirm availability, Rafael selects the best course options...\" but does not address what happens if no courses confirm availability or if course confirmations conflict with client expectations.",
+      "recommendation": "Consider adding a \"Failure Mode: Course Denial\" subsection to the relevant lifecycle stages, documenting: (1) when a course denies a request, (2) how Lucia or Rafael is notified, (3) how the client is contacted and re-offered alternatives, (4) what triggers escalation to Rafael if multiple courses deny the same request."
+    },
+    {
+      "id": "L3-14",
+      "category": "consider",
+      "section": "8.0 Cross-Operator Data Isolation Rules / 8.2 User Access Enforcement",
+      "issue": "The section describes how users are restricted to their operator's data, but does not address the case where an employee (Lucia equivalent) changes operators or where an operator tries to hire an employee from a competitor operator and wants to migrate their knowledge. Is there a procedure for operator transfer or employee re-assignment?",
+      "evidence": "D2 Section 8.2 shows data isolation per operator but does not address personnel transitions, which would be necessary in a multi-operator deployment.",
+      "recommendation": "Consider adding: \"When a staff member (e.g., Lucia) transitions to a different operator, their login credentials are disabled in the original operator instance and new credentials are issued in the new operator instance. Client data and client communication history from the original operator is not transferred to the new operator (it remains with the original operator). This ensures complete operator isolation and prevents data leakage.\""
+    },
+    {
+      "id": "L3-15",
+      "category": "consider",
+      "section": "Appendix B Decision Ledger / D55-P2-004",
+      "issue": "Decision D55-P2-004 commits to \"client itinerary view as premium experience anchor\" but does not define what \"premium\" means in concrete UX terms (e.g., color palette, typography, information density). This may lead to Phase 6 interpretation differences.",
+      "evidence": "D2 Appendix B, D55-P2-004: \"Client itinerary view...must feel like a luxury concierge service...premium, organized aesthetic\" but no specification of visual design direction or examples (e.g., \"similar to Four Seasons app\" vs. \"similar to OpenTable\").",
+      "recommendation": "Add to the constraint: \"Design direction reference: Client-facing itinerary should evoke the visual clarity of OpenTable or Four Seasons app (clean, spacious, premium typography), not the dense transaction-focused design of GolfNow or Expedia.\" Phase 6 design can then align to this explicit reference."
+    },
+    {
+      "id": "L3-16",
+      "category": "consider",
+      "section": "1.0 User Role Matrix / Lucia Role / Escalation Clarity",
+      "issue": "Lucia's tier system (Section 1.1) is defined clearly in the matrix, but there is no documented mechanism for Lucia to know when a decision is \"Tier 1\" vs. \"Tier 2\" if the situation is ambiguous. For example, if a client wants to move their trip from January to February (same course, same dates available), is that Tier 1? If the same course is not available but a similar-tier course is, is that Tier 1 or Tier 2?",
+      "evidence": "D2 Section 1.1 and Appendix B (D55-P2-002) state that the platform must show \"This change requires Rafael's approval\" messaging, but the crisp definitions in the tier table assume clear categorization, which may not reflect real-world ambiguity.",
+      "recommendation": "Consider adding a \"Decision Tier Edge Cases\" table to Section 1.1 clarifying: (A) \"Client requests Feb instead of Jan, same course, same skill level\" = Tier 1 (Lucia decides). (B) \"Client requests Feb instead of Jan, same course tier but different course\" = Tier 2 (escalate). (C) \"Client requests to add one extra player, course can accommodate\" = Tier 1 or Tier 2 depending on timing urgency. This helps Lucia know when to press \"escalate\" vs. \"approve.\""
+    },
+    {
+      "id": "L3-17",
+      "category": "consider",
+      "section": "5.0 User Onboarding Requirements / 5.3 Course Contacts' Onboarding",
+      "issue": "Course contact onboarding is listed as \"one-time, 15-30 minutes per contact\" but does not document a fallback if course contacts do not engage with the notification system after the initial onboarding call. What is Rafael's procedure if a course contact continues to prefer WhatsApp instead of using the platform?",
+      "evidence": "D2 Section 5.3: \"One-time phone call onboarding for each course contact...\" but no contingency if they ignore the system or revert to old workflows.",
+      "recommendation": "Add: \"If a course contact does not respond to three consecutive platform notifications (email/SMS), Rafael follows up via direct WhatsApp to confirm they received the notifications and understand the system. If the contact prefers WhatsApp, Rafael accommodates by reverting to WhatsApp for that contact (temporary measure) while identifying whether there is a system usability issue preventing broader adoption.\""
+    },
+    {
+      "id": "L3-18",
+      "category": "consider",
+      "section": "2.4 Client / Trip Organizer Lifecycle / Stage 7 Repeat Client Lifecycle",
+      "issue": "The lifecycle describes the Client Success Manager's role in reaching out to repeat clients (Year 2+), but does not specify whether clients have the ability to opt out of repeat client outreach, which would be relevant for privacy/compliance and client experience.",
+      "evidence": "D2 Section 2.4, Stage 7: \"Client Success Manager reaches out proactively 6-12 months after first trip with personalized trip suggestion.\" No mention of client preference setting or opt-out mechanism.",
+      "recommendation": "Add: \"Clients are opted-in to repeat client outreach by default (as part of booking terms). Clients can opt-out via a preference setting in the platform or via email request. Client Success Manager checks opt-out status before initiating outreach. Opt-out preference is respected in perpetuity unless client opts back in.\""
+    },
+    {
+      "id": "L3-19",
+      "category": "consider",
+      "section": "9.0 Risk & Assumption Validation / 9.2 Assumption 2",
+      "issue": "Assumption 2 states \"Course contacts want faster confirmation workflow\" and cites the validation method as \"research into competitor role patterns.\" However, Phase 2 behavioral rules do not mention that this validation actually occurred via live research. The assumption may not be externally validated.",
+      "evidence": "D2 Section 9.2, Assumption 2: \"Status: Validated. Rafael noted that some course contacts are annoyed by constant WhatsApp messages.\" This is founder input only, not external research validation as suggested by the validation method reference in Assumption 1.",
+      "recommendation": "Clarify the validation status: either confirm that this assumption is \"Validated through founder input only\" (removing the implication of external research), or defer validation to Phase 3 when the platform launches and course contacts actually use the notification system for the first time."
+    },
+    {
+      "id": "L3-20",
+      "category": "consider",
+      "section": "Section 10 Accessibility & Compliance Requirements Flag / 10.2 Data Privacy Requirements",
+      "issue": "The section identifies GDPR and CCPA requirements (if EU or California clients book) but does not mention whether Ocean Golf has any responsibility to monitor client location or determine jurisdiction before applying compliance rules, or whether compliance is purely reactive (client requests data, then Ocean Golf responds).",
+      "evidence": "D2 Section 10.2: \"GDPR (If EU clients): Requires data subject access rights...CCPA (If California clients): Requires similar rights...\" but no procedure for how Rafael determines whether a client is EU-based or CA-based, or what triggers compliance obligations.",
+      "recommendation": "Add: \"Rafael collects billing address and client location during booking form to determine jurisdiction. If a client's address is in EU, GDPR compliance procedures apply. If in California, CCPA procedures apply. Compliance is proactive (prepared from day one) not reactive. Clients are informed of their data rights in the terms of service before booking, with jurisdiction-specific details provided based on their location.\""
+    }
+  ],
+  "summary": {
+    "must_fix": 6,
+    "should_improve": 5,
+    "consider": 9,
+    "total": 20
+  }
+}

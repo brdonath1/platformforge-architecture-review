@@ -1,0 +1,173 @@
+{
+  "layer": 3,
+  "layer_name": "Downstream Consumer",
+  "phase": "7",
+  "findings": [
+    {
+      "id": "L3-1",
+      "category": "must-fix",
+      "section": "SECTION 3: SCAFFOLD & INFRASTRUCTURE",
+      "issue": "FC-001 deployment instructions reference a scaffold clone from GitHub (github.com/platformforge/ocean-golf-scaffold.git) that does not exist in the prior phase deliverables or any verified source.",
+      "evidence": "FC-001 Step 1 says \"Clone the verified scaffold repository\" with URL \"https://github.com/platformforge/ocean-golf-scaffold.git\" but Phase 5 D-58 (Verified Scaffold) is referenced as existing but not provided to this review, and no scaffold repository URL is confirmed in any prior deliverable.",
+      "recommendation": "Either (1) specify exact URL and version of scaffold being cloned, or (2) change Step 1 to use `npx create-next-app` with explicit Tailwind/TypeScript flags instead of cloning, ensuring the scaffold creation method is self-contained and doesn't depend on an external repository that Phase 7 developers cannot verify."
+    },
+    {
+      "id": "L3-2",
+      "category": "must-fix",
+      "section": "SECTION 3: SCAFFOLD & INFRASTRUCTURE, FC-001",
+      "issue": "FC-001 acceptance criteria do not include verification that Supabase credentials in .env.local are working\u2014only that the file exists. This creates a silent failure mode where the app loads but database operations fail later.",
+      "evidence": "Acceptance criteria list: \"`.env.local` file exists and contains all required keys\" and \"Database query executes successfully in Supabase SQL Editor\"\u2014but no criterion verifies that the app itself can connect to Supabase using those keys from .env.local in a real API call.",
+      "recommendation": "Add acceptance criterion: \"Run a test API call (e.g., `GET /api/health?test=db`) and verify it returns database connection status; database must be reachable from the app, not just from the Supabase dashboard.\""
+    },
+    {
+      "id": "L3-3",
+      "category": "must-fix",
+      "section": "SECTION 4: DATABASE ARCHITECTURE, FC-004 through FC-012",
+      "issue": "Database migration cards (FC-004-012) specify SQL to run in Supabase dashboard manually, but provide no automated migration system or rollback strategy for production deployments. This violates Phase 7 requirement \"Enforce verification gates between card groups\" and creates operational debt for production.",
+      "evidence": "Section 4 says \"Paste into SQL Editor in Supabase dashboard\" for every migration; no mention of Supabase migrations CLI, version control for migrations, or rollback automation. FC-014 mentions \"Set up database migration runner (Supabase auto-runs migrations)\" but this card is not fully specified.",
+      "recommendation": "Expand FC-014 to fully specify: (1) Initialize Supabase CLI migration tracking; (2) Move all migration SQL from manual dashboard execution to `supabase/migrations/{timestamp}_table_name.sql` files; (3) Document rollback procedure for each migration; (4) Specify CI/CD integration so migrations are version-controlled and can be reverted via git."
+    },
+    {
+      "id": "L3-4",
+      "category": "must-fix",
+      "section": "SECTION 2: PRE-BUILD CHECKLIST, Stripe Setup",
+      "issue": "Pre-build checklist assumes Stripe account is in TEST MODE but provides no verification step to confirm test mode is active before Phase 7 begins, creating risk of accidental live-mode charges during development.",
+      "evidence": "Checklist says \"Stripe account created (https://stripe.com; test mode account)\" and \"You're in TEST MODE (not live mode) \u2014 critical for development\" but no acceptance criterion or verification command for the founder to confirm test mode before proceeding with build cards.",
+      "recommendation": "Add pre-build verification step: \"Confirm Stripe is in test mode: Open https://dashboard.stripe.com/test/dashboard. Top-left corner should show 'Test Mode' badge. If not, click the toggle to switch to Test Mode. Screenshot confirmation or explicit check-in required before FC-001 can start.\""
+    },
+    {
+      "id": "L3-5",
+      "category": "must-fix",
+      "section": "SECTION 5: BUILD CARDS CONTINUED (CONDENSED REFERENCE), FC-013 through FC-047",
+      "issue": "Section 5 promises full card specifications for cards FC-013 through FC-047 but provides only a bulleted list of card titles with no detailed specification (steps, acceptance criteria, dependencies, error handling) for any of these cards. This violates phase 7 requirement that \"every card is self-contained.\"",
+      "evidence": "Section 5 header states \"Due to length constraints, the complete card specification continues with the same level of detail for the remaining 107 cards. Here's a reference summary of the remaining cards.\" But then only provides 1-2 sentences per card with no steps, no acceptance criteria, no error scenarios.",
+      "recommendation": "Either (1) Expand Section 5 to include full FC-013 through FC-047 specifications at same detail level as FC-001 through FC-003, or (2) Clearly mark Section 5 as \"STUB REFERENCE - FULL SPECIFICATIONS DEFERRED\" and note that Phase 7 developers must request detailed specs for cards beyond FC-012 before those cards can be executed. Do not claim \"implementation-ready\" if detailed specs are missing."
+    },
+    {
+      "id": "L3-6",
+      "category": "must-fix",
+      "section": "SECTION 6: BUILD TIMELINE & SPRINT STRUCTURE",
+      "issue": "Build timeline claims \"3 weeks\" for each of Sprint 1 and Sprint 2, then \"2 weeks\" for Sprint 3, totaling 8 weeks (Apr 15 \u2013 Jun 10). But earlier text says \"estimated 240\u2013280 total development hours\" with \"6\u20137 weeks of focused build time.\" These estimates contradict each other (8 calendar weeks \u2260 6-7 focused weeks) and provide no clarity on how many actual development hours per day the founder is expected to provide feedback or run commands.",
+      "evidence": "Build overview says \"Estimated build time: 240\u2013280 total development hours across all cards (Cursor IDE + Claude Code CLI), translating to 6\u20137 weeks of focused build time\" but timeline then breaks build into \"3 weeks Sprint 1, 3 weeks Sprint 2, 2 weeks Sprint 3\" = 8 calendar weeks, assuming overlap of 2 weeks of founder's parallel work with dev time, which is not explained.",
+      "recommendation": "Clarify: \"Total estimated development work: 240\u2013280 hours (Cursor IDE + Claude Code). Assuming 35 hours/week development velocity (5 hours/day \u00d7 5 days + Friday testing = ~30 hours active dev work + ~5 hours waiting for founder feedback/verification per week), total elapsed time is 7\u20138 weeks. Calendar timeline: Apr 15 \u2013 Jun 10 (8 weeks), with founder providing 3\u20135 hours/week for verification and decision-making (as confirmed in earlier sections). Verify founder's actual weekly availability at start of Phase 7; adjust sprint lengths if availability differs from 3\u20135 hrs/week.\""
+    },
+    {
+      "id": "L3-7",
+      "category": "should-improve",
+      "section": "SECTION 7: VERIFICATION GATES & ACCEPTANCE CRITERIA",
+      "issue": "Verification gates list (After Phase 1, After Phase 2, etc.) specifies WHAT to check but not HOW to automate these checks into CI/CD or who is responsible for running them. This creates ambiguity about whether founder manually verifies, or if checks are automated.",
+      "evidence": "Gate \"After Phase 2 (Database): Database is Connected Verification\" lists checkboxes but says \"Supabase dashboard shows all 12 tables \u2014 check manually in Table Editor\" with no instruction for automating schema verification into the CI/CD pipeline.",
+      "recommendation": "For each verification gate, add: \"(1) Manual step: Founder opens dashboard and confirms X. (2) Automated step (if applicable): CI/CD runs [command/test] and passes before proceeding.\" If manual, state timeout (e.g., \"Founder must verify within 1 hour of card completion or build pauses\"). If automated, specify GitHub Actions job or test suite that validates gate.\""
+    },
+    {
+      "id": "L3-8",
+      "category": "must-fix",
+      "section": "SECTION 8: ERROR RECOVERY PROTOCOL",
+      "issue": "Error recovery protocol describes a 4-step escalation (retry, simplify, different approach, block) but does not specify HOW the founder communicates with the AI tool when a card fails. This leaves critical ambiguity about whether the founder:\n(A) Re-runs the card in Cursor/Claude Code with additional error context, or\n(B) Creates a new conversation with the error message, or\n(C) Escalates to a human developer.",
+      "evidence": "Section 8 says \"First attempt: Re-run the card with additional context (usually succeeds on second attempt with the error message as input)\" but does not specify the exact interaction model (same conversation, same tool, new context provided how).",
+      "recommendation": "Add specific workflow: \"When FC-XXX fails: (1) Copy the full error message from Terminal or browser console. (2) In Cursor IDE (or Claude Code), use the keyboard shortcut Ctrl+L to open the inline chat, paste: 'FC-XXX failed: [error message]. The card specifies [X] should happen, but [Y] happened instead. Please retry with adjusted approach.' (3) If Cursor is not available or the tool doesn't respond, create a new conversation in Claude.ai with the full card text from D8 + error message. (4) Run the card again in your local environment.' Document this as 'Standard Error Recovery Workflow' and reference it in every card that has 'Error Scenarios.'\""
+    },
+    {
+      "id": "L3-9",
+      "category": "should-improve",
+      "section": "SECTION 9: DEVELOPER WORKFLOW REFERENCE",
+      "issue": "Developer workflow reference includes commands for starting/stopping dev server and committing code, but does not include a \"getting unstuck\" checklist or a link to the error recovery protocol. A founder who encounters an unexpected error may not think to jump back to Section 8.",
+      "evidence": "Section 9 covers \"Daily Build Session Setup\" and \"Testing Commands\" but does not mention \"When Dev Server Won't Start\" or \"When Something Breaks Unexpectedly\" sections that exist elsewhere in the document.",
+      "recommendation": "Add a \"Troubleshooting Quick Reference\" subsection in Section 9 that lists: (1) \"Dev server won't start \u2192 see 'When Dev Server Won't Start' (this section, below)\"; (2) \"Card fails after running \u2192 see 'Error Recovery Protocol' (Section 8)\"; (3) \"Git is in a weird state \u2192 see 'Git Rollback Safety Net' (Section 8).\" Make it easy for founder to find relevant section without searching the full document.\""
+    },
+    {
+      "id": "L3-10",
+      "category": "should-improve",
+      "section": "SECTION 10: CROSS-FEATURE TESTING CHECKLIST",
+      "issue": "Cross-feature testing checklist is provided as a single example (after FC-034) but no guidance is given for HOW OFTEN this checklist should be run or WHO decides when to run it. Should it be after every 5 cards? After every feature vertical? After every sprint?",
+      "evidence": "Section 10 header says \"After every 5 cards, run this checklist\" but then provides only ONE example checklist (After FC-030-FC-034) with no template for creating similar checklists for subsequent card groups.",
+      "recommendation": "Clarify: \"Run integration verification after every 5-7 cards or after completing a logical feature vertical (whichever comes first). Template: (1) Existing Features Still Work: Run health check page + log in + view previous feature. (2) New Features Work: Test the 5 cards' combined functionality. (3) No Regressions: No console errors, no broken styles, all previous buttons still responsive. If any test fails, STOP. Do not proceed to next card until regression is fixed. Founder decides when regression is acceptable (e.g., 'minor visual glitch, fix in Phase 8') vs. blocking (e.g., 'login is broken').\" Add a checkbox to every 5-card summary in Section 5 that says \"Integration verification required before proceeding to next card group.\""
+    },
+    {
+      "id": "L3-11",
+      "category": "must-fix",
+      "section": "SECTION 11: FINAL PRE-LAUNCH VERIFICATION (WEEK OF JUNE 10)",
+      "issue": "Pre-launch verification provides a comprehensive end-to-end workflow test (Section 7.1 of prior D7 deliverable) but does not specify WHAT HAPPENS IF THIS TEST FAILS. Should the build be aborted? Can Phase 10 cards be re-run? Is there a rollback procedure?",
+      "evidence": "Section 11 says \"If all steps succeed, the platform is ready for September launch\" but provides no guidance for \"If any step fails in the complete workflow test, what is the recovery procedure?\"",
+      "recommendation": "Add: \"If any step of the Complete Workflow Test fails: (1) Document exact failure (e.g., 'Payment confirmation email never arrives'). (2) Identify which card introduced the failure (e.g., 'Issue started after FC-080: Email Notification Setup'). (3) Revert to last working commit before that card: `git log --oneline | grep FC-XXX` to find the commit SHA, then `git revert [SHA]`. (4) Re-run that card with additional context for the AI tool (include the failure description). (5) Re-run complete workflow test again. (6) If second attempt succeeds, proceed. If second attempt fails, escalate to Phase 9 (Review & Validation) for investigation before attempting production deployment. Do NOT deploy to production if any Complete Workflow Test step fails.\""
+    },
+    {
+      "id": "L3-12",
+      "category": "should-improve",
+      "section": "SECTION 12: BUILD DECISION RECORDS",
+      "issue": "Build decision records are mentioned (Section 12 header says \"Every significant build sequencing decision\") but the actual table in Section 12 is generic with placeholder examples (D55-P7-001 through D55-P7-010) and no specific decisions from the actual Ocean Golf build plan. This makes it unclear what real decisions were made vs. these being templates waiting for population during Phase 7.",
+      "evidence": "Section 12 table shows \"D55-P7-001: Build tool routing: Cursor IDE for UI, Claude Code for logic\" as an example decision, but D8 Section 5 (Feature Vertical Sequencing) does not explicitly state which cards should go to which tool. Tool routing appears to be a template decision, not a locked Ocean Golf decision.",
+      "recommendation": "Either (1) populate the D55-P7 ledger with actual Ocean Golf decisions made during Phase 7 planning (this section is meant to record decisions during Phase 7 itself, not before), or (2) move this section to a \"Phase 7 Build Ledger Template\" appendix with clear instructions: \"During Phase 7, populate this table with every significant sequencing decision made. Example: If Lucia's feedback causes reordering of cards, log it: 'D55-P7-011: Moved FC-050 (Dashboard) before FC-048 (Client Database) due to founder feedback that revenue metrics are more urgent than client reference data.'\" Clarify this is a RUNNING ledger to be populated during build, not a pre-Phase-7 artifact."
+    },
+    {
+      "id": "L3-13",
+      "category": "should-improve",
+      "section": "SECTION 13: BUILD PLAN REVIEW WITH FOUNDER",
+      "issue": "Section 13 specifies that Phase 7 completion requires founder sign-off on the build plan, but there is no specific approval checklist or sign-off document template provided. This creates ambiguity about what \"approval\" actually means\u2014does founder have to sign every card, or just the overall plan?",
+      "evidence": "Section 13 says \"Identify any remaining decisions or clarifications needed before the build can start\" but does not provide a formal \"Build Plan Approval Form\" or list of specific topics the founder must explicitly approve before Phase 7 card FC-001 can execute.",
+      "recommendation": "Add a \"Build Plan Founder Approval Checklist\" (as separate document or appendix) that requires founder sign-off on: (1) MVP feature prioritization (confirm 12 features in D3 are correct), (2) Sprint timeline (8 weeks, 3\u20135 hrs/week founder participation acceptable), (3) Tool routing (Cursor vs. Claude Code allocation approved), (4) Error recovery process (founder understands retry/simplify/different approach/block escalation), (5) Verification gates (founder will manually verify checkpoints within 1 hour of card completion). Founder initials each item; this becomes the Phase 7 kick-off gate.\""
+    },
+    {
+      "id": "L3-14",
+      "category": "must-fix",
+      "section": "CROSS-REFERENCE MANIFEST: D8 \u2014 SEQUENCED BUILD CARDS, Exports Section",
+      "issue": "Manifest claims \"build_cards: count: 120\" but Section 5 (Build Cards Continued) only provides condensed reference summaries for 107 additional cards (FC-013 through FC-120), not full specifications. This creates a gap: Phase 7 developers claim to have 120 cards, but only ~12 are fully specified (FC-001 through FC-012).",
+      "evidence": "Section 3 specifies FC-001 through FC-003 in full detail. Section 5 header says \"Due to length constraints...Here's a reference summary\" providing only bullets, not full specifications. Manifest claims \"120 sequenced build cards\" ready for implementation, but 108 cards lack detailed step-by-step instructions and acceptance criteria.",
+      "recommendation": "Update manifest to accurately state: \"Fully Specified Cards: FC-001 through FC-003 (complete). Partially Specified (reference only): FC-004 through FC-120 (table with titles, dependencies, estimated time, but lacking detailed steps/acceptance criteria). Phase 7 developers must request detailed specification for any card before executing it, or this delivery is incomplete for 90% of the build.\" Alternatively, produce full specifications for all 120 cards before Phase 7 begins, or Phase 7 MVP scope should be reduced to a smaller number of fully-specified cards.\""
+    },
+    {
+      "id": "L3-15",
+      "category": "should-improve",
+      "section": "FINAL COMPLETION GATE",
+      "issue": "Completion gate requires founder sign-off on build plan (last item: \"Build plan has been reviewed and approved by the founder\") but no evidence of this approval is provided in the deliverable. The header says \"Founder Approval: \u2705 Approved (Rafael, March 3, 2026)\" but no detailed approval checklist or sign-off document is shown, making it unclear what was actually approved.",
+      "evidence": "Deliverable header states \"Founder Approval: \u2705 Approved (Rafael, March 3, 2026 at 18:45 UTC)\" but completion gate Section \"Build plan has been reviewed and approved by the founder\" does not include an actual approval document, checklist, or detailed sign-off confirming what was approved.",
+      "recommendation": "Include in appendix (or final signature section): An actual \"Phase 7 Build Plan Approval Form\" signed by Rafael with date/timestamp, listing specific items approved: (1) 120-card build sequence, (2) MVP feature set (list them), (3) Sprint timeline (8 weeks), (4) Tool routing strategy, (5) Error recovery protocol, (6) Verification gates. This makes approval auditable and clear for Phase 7 handoff.\""
+    },
+    {
+      "id": "L3-16",
+      "category": "should-improve",
+      "section": "SECTION 6: BUILD TIMELINE & SPRINT STRUCTURE, Founder Testing Schedule Table",
+      "issue": "Founder testing schedule shows 12 Thursday testing sessions (one per sprint week) but earlier text says \"Founder: 3\u20134 hours/week feedback time.\" A 1-1.5 hour Thursday testing session + async feedback during the week could fit this, but the math is not explicit. No guidance on what happens if founder cannot make a Thursday session, or how urgent issues are escalated outside the scheduled Thursday window.",
+      "evidence": "Section 6 says \"Every Thursday, 10:00 AM \u2013 11:30 AM (Rafael's preferred window)\" for testing, suggesting 1.5-hour sessions. Earlier section says \"3\u20134 hours/week time commitment.\" If testing is 1.5 hrs and founder does 2-3 hrs async, that's 3.5-4.5 hrs/week, which is on the high end or slightly over.",
+      "recommendation": "Clarify: \"Founder testing schedule: Thursdays 10:00-11:30 AM (90 minutes per week for milestone checkpoint testing) + 2-3 hours async per week (running build commands, verifying in browser, communicating issues via Slack/email). Total: ~4-5 hours/week. If founder cannot attend Thursday session, schedule makeup by Friday EOD; do not skip verification gates. For urgent production issues discovered outside Thursday window (e.g., app doesn't start Tuesday afternoon), escalate immediately via Slack to dev team for diagnosis and hotfix before Thursday testing.\""
+    },
+    {
+      "id": "L3-17",
+      "category": "consider",
+      "section": "SECTION 5: BUILD CARDS CONTINUED, Feature Vertical Sequencing",
+      "issue": "Section 5 recommends card sequencing as \"Feature verticals follow the pattern: API layer \u2192 database operations \u2192 UI layer \u2192 integration layer.\" However, this pattern contradicts best practice for test-driven development (TDD) or iterative delivery, where a minimal working feature (API + minimal UI) is completed before moving to the next feature. The recommended pattern might create a state where API is done but UI is not, leading to a long period with no visible progress.",
+      "evidence": "Section 5 says \"Each feature vertical follows the pattern: API layer (cards FC-XXX to FC-YYY) \u2192 Database operations \u2192 UI layer \u2192 Integration layer\" suggesting all APIs are built before any UIs. This could result in all database operations being complete by week 4, but UIs not visible until week 5+.",
+      "recommendation": "Consider reordering feature vertical cards to follow a \"vertical slice\" pattern: For each feature, build API + minimal UI + integration together (e.g., FC-024: Create page skeleton, FC-025: API GET endpoint, FC-026: Render list with sample data, FC-027: Style list). This provides visible working features earlier and enables earlier founder feedback, reducing risk of miscommunication about requirements. State in build plan that this is a suggested pattern, not a hard rule, and Phase 7 team can adjust based on actual dependencies and tool constraints.\""
+    },
+    {
+      "id": "L3-18",
+      "category": "consider",
+      "section": "SECTION 2: PRE-BUILD CHECKLIST, GitHub Setup",
+      "issue": "Pre-build checklist says \"You can push to it (test: `git push origin main` \u2014 should succeed)\" but this assumes founder has git configured with SSH keys or HTTPS credentials. For a non-technical founder, this could be a silent failure if git credentials are not set up. No guidance on how to verify git is configured before Phase 7 starts.",
+      "evidence": "Pre-build checklist assumes `git push` will work without mentioning SSH key setup, GitHub auth token, or `git config user.name/email` configuration that is often needed on a fresh machine.",
+      "recommendation": "Add pre-build verification: \"Verify git is configured: Run `git config user.name` and `git config user.email` in Terminal. Both should return values (if empty, run `git config --global user.name 'Your Name'` and `git config --global user.email 'your@email.com'`). Then test push: `git push origin main`. If it fails with 'Permission denied (publickey)' or 'authentication failed', you need to set up SSH keys or an auth token. Follow GitHub's 'Setting up your git credentials' guide (link: https://docs.github.com/en/get-started/getting-started-with-git/caching-your-github-credentials). Do NOT proceed with Phase 7 until `git push` succeeds.\""
+    },
+    {
+      "id": "L3-19",
+      "category": "consider",
+      "section": "SECTION 4: DATABASE ARCHITECTURE, Migration Sequencing",
+      "issue": "Database migration cards assume migrations can be run in any order as long as foreign key dependencies are respected, but do not account for potential data migration needs (e.g., if a column is added that requires populating existing rows, or a table is renamed). For MVP this may not be an issue, but the approach lacks flexibility for future changes.",
+      "evidence": "Section 4 says \"Database migration sequencing: Tables with no dependencies come first, tables with foreign keys come after referenced tables\" but does not mention data migrations, backfill operations, or conditional migration logic (e.g., \"only run this SQL if X table exists\").",
+      "recommendation": "For Phase 7, note: \"All MVP migrations are schema-only (no data transformations). When Phase 8 or later requires data migrations, update the migration strategy to include: (1) Data backfill SQL (INSERT/UPDATE statements to populate new columns), (2) Conditional logic (IF NOT EXISTS checks), (3) Rollback procedures (provide DOWN migration for every UP migration). Current strategy is appropriate for MVP but flag for future enhancement.\""
+    },
+    {
+      "id": "L3-20",
+      "category": "consider",
+      "section": "SECTION 5: BUILD CARDS CONTINUED, FC-024 through FC-047 (Core Booking Management)",
+      "issue": "Core Booking Management cards are described as 24 cards, but the list provided in Section 5 (FC-024 through FC-047, which is only 24 items) suggests this is the entire \"Hunt List\" feature vertical. However, D8 Page Architecture shows the Hunt List is the primary interface with 9 interaction modals (Send Reminder, Payment Link, Confirmation, Reschedule, Approval, Note, Create, Edit, Delete). The 24 cards may not fully cover all of these modals and their integrations. Recommend verifying that all 9 modals have corresponding build cards.",
+      "evidence": "D8 Section 3 (Page Architecture) specifies 9 modals as part of hunt list workflow; Section 5 of D8 lists 24 cards for \"Core Booking Management\" with brief titles (FC-024 through FC-047) but not all 9 modals are explicitly mentioned as separate cards.",
+      "recommendation": "Expand Section 5 to clarify which cards build which modals. Example: 'FC-032: Send Reminder Modal, FC-034: Send Payment Link Modal, FC-036: Request Client Confirmation Modal' etc. This ensures Phase 7 team does not accidentally omit a modal because it wasn't explicitly listed. Alternatively, provide a mapping table: Hunt List Features \u2192 Build Cards, showing which modal(s) map to which cards.\""
+    }
+  ],
+  "summary": {
+    "must_fix": 9,
+    "should_improve": 7,
+    "consider": 4,
+    "total": 20
+  }
+}

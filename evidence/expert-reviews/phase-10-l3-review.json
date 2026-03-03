@@ -1,0 +1,133 @@
+{
+  "layer": 3,
+  "layer_name": "Downstream Consumer",
+  "phase": "10",
+  "findings": [
+    {
+      "id": "L3-1",
+      "category": "must-fix",
+      "section": "WELCOME TO YOUR OCEAN GOLF SPECIFICATION PACKAGE",
+      "issue": "The Build Handoff Document claims this is the \"complete blueprint\" with \"20 documents\" but Phase 10 has not yet packaged them to GitHub\u2014this document is being reviewed in isolation before the repository push.",
+      "evidence": "Template states D21 output is \"packaged repository containing all 20 deliverables\" and \"Build Handoff Document\" should be in that context. This README assumes the package is already pushed and organized. Present tense \"This package contains\" conflicts with Phase 10's pre-push state.",
+      "recommendation": "Reframe opening section to clarify this document is the *template* for a handoff guide that will be created during Phase 10's repository push; use conditional language: \"When complete, your package will contain 20 deliverables organized as follows...\""
+    },
+    {
+      "id": "L3-2",
+      "category": "must-fix",
+      "section": "BEFORE YOU START BUILDING: THE CREDENTIAL SETUP (D9)",
+      "issue": "The section directs founder to \"Open `/operations/d09-credential-guide.md`\" but D9 has not yet been packaged to the repository\u2014it exists as a Phase 8 artifact being consumed by Phase 10. The file path is premature.",
+      "evidence": "Template Phase 10 context states: \"Load all 20 cross-reference manifests...assemble the deliverable package per the repository structure.\" The repository structure with `/operations/` folder does not exist until Phase 10 push completes. This README references paths that don't yet exist at time of review.",
+      "recommendation": "Replace direct file path references with generic location language: \"Your credential setup guide (D9) walks you through...\" or use placeholder structure: \"In the `/operations/` folder once packaged: `d09-credential-guide.md`...\""
+    },
+    {
+      "id": "L3-3",
+      "category": "must-fix",
+      "section": "THE BUILD PROCESS: YOUR ROADMAP \u2192 Phase Layout",
+      "issue": "The document claims \"Phase 7 (April 15 \u2013 June 10): Build\" but April 15, 2026 has already passed as of the deliverable's stated review date (April 13, 2026 for Phase 9 Validation Report, and this D21 is generated after validation). The timeline references are already stale.",
+      "evidence": "Deliverable header states \"Generation Date: April 13, 2026\" (Phase 9) and this D21 is produced during Phase 10 post-validation. The Phase 7 timeline (April 15 \u2013 June 10) is now imminent or in-progress, not future. Document says \"Phase 7 (April 15 \u2013 June 10): Build\" in present-tense planning mode.",
+      "recommendation": "Update phase timeline language to reflect actual calendar: \"Phase 7 begins April 15, 2026\" (future from April 13 perspective but very near-term); or recalculate if D21 is being generated after April 15 (in which case, use \"Phase 7 is currently running April 15 \u2013 June 10\")."
+    },
+    {
+      "id": "L3-4",
+      "category": "must-fix",
+      "section": "RECOMMENDED READING ORDER \u2014 What to Read When \u2192 When You Start Building (Week 1)",
+      "issue": "The section claims \"D8 (Build Sequence) \u2014 your day-to-day roadmap. Read Week 1 cards (FC-001\u2013FC-015) before starting\" but D8 has 120 build cards across 8 weeks, not organized into weekly files. The document assumes D8 will be packaged as separate weekly files, which contradicts prior phase structure (D8 is a single deliverable, not 8 separate files).",
+      "evidence": "Phase 8 deliverable D8 is structured as a single document with all 120 build cards. The README assumes: \"Read Week 1 cards (FC-001\u2013FC-015)\" implying separate files per week. Prior deliverables confirm D8 is monolithic, not broken into weekly subfiles.",
+      "recommendation": "Clarify D8 consumption model: \"Open D8 (Build Sequence). Navigate to Week 1 section. Read build cards FC-001\u2013FC-015 before starting Phase 7.\" Remove assumption of separate weekly files."
+    },
+    {
+      "id": "L3-5",
+      "category": "must-fix",
+      "section": "CRITICAL SUCCESS CRITERIA FOR PHASE 7 BUILD",
+      "issue": "The success criteria list \"\u2705 Stripe payment link fails\" as a validation requirement, but this is nonsensical\u2014the bullet point reads \"Stripe payment link fails\" with checkmark, implying failure is a success criterion.",
+      "evidence": "Quoted text: \"- \u2705 **Payments working (test mode)** \u2014 Can create test payments, create refunds, webhook handling works \u2014 but immediately after lists \"\u2705 Stripe payment link fails\" as passing criterion with no explanation.\"",
+      "recommendation": "Remove or clarify the \"Stripe payment link fails\" item. Confirm success criteria are actually success conditions (working payments, not failing payments). Likely this is a copy-paste error or incomplete edit."
+    },
+    {
+      "id": "L3-6",
+      "category": "must-fix",
+      "section": "PACKAGE METADATA table",
+      "issue": "The table row \"Repository | [URL]\" is a placeholder with no actual GitHub URL filled in. This is a must-fix because the founder needs the actual repository URL to access the handoff package.",
+      "evidence": "Table shows: \"| Repository | [URL] |\" \u2014 bracketed placeholder not replaced with actual GitHub URL per Phase 10 execution.",
+      "recommendation": "Replace `[URL]` with actual GitHub repository URL. Phase 10 must record the live repository URL at push time (e.g., `https://github.com/rafaeldelgado/oceangoing-platform`)."
+    },
+    {
+      "id": "L3-7",
+      "category": "must-fix",
+      "section": "PACKAGE METADATA table",
+      "issue": "The table row \"Build Stack | Cursor IDE + Claude Code + GitHub Spec Kit\" prescribes specific tools without justification or flexibility. This contradicts Phase 10 guidance that build tools are optional (\"your build tools\" not mandated).",
+      "evidence": "Phase 10 template states: \"Repository structure must be...navigable by these tools\" (optional) and \"Pick whichever matches your workflow.\" D21 states as required: \"Cursor IDE + Claude Code + GitHub Spec Kit\" with no optionality.",
+      "recommendation": "Revise to: \"Recommended Build Tools (optional): Cursor IDE for quick cards, Claude Code for multi-file features, GitHub Spec Kit for team coordination. Use any or all based on your workflow.\""
+    },
+    {
+      "id": "L3-8",
+      "category": "should-improve",
+      "section": "FINAL CHECKLIST BEFORE STARTING PHASE 7 \u2192 First Item",
+      "issue": "The checklist begins with \"D9 (Credential Guide) \u2014 All 12 accounts created\" but D9 Section 1 lists \"7 services pre-build\" not 12 total. The 12-account figure includes services created during-build (WhatsApp, Twilio, Google Analytics, Sentry) which the checklist then marks as \"before Phase 7\" which is inconsistent with D9's own phase-based organization.",
+      "evidence": "D9 manifest clearly separates: \"Pre-Build: 7 accounts\" (GitHub, Supabase, Stripe, Resend, Domain, Hosting, Password Manager); \"During-Build: 3 accounts\" (WhatsApp, Twilio conditional); \"Post-Build: 2 accounts\" (Google Analytics, Sentry). Checklist says \"All 12 accounts created\" before Phase 7 starts, contradicting D9's own timeline.",
+      "recommendation": "Split checklist item into: \"Pre-Phase 7: D9 Pre-Build Accounts (7 total) \u2014 all created \u2713. During-Phase 7: D9 During-Build Accounts (3 total) \u2014 created as Phase 7 cards require them.\""
+    },
+    {
+      "id": "L3-9",
+      "category": "should-improve",
+      "section": "WHERE TO GET HELP \u2192 If You Get Stuck on a Build Card",
+      "issue": "The guidance says \"Start a new conversation with your AI tool. Paste the build card, explain the issue, ask for help.\" This is vague about which AI tool and how to structure the prompt. For a founder new to AI-assisted development, this lacks practical detail.",
+      "evidence": "The section offers no specifics: which tool? how much context to paste? what error information is helpful? Contrast with D9 (Credential Guide) which provides step-by-step instructions with exact button locations and expected outcomes.",
+      "recommendation": "Add concrete example: \"Open Claude.ai (or Cursor IDE). Paste the build card ID and full text (e.g., 'FC-003'). Describe your error: 'POST /api/bookings returns 500, error message: SUPABASE_SERVICE_ROLE_KEY is undefined.' Share your current code snippet. Ask: 'Why is this endpoint failing?'\""
+    },
+    {
+      "id": "L3-10",
+      "category": "should-improve",
+      "section": "THE CORE TECHNOLOGY STACK table",
+      "issue": "The table explains *why* each choice was made (\"Modern, component-based, great dev experience\" for React) but these rationales are founder-facing, not build-team-facing. A developer reading this already knows React's benefits; the rationale adds little value and takes space.",
+      "evidence": "All entries follow pattern: \"Technology | Why chosen\" (e.g., \"Modern, component-based\" for React). This is useful for founder's understanding but not actionable for the build team reading this handoff.",
+      "recommendation": "Either: (A) Move rationales to a separate \"Technology Decision Rationale\" section for founder context, leaving the main table as just technology + version; or (B) Keep rationales but add a second column \"Get Started\" with learning resources or setup links for the build team."
+    },
+    {
+      "id": "L3-11",
+      "category": "should-improve",
+      "section": "READING ORDER \u2014 When You Start Building (Week 1) \u2192 Numbered list item 4",
+      "issue": "Item 4 states \"D8 (Build Sequence) \u2014 Your day-to-day roadmap. Read Week 1 cards (FC-001\u2013FC-015) before starting.\" This implies that ALL Week 1 cards (15 cards) must be read before starting ANY build work. In practice, Phase 7 build team should read the specific card they're working on, not pre-read an entire week. This creates unnecessary friction.",
+      "evidence": "Build cards are self-contained (per Phase 8 design). Reading 15 cards before starting 1 is inefficient. More practical: read the specific card, start building, reference D4/D6 as needed.",
+      "recommendation": "Revise to: \"D8 (Build Sequence) \u2014 Your day-to-day roadmap. Before your shift each day, scan Week N overview to understand dependencies. Read only the specific build card(s) you're implementing that day.\""
+    },
+    {
+      "id": "L3-12",
+      "category": "should-improve",
+      "section": "HOW TO START BUILDING \u2192 Step 1: Set Up Your Accounts (D9)",
+      "issue": "The instruction says \"Complete the 'Pre-Build' section before doing anything else\" but D9 has no section explicitly titled \"Pre-Build.\" It has \"SECTION 1: PRE-BUILD ACCOUNTS\" but a founder using `Ctrl+F` for \"Pre-Build section\" might not find it easily.",
+      "evidence": "D9 uses all-caps section header \"SECTION 1: PRE-BUILD ACCOUNTS\" but README references lowercase 'Pre-Build' without \"SECTION 1\" context. Minor discrepancy but causes founder friction in cross-reference navigation.",
+      "recommendation": "Specify: \"Complete D9 Section 1 (Pre-Build Accounts: GitHub, Supabase, Stripe, Resend, Domain, Hosting, Password Manager) before anything else.\""
+    },
+    {
+      "id": "L3-13",
+      "category": "consider",
+      "section": "BEFORE YOU START BUILDING: THE CREDENTIAL SETUP (D9)",
+      "issue": "The section emphasizes \"2\u20133 hours total (15\u201320 minutes per account)\" but Phase 9 Validation Report shows D9's own credential setup timing is more nuanced: some accounts (GitHub 10 min, Resend 10 min) are fast, while Supabase (20 min) and hosting provider setup (10 min) can have variable completion times depending on verification delays and email confirmation waits.",
+      "evidence": "D9 Section 1 estimates: \"GitHub (10 minutes)\", \"Supabase (20 minutes)\", \"Stripe (15 minutes)\", etc., totaling 2\u20133 hours. But email verifications, SMS verification delays, account approvals can add 15\u201330 minutes of async wait time not captured in \"active time\" estimates.",
+      "recommendation": "Clarify time estimate: \"Total: 2\u20133 hours active time + up to 30 minutes waiting for email/SMS verifications. Plan for afternoon setup with verification emails arriving same day.\""
+    },
+    {
+      "id": "L3-14",
+      "category": "consider",
+      "section": "WHAT'S IN EACH FOLDER \u2192 /specifications/",
+      "issue": "The folder description lists \"D1\u2013D7, D14\" but doesn't explain why D8 (Build Sequence) is *not* in /specifications/ despite being foundational. A founder reading this might assume D8 should be in /specifications/ but it's in /build/. This categorization is unclear.",
+      "evidence": "Specification deliverables are: \"D1\u2013D7, D14\". D8 is \"Build planning\". The distinction between \"what to build\" (/specifications/) and \"how to build it\" (/build/) is logical but not explained in the folder descriptions.",
+      "recommendation": "Add clarification to /specifications/ description: \"These define what your platform does and looks like. Build sequence (how you'll build it) is in /build/, separated to keep specification concerns distinct from implementation planning.\""
+    },
+    {
+      "id": "L3-15",
+      "category": "consider",
+      "section": "TIMELINE & MILESTONES \u2192 Week 1\u20132 \u2192 Gate pass criteria",
+      "issue": "The gate criteria specify \"Course database seeded with 14 courses; booking form creates booking records\" but doesn't specify whether 14 courses should be hardcoded, seeded via SQL script, or added through an admin UI. Without this detail, the build team may create the infrastructure but miss the data requirement.",
+      "evidence": "Gate criteria focus on structure (\"created\") not on execution method. D4 schema includes courses table; D8 doesn't explicitly specify seed-data implementation method. This is a small gap but could cause Week 1 build to pass technical gates without meeting founder's intent of \"courses populated\".",
+      "recommendation": "Add to gate criteria: \"14 courses table populated (via SQL seed script or admin UI) with sample Cabo golf courses (Pebble Beach, El Tinto, etc.) from course list in D4 manifest.\""
+    }
+  ],
+  "summary": {
+    "must_fix": 7,
+    "should_improve": 5,
+    "consider": 3,
+    "total": 15
+  }
+}

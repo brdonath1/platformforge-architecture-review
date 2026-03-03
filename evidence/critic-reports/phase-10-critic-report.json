@@ -1,0 +1,20 @@
+{
+  "quality_score": 7,
+  "critical_issues": [
+    "README Step 1 states 'Four more accounts are created during the build' but then lists five services (Google OAuth, Resend, Stripe, Sentry, UptimeRobot). This arithmetic error will confuse the founder during the build process."
+  ],
+  "contradictions": [
+    "D1 description states 'Identifies 5 competitors (GolfNow, Premier Golf, Golfbreaks, Cabo Platinum, WeTravel)' but D1 manifest exports competitor_count: 6 and lists GolfNow, Premier Golf, Golfbreaks, Cabo Platinum, TeeOff, and Golfscape. WeTravel was identified in D3 Phase 3, not D1. Both the count and the competitor list are wrong.",
+    "D1 description attributes '$150/$125/$100 per-person service fees' to D1, but D1 Section 6.1 and D55-P1-004 state '$75\u2013$125 per person.' The $150/$125/$100 pricing originates from D55-P8-015 in Phase 8. The README misrepresents D1's actual content.",
+    "D5 description states 'Day Zero infrastructure cost: $68.50/month' but D5 Part 7 Consolidated Cost Table explicitly shows Day Zero infrastructure total as '$0/mo.' The $68.50 figure comes from D10, which includes Pro-tier upgrades and 1Password decided in Phase 8, not from D5.",
+    "D7 description claims '39 pages across 10 categories' but D7 Section 6.10 Page Count Summary lists exactly 9 categories (Authentication, Dashboard, Bookings, Clients & Leads, Courses, Network, Payments, Settings, System Pages).",
+    "D2 Permission Matrix Issue #2 from Phase 9 (Team Member referral partner access corrected from create/update to read-only) is described under the Phase 9 Validation Report summary as resolved, but the D2 description in Section 'What's In Each Folder' still references the 'Permission & Access Control Matrix' without noting this was corrected, while the broader README never flags D55-P8-015 pricing as superseding D1's stated pricing, creating an inconsistency in how corrections are surfaced."
+  ],
+  "warnings": [
+    "The README describes deliverable contents using superseded/updated figures from later phases (e.g., D1 pricing, D5 Day Zero cost) without clearly distinguishing between what the deliverable originally stated and what was later superseded. A developer opening D1 will find $75-$125 pricing, not the $150/$125/$100 stated in the README.",
+    "The YAML manifest claims 'stripe_flat_fee_resolved: $0.30 USD per transaction (confirmed \u2014 resolves D55-P5-035)' but Phase 9 Issue #10 explicitly logged this as 'INFO \u2014 Remains Unconfirmed' and placed it on Fernando's agenda. If Phase 10 confirmed this, the resolution should be documented more prominently rather than only appearing in the manifest.",
+    "The manifest field 'build_tool_compatibility: Cursor IDE 2.2+' specifies a minimum version number not established in any prior deliverable. D8 references Cursor IDE without a version constraint.",
+    "The Pre-Launch Checklist item 'Data imported \u2014 all 15 courses, ~180 clients, ~30\u201340 VIP profiles enriched with preferences' is correct on course count but the README's Step 0 Pre-Launch Business Items table item #7 says 'Check all 15 course profiles' and correctly notes Costa Palmas and Solaz as recently added placeholders, which is good \u2014 but Step 3's checklist doesn't carry the placeholder warning, potentially letting a developer skip verification.",
+    "The 'reference' folder description mentions a GLOSSARY.md but the Deliverable Quick Reference table does not list the glossary or the decision history as enumerated deliverables, which could cause confusion about whether they count toward the stated '20 deliverables' total."
+  ]
+}

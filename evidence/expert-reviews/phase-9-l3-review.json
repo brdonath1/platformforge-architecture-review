@@ -1,0 +1,141 @@
+{
+  "layer": 3,
+  "layer_name": "Downstream Consumer",
+  "phase": "9",
+  "findings": [
+    {
+      "id": "P9-001",
+      "category": "must-fix",
+      "section": "Executive Summary",
+      "issue": "Deliverable claims \"Phase 9 certifies structural consistency and completeness\" but Phase 9's own completion gate (end of template) explicitly states \"Pricing freshness is certified by Phase 10's pre-push gate (D-61), not by this report\" \u2014 creating a contradiction about what Phase 9 actually certifies.",
+      "evidence": "Executive Summary: \"Package is internally consistent, cross-references are intact, and it's ready for Phase 10.\" vs. Phase Completion Gate: \"Pricing freshness is certified by Phase 10's pre-push gate (D-61), not by this report.\"",
+      "recommendation": "Revise Executive Summary to clarify Phase 9 certifies structural consistency ONLY; pricing verification is explicitly a Phase 10 gate, not Phase 9's responsibility."
+    },
+    {
+      "id": "P9-002",
+      "category": "must-fix",
+      "section": "Section 0.5: Manifest Corrections Audit",
+      "issue": "The \"Manifest Corrections Audit\" table lists 17 updated D4 fields triggered by three \"resolved critical issues\" (magic link, refund policy, reschedule), but the decision ledger in Section 5 and Clarifications in Section 2 do not match \u2014 some table entries reference decisions that appear nowhere in clarification text.",
+      "evidence": "Table shows \"D4: booking_modifications_table [not present] \u2192 [new table: booking_id, modified_by, ...]\" but Section 2 Clarification #3 says \"booking_modifications table\" in singular and mentions audit trail, yet doesn't fully specify the table structure \u2014 inconsistency between what the manifest table claims was updated vs. what Clarification #3 actually decided.",
+      "recommendation": "Reconcile Section 0.5 manifest audit table against Section 2 clarifications \u2014 either remove entries that don't correspond to actual clarifications, or expand clarifications to justify every manifest change listed."
+    },
+    {
+      "id": "P9-003",
+      "category": "must-fix",
+      "section": "Section 1: Structural Audit Methodology",
+      "issue": "Template specifies \"multi-hop propagation errors\" are Phase 9's core responsibility, but Section 1 begins by running checks ONLY on manifests, not on the actual propagated values \u2014 the D4 table rename scenario described in template (Section 1 context) is never actually validated in the audit steps provided.",
+      "evidence": "Template context_from_prior_phases: \"Phase 4 renames a table. Phase 5 picks up the new name... Phase 8's D12 loaded directly from Phase 4's output and might have the old name.\" But Section 1 of the audit never shows the step where D8 \u2192 D4 table reference consistency is checked.",
+      "recommendation": "Add explicit check in Pass 1 (Name Consistency) that traces table names from D4 \u2192 D6 \u2192 D8 \u2192 D12, verifying the rename propagated through ALL four steps; show evidence of validation."
+    },
+    {
+      "id": "P9-004",
+      "category": "must-fix",
+      "section": "Section 1: Pass 3 (Reference Resolution Check)",
+      "issue": "Table claims \"D20 \u2192 D18 \u2192 D9\" circular reference is verified, but the audit does not show the actual validation steps for this chain; also, D20 references to D9 are not listed in the table at all (table only shows D1\u2192D2, D1\u2192D3, etc.), making completeness unverifiable.",
+      "evidence": "\"All 26 reference pairs tested\" in Pass 3 summary, but reference resolution table only shows ~22 entries (D1\u2192D2 through D20\u2192D18); count doesn't match.",
+      "recommendation": "Either list all 26 reference pairs in the table and show validation for each, or revise the summary count to match actual table entries; ensure D20 \u2192 D9/D18 chain is explicitly shown."
+    },
+    {
+      "id": "P9-005",
+      "category": "must-fix",
+      "section": "Section 3: Research Findings \u2014 Competitive Landscape Refresh",
+      "issue": "Research point 9.2 \"findings\" are narrative only; there is no evidence of live research execution (no Perplexity Sonar query timestamp, no source documentation, no comparison to Phase 1 baseline).",
+      "evidence": "Section 3 states \"Query Timestamp: April 1, 2026, 14:30 UTC\" but does not show actual query results, competitor pricing changes, or any citations to data sources.",
+      "recommendation": "Either document the actual research execution (show query results, competitor websites checked, dates verified) or change the section to state \"Research required before Phase 9 completion; placeholder findings shown for template validation.\""
+    },
+    {
+      "id": "P9-006",
+      "category": "must-fix",
+      "section": "Section 4: Issues Ledger",
+      "issue": "All three issues (Magic Link, Refund Policy, Lucia's Reschedule) are marked \u2705 RESOLVED, but the \"resolution\" shown is the DECISION made, not evidence that the decision was propagated to all affected deliverables and manifests were updated to reflect the change.",
+      "evidence": "Issue 1 states \"Manifest Data \u2014 After Correction\" but then shows only what D2 manifest SHOULD say, not evidence that D4, D6, D8 manifests were actually UPDATED with the decision.",
+      "recommendation": "For each resolved issue, add a line: \"Manifests Updated: [D4 \u2705, D6 \u2705, D8 \u2705, D17 \u2705]\" with timestamps, confirming that manifest corrections from Section 0.5 were actually applied before this report was generated."
+    },
+    {
+      "id": "P9-007",
+      "category": "must-fix",
+      "section": "Section 6: Stale Recommendation Reconciliation",
+      "issue": "Phase 8 decision ledger is referenced but not provided in the context; the audit claims zero stale recommendations but does not show the evidence \u2014 which specific Phase 8 decision ledger entries were reviewed, and how was verification performed?",
+      "evidence": "\"Key Finding: Zero stale decisions. All Phase 1\u20136 decisions remain in force. Phases 7\u20138 produced supporting specifications, not conflicting changes.\" appears without showing the ledger entries that were checked.",
+      "recommendation": "Load and quote Phase 8 decision ledger entries in Section 5 (or as appendix) to prove that stale recommendation flags were actually reviewed, not assumed."
+    },
+    {
+      "id": "P9-008",
+      "category": "must-fix",
+      "section": "Completion Gate Pre-Flight (D-57 Protocol)",
+      "issue": "Gate includes 8 major checklist items, each marked \"VERIFIED,\" but the actual verification steps and evidence are not shown in the preceding sections \u2014 manifests are claimed to be loaded and compared, but no manifest content is actually displayed.",
+      "evidence": "\"\u2611 All 20 cross-reference manifests loaded and parsed\" is checked, but zero manifest content is shown in the report; cannot verify the manifests actually exist or are correctly formatted.",
+      "recommendation": "Append at least 3 sample manifests (e.g., D4, D6, D8) showing their actual structure, so the completion gate verification can be audited; or explicitly state \"Manifest content not shown in report; spot-check 3 random manifests before signing off.\""
+    },
+    {
+      "id": "P9-009",
+      "category": "must-fix",
+      "section": "Section 8: Phase 9 Completion Status",
+      "issue": "Status table claims \"CRITICAL: 0, MAJOR: 3, MINOR: 0\" but earlier sections claim \"CRITICAL\" findings around magic link implementation, refund policy contradiction, and Lucia's reschedule authority \u2014 severity classification is inconsistent with how those issues were presented.",
+      "evidence": "Section 4 introduces the three issues as \"MAJOR\" but the issues involve business logic contradictions (e.g., refund policy ambiguity) that would block build execution \u2014 should be CRITICAL by the template's own definition.",
+      "recommendation": "Reclassify all three issues as CRITICAL (they affect build behavior) or clarify why they are MAJOR instead; add rationale for severity assignment in the issues ledger."
+    },
+    {
+      "id": "P9-010",
+      "category": "must-fix",
+      "section": "Cross-Reference Verification Table (Section 6)",
+      "issue": "Table shows D4 \u2194 D6 \u2194 D8 \u2194 D16 \u2194 D17 references but claims \"zero broken references\"; however, D8 is referenced in the template as containing \"build cards\" with \"feature IDs,\" and the validation never checks whether D8's FC-card numbering system (FC-001, FC-002, etc.) is consistent with D3's feature IDs (F-001, F-002, etc.) \u2014 this is a critical reference that may be broken.",
+      "evidence": "Template says \"D8 build cards \u2192 feature IDs\" should match D3, but the Cross-Reference Verification table does not include a row checking D3 \u2194 D8 build card feature ID mapping.",
+      "recommendation": "Add explicit row to Cross-Reference Verification table: \"D3 (mvp_features IDs) \u2194 D8 (build_cards feature mapping)\" and show evidence that F-001 through F-012 in D3 are all referenced in D8 build cards."
+    },
+    {
+      "id": "P9-011",
+      "category": "should-improve",
+      "section": "Section 2: Critical Clarifications Completed During Phase 10",
+      "issue": "Section title claims these are \"Phase 10\" clarifications but the Phase 9 report is being delivered BEFORE Phase 10 exists \u2014 this appears to be Phase 9 output being mislabeled as containing Phase 10 decisions, creating confusion about when these clarifications were made.",
+      "evidence": "\"Section 2: Critical Clarifications Completed During Phase 10\" but Phase 9 validation report is generated before Phase 10 begins; the clarifications must have been made during Phase 9 review, not Phase 10.",
+      "recommendation": "Rename section to \"Critical Clarifications Identified During Phase 9 Review\" and clarify that these decisions are AWAITING implementation in Phase 8 deliverables, not already implemented."
+    },
+    {
+      "id": "P9-012",
+      "category": "should-improve",
+      "section": "Section 5: Decision Ledger (D-55 Compilation)",
+      "issue": "Decision ledger format is shown for three issues, but the template's D-55 standard format (used in prior phases) is not matched \u2014 missing fields like \"Constraint\" and \"Binds\" that are defined in template behavioral rules for D-55 tracking.",
+      "evidence": "Template says D-55 format should include \"(1) Decision \u2014 what changed, (2) Constraint \u2014 build impact, (3) Binds \u2014 which deliverables updated\" but Section 5 only shows decision text without constraint/binds.",
+      "recommendation": "Reformat Section 5 decision ledger entries to follow D-55 standard: Decision | Constraint | Binds for all three clarifications, with specific list of affected deliverables and manifests."
+    },
+    {
+      "id": "P9-013",
+      "category": "should-improve",
+      "section": "Methodology Observations Tracking Table (end of report)",
+      "issue": "Table collects 8 methodology observations from Phases 1\u20138, but the Phase 9 report itself demonstrates at least 3 of these same patterns (e.g., \"Information Flow Gap\" appears in Phase 8 observations AND in Phase 9's own execution \u2014 magic link logic was unclear during Phase 10 clarification), suggesting Phase 9 didn't catch issues its own methodology should have surfaced.",
+      "evidence": "Methodology observation \"MO-2: Information Flow Gap\" in Phase 2 describes role boundaries being unclear; Section 2 of Phase 9 report then shows magic link flow and Lucia's authority requiring clarification \u2014 same issue recurred.",
+      "recommendation": "Add Phase 9 self-reflection: \"Phase 9 audit encountered [N] of the same information flow gaps documented in Phases 1\u20138, suggesting the upstream pre-flight (D-57) and cross-phase consistency checking need reinforcement before Phase 10.\""
+    },
+    {
+      "id": "P9-014",
+      "category": "consider",
+      "section": "Certification Statement (Section 10)",
+      "issue": "Report certifies \"\u2705 Name consistency verified across all 20 deliverables\" but D8 and D20 are only 2 of 20 known to downstream reviewer; the deliverables listed in prior_deliverables context include only 7 full deliverables (D1, D2, D3, D4, D5, D6, D8, D9, D10, D11, D15, D16) plus stubs for D12\u2013D20, so completeness of \"all 20\" is not verifiable.",
+      "evidence": "Context shows Phase 8 deliverables D12\u2013D20 are listed as \"CONTENT REQUIRED\" or \"Not yet synthesized,\" meaning Phase 9 audit cannot have validated their manifests.",
+      "recommendation": "Clarify in certification statement: \"Validated 12 complete deliverables (D1\u2013D11, D15\u2013D16); D12\u2013D20 manifests not yet available for cross-phase validation; full 20-deliverable validation deferred to Phase 9B after D12\u2013D20 synthesis.\""
+    },
+    {
+      "id": "P9-015",
+      "category": "consider",
+      "section": "Competitive Landscape Refresh (Section 3)",
+      "issue": "Research point 9.2 returns \"no material changes\" but does not address whether the Phase 5 selection of specific services (Supabase, Stripe, Resend, Railway) has changed in competitive landscape \u2014 only competitor platforms are checked, not service provider changes.",
+      "evidence": "Section 3 checks GolfNow, TravelGolf, Fore Club, regional operators; does NOT check if Supabase, Stripe, Resend, Railway have new competitors or if costs have changed since Phase 5.",
+      "recommendation": "Extend research 9.2 to include: \"Verified service provider selections (Supabase, Stripe, Resend, Railway) remain current best-of-breed; no superior alternatives identified; pricing stable since Phase 5 baseline.\""
+    },
+    {
+      "id": "P9-016",
+      "category": "consider",
+      "section": "Phase 9 Validation Report Template (Section 9: Methodology Notes)",
+      "issue": "The phase template specifies that \"Methodology Observations\" section should be generated AFTER the completion gate, but this report generates it BEFORE (and labels it \"INTERNAL \u2014 not presented to founder\"), creating ambiguity about whether this section is part of the formal validation report output or a separate artifact.",
+      "evidence": "Template says \"Before the completion gate, perform this analysis... Produce the Methodology Observations section of the Validation Report\" but then says \"This section is for methodology improvement only \u2014 do NOT present it to the founder.\"",
+      "recommendation": "Clarify: Is the Methodology Observations section a required output of the Validation Report (Section 9 of formal report), or an internal tracking artifact? If internal, move it outside the formal report structure."
+    }
+  ],
+  "summary": {
+    "must_fix": 10,
+    "should_improve": 3,
+    "consider": 3,
+    "total": 16
+  }
+}

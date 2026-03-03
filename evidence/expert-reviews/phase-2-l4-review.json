@@ -1,0 +1,157 @@
+{
+  "layer": 4,
+  "layer_name": "Founder Comprehension",
+  "phase": "2",
+  "findings": [
+    {
+      "id": "L4-1",
+      "category": "should-improve",
+      "section": "Section 1.1, Rafael's Role Description",
+      "issue": "Rafael's \"Data Sensitivity: Highest\" and \"Audit logging is essential\" are stated but never explained to a founder in plain business language about why this matters to him.",
+      "evidence": "Section 1.1 states \"Data Sensitivity: Highest \u2014 Rafael has unrestricted access to all business data. Audit logging is essential so Rafael's actions are recorded for dispute resolution and compliance.\" No explanation of the business impact: why does Rafael care that his actions are logged?",
+      "recommendation": "Add one sentence explaining the founder-facing consequence: \"This means every decision you make is recorded so that if a client disputes a refund or a course contact claims miscommunication, you have proof of what happened and when.\""
+    },
+    {
+      "id": "L4-2",
+      "category": "should-improve",
+      "section": "Section 1.1, Lucia's Role - \"Decision Authority & Workflows\"",
+      "issue": "The three-tier decision system is introduced to Lucia but never explained to Rafael (the founder) in terms of what it means for his workload and why this design helps him.",
+      "evidence": "Section 1.1 lists Tier 1, 2, and 3 decisions with detailed examples, but the preamble does not explain: \"This tier system is designed to free you from 60-70% of operational decisions so you can focus on course relationships and business development. Lucia can approve tier 1 independently without asking you.\"",
+      "recommendation": "Add a founder-facing paragraph above the tier table explaining that the tiers are designed to delegate routine decisions to Lucia and only escalate medium/high-risk decisions to Rafael, directly enabling the \"free Rafael's time\" business goal."
+    },
+    {
+      "id": "L4-3",
+      "category": "should-improve",
+      "section": "Section 1.1, Course Contacts Role",
+      "issue": "The \"Communication Channel: Email and SMS notifications...\" explanation uses technical jargon (\"embedded action links\", \"one-click confirmation\") without explaining why this matters to the founder's business.",
+      "evidence": "Section 1.1 states \"Email with embedded one-click confirmation links + optional SMS for time-sensitive requests. Not a login portal (too much friction); notification-driven workflow.\" No business impact explanation for why \"not a login portal\" is critical to the founder's success.",
+      "recommendation": "Explain the founder-facing consequence: \"We're NOT building a portal course contacts have to log into because that adds friction and kills adoption. Instead, they get an email saying 'Confirm this tee time?' and click yes/no in 30 seconds. This is why they'll actually use it instead of reverting to WhatsApp.\""
+    },
+    {
+      "id": "L4-4",
+      "category": "must-fix",
+      "section": "Section 2 (User Lifecycle Maps), All Roles",
+      "issue": "The lifecycle maps describe what each user does at each stage but never connect the stages to business outcomes (e.g., \"this stage is where we risk losing the client\" or \"this is where repeat rate is determined\").",
+      "evidence": "Section 2.1 (Rafael's Operational Lifecycle) walks through 5 stages with detailed work description but only one drop-off risk is identified (\"Stage 2 \u2014 Rafael decides request is not a good fit\"). No clarity on which stages are highest-risk for business failure or where the platform has the biggest impact.",
+      "recommendation": "For each lifecycle map, add a summary row at the end: \"Business Impact: Stage X is where [customer acquisition/repeat rate/satisfaction] is determined. Platform impact: [feature] reduces drop-off from Y% to Z%.\""
+    },
+    {
+      "id": "L4-5",
+      "category": "should-improve",
+      "section": "Section 3 (User Relationship Diagram)",
+      "issue": "The relationship diagram uses technical UML-style notation that a non-technical founder may find hard to parse (boxes, arrows, relationship lines without legend).",
+      "evidence": "Section 3 includes ASCII diagram with multiple levels of nesting, arrows labeled with parenthetical descriptions like \"(delegates operations)\" and \"(maintains relationships)\". No plain-language summary explaining what the founder is looking at.",
+      "recommendation": "Add a 3-sentence summary above the diagram: \"This shows who reports to whom, who communicates with whom, and which relationships exist. At the center is you (Rafael) making strategic decisions. Lucia runs day-to-day operations and you avoid spending time on tasks she can handle.\""
+    },
+    {
+      "id": "L4-6",
+      "category": "must-fix",
+      "section": "Section 4.1 (Permission & Access Control Matrix)",
+      "issue": "The matrix is highly granular (26 rows x 7 columns) and uses abbreviations (\u2705, \u274c) without adequate context for a founder to understand what the permission model actually means for how the platform operates.",
+      "evidence": "Section 4.1 is a dense table with entries like \"Lucia | \u2705 All active/pending\" vs. \"\u2705 Tier 1 (same course, same dates)\" with no summary explaining: \"What does this matrix tell you about who can do what?\" or \"What's the real-world impact if Lucia accidentally gets access to financial data?\"",
+      "recommendation": "Add a founder-facing summary paragraph above the matrix: \"This matrix shows what each person can see and modify. The key rule: Lucia can see all active client bookings and approve simple changes, but cannot see your financial data or course negotiation notes. Course contacts only see their own requests. This keeps operational data transparent to your team while protecting business strategy.\""
+    },
+    {
+      "id": "L4-7",
+      "category": "should-improve",
+      "section": "Section 4.2 (Data Visibility Principles)",
+      "issue": "The role descriptions explain what each role can see, but never explain the founder-facing reason: \"Why does Lucia NOT see financial data? What bad thing happens if she does?\"",
+      "evidence": "Section 4.2 states \"Lucia... does NOT see: financial data, commission details, course strategy notes\" with no explanation. A founder might wonder: \"Is this a trust issue? A technical limitation? Why can't she see financial data if she's my right hand?\"",
+      "recommendation": "Add a sentence explaining the founder logic for each restriction. Example: \"Lucia doesn't see commission rates because if she knew you were making 20% on Palmilla but only 10% on Quivira, she might unconsciously push clients toward Palmilla. Keeping her focused on client fit, not commission, keeps the service premium-focused.\""
+    },
+    {
+      "id": "L4-8",
+      "category": "should-improve",
+      "section": "Section 5 (User Onboarding Requirements)",
+      "issue": "The onboarding checklists are detailed but never explain to the founder why these onboarding steps matter to his business success or risk if they're skipped.",
+      "evidence": "Section 5.1 lists \"Walk through dashboard layout\", \"Understand role-based view\", \"Set up email/SMS notifications\" with no context about consequence. Section 5.4 (Clients) mentions \"Aha moment happens here\" but provides no business metric that ties onboarding quality to repeat rate or satisfaction.",
+      "recommendation": "For each onboarding section, add a \"Success Metric\" line: \"Rafael: If Rafael completes onboarding but doesn't understand tier boundaries, Lucia will escalate simple decisions, costing 5+ hours/week in unnecessary coordination. Client: If client onboarding doesn't clearly explain how to modify their trip, support tickets increase by 30% in first week.\""
+    },
+    {
+      "id": "L4-9",
+      "category": "must-fix",
+      "section": "Section 6 (Compliance & Accessibility Requirements)",
+      "issue": "The compliance section introduces GDPR, CCPA, PCI-DSS, and data retention policies but never explains to the founder what these mean in plain English or why he should care.",
+      "evidence": "Section 6.1 states \"GDPR (If EU clients ever book): EU clients have right to data access...\" with technical definitions but no founder-facing explanation like \"This means if a customer from Germany books, you must be able to send them all their personal data within 30 days or face a \u20ac20,000 fine.\"",
+      "recommendation": "For each regulation, add a one-sentence founder summary: \"GDPR: European customers can demand a copy of their data. Your platform must be able to export their client record within 30 days or you're breaking the law. CCPA: Same rule for California customers. PCI-DSS: Stripe handles this, so you're compliant as long as you don't store credit card numbers directly.\""
+    },
+    {
+      "id": "L4-10",
+      "category": "should-improve",
+      "section": "Section 7 (Scale-Emergent User Types)",
+      "issue": "The deferred roles (Finance Manager Year 2+, Client Success Manager Year 2+) are described, but the founder has no clarity on what triggers the hiring decision or what it will cost his business.",
+      "evidence": "Section 7.1 states \"Trigger Condition: Lucia's workload reaches 30-35 hours/week; additional ops person needed to prevent burnout.\" This is descriptive but doesn't translate to a founder decision: \"At what booking volume? What month of year 1? What salary should I budget?\"",
+      "recommendation": "For each scale-emergent role, add a \"Founder Decision Gate\" line: \"Second Ops Manager: Hire when Lucia reaches 30 hours/week AND you have 50+ bookings/month. Estimated Month 9-12 of Year 1. Budget $50-60K/year salary + benefits. Finance Manager: Hire when you have 60+ bookings/month AND invoicing courses manually takes 10+ hours/month. Estimated Month 6-9 of Year 1.\""
+    },
+    {
+      "id": "L4-11",
+      "category": "should-improve",
+      "section": "Section 1.1, Lucia's \"Estimated Weekly Time Commitment at Scale\"",
+      "issue": "The scaling projection (15-20 hours/week at launch \u2192 25-30 hours/week at 600-800 clients) is presented as fact without explaining how the platform achieves this efficiency or what it means for Lucia's hiring timeline.",
+      "evidence": "Section 1.1 shows time commitments scaling from 15-20 hours (180 clients) to 25-30 hours (600-800 clients), but doesn't explain: \"Is this realistic? What features of the platform make Lucia more efficient per booking? If she's working 30 hours/week at 600-800 clients, when do you hire the second person?\"",
+      "recommendation": "Add a note for the founder: \"These time estimates assume the platform reduces per-booking time from ~1 hour (current manual process) to ~15-20 minutes (platform-assisted). If we don't hit this efficiency, Lucia hits 40 hours/week at 300 clients instead of 600, and you hire a second ops person 9 months earlier. Phase 7 will validate these assumptions through testing.\""
+    },
+    {
+      "id": "L4-12",
+      "category": "should-improve",
+      "section": "Section 3 (User Relationship Diagram) - Multi-operator future",
+      "issue": "The diagram includes a \"FUTURE (Stage 3+)\" section showing multi-operator architecture, but no explanation of what triggers the decision to expand to a second operator or what the founder should know about this milestone.",
+      "evidence": "Section 3 shows \"FUTURE (Stage 3+)\" with operators in Puerto Vallarta, Riviera Maya, etc., but the narrative never explains: \"What makes you decide to license to a second operator? What's the business model? Revenue split? When will this be possible?\"",
+      "recommendation": "Add a founder-facing explanation: \"Multi-operator expansion (Stage 3) happens when: (1) Your Cabo business is stable and profitable, (2) Another trusted concierge operator approaches you wanting your platform, and (3) You're ready to shift from 'tool for my business' to 'SaaS platform for others.' This is a major strategic decision with revenue implications (recurring licensing fees). We design for it now but you'll decide later whether to pursue it.\""
+    },
+    {
+      "id": "L4-13",
+      "category": "consider",
+      "section": "Section 1 (User Role Matrix)",
+      "issue": "The role matrix is comprehensive but very long. A founder might get lost in the detail and not extract the key insight: \"There are 4 critical users I need to manage at launch.\"",
+      "evidence": "Section 1 spans 1.1-1.3 with detailed descriptions of 7 roles (4 MVP, 3 deferred). No executive summary at the top saying \"Your platform has 4 core users at launch and 3 additional roles architected for Year 2+.\"",
+      "recommendation": "Add a one-page visual summary at the start of Section 1: a simple table or infographic showing \"4 MVP Roles\" with icons, names, and one-line jobs (e.g., \"Rafael: Makes decisions | Lucia: Runs operations | Course Contacts: Confirm tee times | Clients: View itineraries\"). This lets the founder grasp the user universe at a glance before diving into detail."
+    },
+    {
+      "id": "L4-14",
+      "category": "should-improve",
+      "section": "Appendix B (Decision Ledger)",
+      "issue": "The decision ledger is comprehensive and technically sound, but never explained to the founder in terms of why tracking these decisions matters to him or what he should do with this ledger.",
+      "evidence": "Appendix B lists 14 decisions (D55-P2-001 through D55-P2-014) with Constraint and Binds, but includes no preamble explaining: \"What is this ledger? Why should you read it? How will it affect your build?\"",
+      "recommendation": "Add a founder-facing preamble: \"This ledger captures 14 major decisions made in Phase 2 and documents how they affect Phases 3-8. For example, Decision #2 (Lucia's tier authority) constrains how Lucia can work and requires Phase 5 to build permission enforcement into the API. If you change your mind on a decision later (e.g., 'Actually, Lucia should be able to approve course changes'), this ledger shows what downstream changes will be needed.\""
+    },
+    {
+      "id": "L4-15",
+      "category": "should-improve",
+      "section": "Section 9 (Risk & Assumption Validation)",
+      "issue": "Risks are identified (course contact adoption, Lucia's tier confusion, client expectation misalignment) but no explicit action items or founder decisions are requested.",
+      "evidence": "Section 9.1 lists three risks with mitigation strategies, but ends with description rather than decision. Example: \"Risk: Lucia's Tier Authority Confusion. Mitigation: UI-enforced tiers...\" with no \"Do you agree to this mitigation? What else would you add?\"",
+      "recommendation": "After each risk, add a \"Founder Confirmation\" line: \"Do you agree this is a real risk? Should we prioritize UI enforcement of tiers in Phase 5, or do you prefer training-only approach? Any other mitigation steps you'd suggest?\" This converts the risk section from informational to decision-oriented."
+    },
+    {
+      "id": "L4-16",
+      "category": "must-fix",
+      "section": "Section 2.1 (Rafael's Operational Lifecycle)",
+      "issue": "The lifecycle describes Rafael's work, but the founder is never told how the platform changes Rafael's workload at each stage or why this design benefits his business.",
+      "evidence": "Section 2.1 walks through 5 stages of Rafael's lifecycle (Decision & Relationship Building, Vendor Coordination, Booking Confirmation, Relationship Maintenance, Post-Trip). Each stage describes his work but not the platform's role: \"What was Rafael doing manually before the platform? What is the platform doing for him now?\"",
+      "recommendation": "For each stage, add a \"Platform Impact\" bullet: \"Stage 1 (Decision & Relationship Building): Platform captures client preferences in booking form, so Rafael doesn't have to take email inquiries. Stage 2 (Vendor Coordination): Platform sends tee time requests to courses automatically and tracks responses, so Rafael doesn't manually email 14 courses. This saves Rafael ~3 hours per booking, which is the entire efficiency gain for the business.\""
+    },
+    {
+      "id": "L4-17",
+      "category": "should-improve",
+      "section": "Section 4.3 (Multi-Tenancy & Data Isolation Rules)",
+      "issue": "The multi-tenancy section uses technical database language (\"operator_id\", \"queries filter by operator_id\") without explaining to the founder why this architectural choice matters or what it enables.",
+      "evidence": "Section 4.3 states \"All data is tagged with `operator_id = \"rafael_cabo\"` (even though it's the only operator)\" and \"Each operator instance has completely isolated data (operator A cannot access operator B's clients, courses, or bookings).\" This is technically correct but founder-facing context is missing.",
+      "recommendation": "Add a founder-facing explanation: \"We're building the platform so that when you license it to a second operator, their data is completely separate from yours. A Puerto Vallarta operator will have their own clients, courses, and bookings \u2014 they won't see your data, and you won't see theirs. This isolation is built from day one so we don't have to rebuild the database architecture later. This is a strategic decision that makes the SaaS licensing business model possible.\""
+    },
+    {
+      "id": "L4-18",
+      "category": "should-improve",
+      "section": "Section 2.4 (Client / Trip Organizer Lifecycle) - Stage 6 & 7",
+      "issue": "The post-trip feedback and repeat client lifecycle sections describe operational flows but never quantify the business impact: \"What's the conversion rate from post-trip survey to repeat booking? How much does the repeat rate improve with Client Success Manager outreach?\"",
+      "evidence": "Section 2.4 Stage 6 mentions \"Repeat booking is faster\" and lists \"Repeat Client Retention\" metrics (target 60-70% of annual clients rebook within 18 months), but doesn't explain: \"Is 60-70% realistic? What's the current rate? How will the platform help you achieve this?\"",
+      "recommendation": "Add founder-facing context: \"You're currently at 40% repeat rate. The platform improves this by: (1) Client itinerary makes the service feel premium and professional, increasing satisfaction. (2) Client Success Manager proactive outreach (Year 2+) reminds repeat clients about Ocean Golf when they're thinking about their next trip. Conservative estimate: platform + CSM pushes you to 60-70% repeat rate by Year 3. Each repeat client has 3-5x higher lifetime value than one-time clients, so this is your biggest revenue lever.\""
+    }
+  ],
+  "summary": {
+    "must_fix": 4,
+    "should_improve": 13,
+    "consider": 1,
+    "total": 18
+  }
+}

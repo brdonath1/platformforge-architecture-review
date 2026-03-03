@@ -1,0 +1,50 @@
+<interview_brief phase="2">
+  <summary>24 should-improve items found across L2 (6), L3 (5), L4 (13) for Phase 2 deliverable.</summary>
+
+  <topic_group source="L2 -- Domain Expert (Head of Product / UX Research Director)">
+    <topic id="SI-2-L2-1">
+      <context>Section 2.4 (Client lifecycle) ends at Stage 6 (Post-Trip Feedback) with "Conversion Metric: Did the client have a great experience? Will they rebook?" but does not describe what happens if the answer is "no" or if the trip had problems.</context>
+      <gap>The lifecycle maps describe the happy path (normal trip execution) but do not include failure modes or churn scenarios. What does a client lifecycle look like if something goes wrong during the trip, or if a client is unsatisfied post-trip?</gap>
+      <question>Add "Stage 7: Churn / Recovery Path" to each primary role's lifecycle, describing: "If a client is dissatisfied (NPS <6 post-trip survey), what is the recovery workflow? Does Rafael personally follow up? Is there a refund, credit, or future trip discount? What determines whether the client is lost (churned) or retained (converted to recovery)?" This is critical for understanding where the business is vulnerable and is a Phase 3 feature requirement (issue resolution workflows).</question>
+    </topic>
+    <topic id="SI-2-L2-2">
+      <context>Section 1.1 states "Estimated Weekly Time Commitment at Scale: September 2026 (180 annual clients): ~25-30 hours/week... Year 3 (1,200-1,500 clients): ~15-20 hours/week (relationship maintenance is fixed, not scaling with volume)." However, Phase 1 already flagged (D55-P1-002) that relationship work is fixed overhead, not variable. If relationship work is 40-60 hours/year (5-8 hours/week), the projection of 15-20 hours/week for Rafael at Year 3 seems inconsistent (who is doing the remaining 7-15 hours/week if not relationship work and not transactional work?).</context>
+      <gap>The deliverable projects Rafael's time commitment will decline from 25–30 hours/week at launch to 15–20 hours/week at Year 3 scale (1,200–1,500 clients), but does not address whether this assumption is realistic or what happens if the assumption is wrong.</gap>
+      <question>Clarify the 15-20 hours/week projection: "This assumes transactional coordination is 100% delegated to Lucia and second ops staff (0 hours/week for Rafael). Relationship maintenance is estimated 5-8 hours/week. Strategic oversight (reviewing metrics, approving major decisions, hiring) is estimated 7-12 hours/week. This totals 12-20 hours/week, with the range reflecting seasonality (peak season is higher, off-season is lower). Validation: Track Rafael's actual hours quarterly starting Month 1 and adjust this projection based on real data." This is a Phase 8 operations planning assumption that needs monitoring.</question>
+    </topic>
+    <topic id="SI-2-L2-3">
+      <context>Section 2.3 describes "Tee Time Request" (course receives request, confirms or denies) but does not include a "Mid-Trip or Post-Confirmation Change" stage if, for example, a course has a plumbing emergency and needs to cancel Rafael's confirmed tee time 3 days before the trip.</context>
+      <gap>The Course Contact lifecycle describes the happy path (course receives notification, confirms, done) but does not address what happens if a course contact's availability changes mid-trip or if they need to cancel a confirmed tee time.</gap>
+      <question>Add "Stage 4: Mid-Trip or Post-Confirmation Changes" to Course Contact lifecycle: "If a course contact needs to cancel or modify a confirmed booking after Rafael has confirmed with the client, course contacts must notify Lucia immediately (24-hour window before tee time). Lucia escalates to Rafael. Rafael contacts client with alternative options (different course, different time, refund). This is a high-risk scenario for client satisfaction and business reputation. Platform must support rapid notification and alternative matching." This is a Phase 3 feature (issue notification and escalation) and Phase 6 alert system requirement.</question>
+    </topic>
+    <topic id="SI-2-L2-4">
+      <context>Section 5 provides checklists for Rafael, Lucia, Course Contacts, and Clients but does not specify: "Rafael's onboarding is self-taught using written documentation and demo environment. Lucia's onboarding is trained by Rafael over 2 days using real bookings as examples." Without this, Phase 8 may not allocate sufficient time or resources for onboarding execution.</context>
+      <gap>The onboarding requirements are described separately for each role, but the deliverable does not specify how onboarding is sequenced or who trains whom. For example, does Rafael train Lucia? Does an external consultant train Rafael?</gap>
+      <question>Add "Onboarding Sequencing & Training Ownership" section before detailed checklists: "Sequencing: (1) Rafael onboards first (self-service, 2-3 hours over 1 week), (2) Lucia onboards in Week 2 (Rafael trains, ~6 hours over 2-3 days), (3) Course contacts onboard in Week 3 (Rafael calls each contact, ~15-30 min per contact), (4) Clients onboard on-demand as they book. Ownership: Rafael owns all onboarding except Client onboarding (automated emails). Success criteria: Lucia can independently manage 10 bookings end-to-end with zero Rafael involvement before peak season launch." This is a Phase 8 timeline and resource planning requirement.</question>
+    </topic>
+    <topic id="SI-2-L2-5">
+      <context>Section 4.1 states "CLIENT: ✅ (own itinerary as PDF)" under EXPORT DATA, but provides no detail on formats, export restrictions, or what data is included/excluded in the export.</context>
+      <gap>The matrix states Clients can "export own itinerary as PDF" but does not specify whether clients can export it in other formats (email, print, shared link) or whether the export includes sensitive data (pricing breakdown, commission information).</gap>
+      <question>Clarify: "Clients can export their itinerary in PDF, email (send itinerary directly to group members), or print formats. Export includes: tee times, villa address, restaurant reservations, transportation details, contact info. Export excludes: service fee breakdown, commission structure, course contact names, internal notes. This supports the principle of showing clients the experience while hiding the machinery." This is a Phase 6 export feature design requirement.</question>
+    </topic>
+    <topic id="SI-2-L2-6">
+      <context>D55-P2-001 Binds field states "Phase 3 (feature prioritization must weight features...)" but the actual phase name from the phase template is not specified (is this "Phase 3: Features" or "Phase 3: Feature Prioritization"?). This inconsistency makes it difficult to cross-reference across the methodology document.</context>
+      <gap>The decision ledger entries reference "Phase 3," "Phase 4," "Phase 5," "Phase 6," "Phase 7," "Phase 8" in the Binds field, but the phase numbers and names are not consistent with the phase template naming. For example, "Phase 6" could mean either "Design System" or "UI/UX Design" depending on the phase naming convention used elsewhere in the methodology.</gap>
+      <question>Standardize Binds field to use consistent phase naming format. Example: "D55-P2-001 Binds: Phase 3 (Features: feature prioritization must weight features that deepen client relationships...), Phase 5 (Technical Architecture: technical architecture must support concierge-first workflows...), Phase 6 (Design System: design system must reinforce premium, organized positioning...)." Include phase names in parentheses to avoid ambiguity. This improves cross-deliverable traceability in Phase 9 verification.</question>
+    </topic>
+  </topic_group>
+
+  <topic_group source="L3 -- Downstream Consumer (Product Manager / VP Product)">
+    <topic id="SI-2-L3-1">
+      <context>D2 Section 1.1 documents the three tiers but not the response time requirement. D2 Section 2.1 (lifecycle) implies Rafael responds within a reasonable timeframe but does not quantify.</context>
+      <gap>Rafael's decision authority is clearly defined (Tier 1/2/3), but there is no SLA documented for response time. For example, if Lucia escalates a Tier 2 decision to Rafael and he is unavailable, what happens? Does the client booking sit pending indefinitely?</gap>
+      <question>Add to Rafael's Decision Authority section: "Response time SLA for escalations: Lucia routes Tier 2 decisions to Rafael with notification. Rafael reviews and approves/denies within 24 hours during peak season, 48 hours during off-season. If Rafael cannot respond within SLA, Lucia may implement temporary hold and contact Rafael via backup channels (WhatsApp, phone)."</question>
+    </topic>
+    <topic id="SI-2-L3-2">
+      <context>D2 Section 4.3: "All data is tagged with operator_id = 'rafael_cabo'...All queries filter by operator_id automatically." But no documentation of initialization or operator migration procedures.</context>
+      <gap>The section states "All data is tagged with operator_id...even though it's the only operator" but does not document how operator_id is set during initial system setup or how it would be changed if Rafael's operator instance were ever transferred or sold.</gap>
+      <question>Add: "During initial system setup, operator_id is hardcoded to 'rafael_cabo' for MVP. In Phase 3+, if multi-operator licensing is activated, an admin interface allows creating new operator instances with unique operator_id. Operator data migration (if ownership changes) is documented in Phase 8 operations procedures but is not anticipated for MVP."</question>
+    </topic>
+  </topic_group>
+
+</interview_brief>

@@ -1,0 +1,50 @@
+<interview_brief phase="5">
+  <summary>25 should-improve items found across L2 (3), L3 (9), L4 (13) for Phase 5 deliverable.</summary>
+
+  <topic_group source="L2 -- Domain Expert (CTO / VP Engineering)">
+    <topic id="SI-5-L2-1">
+      <context>Phase_conversation_structure Area 3 (API Design): "Design search, filtering, and pagination patterns — these are universal across entities" and "Document pagination conventions, filtering patterns, search implementation" — D5 should specify the chosen approach, not leave it open.</context>
+      <gap>Section 3.3 documents "Pagination structure: Standardize on cursor-based or offset-based pagination" but does not specify which was chosen for Ocean Golf. Template requires: "Document pagination conventions" and "default and maximum page sizes." Missing specifics: Is Ocean Golf using cursor-based (safer for large datasets) or offset-based (simpler)? What are the limit defaults and max limits?</gap>
+      <question>Add explicit pagination specification: "Ocean Golf uses offset-based pagination for MVP (simpler for initial scale). Default limit: 50 records. Maximum limit: 200 records. Clients request via ?limit=50&offset=0 query parameters. Growth Phase (Month 6+): migrate to cursor-based pagination if offset-based shows performance issues at scale. All list endpoints return meta.total_count, meta.has_next, meta.offset, meta.limit in response envelope."</question>
+    </topic>
+    <topic id="SI-5-L2-2">
+      <context>Template phrase: "Document: caching strategy (how long fetched data stays valid before re-fetching), cache invalidation (when a user creates or updates something, which cached queries need to be refreshed), and optimistic updates (showing the change immediately while the API call is still in flight, then rolling back if it fails)." — D5 shows generic caching but not Ocean Golf-specific invalidation logic (e.g., "when course_request status changes to 'confirmed', invalidate [bookings, course_requests, itineraries] caches for that booking").</context>
+      <gap>Section 4.1 documents TanStack Query but does not specify cache invalidation triggers for Ocean Golf-specific operations (e.g., "when course confirmation arrives, which cached queries should be invalidated?"). Template requires: "Cache invalidation (when a user creates or updates something, which cached queries need to be refreshed)." Missing specifics for Ocean Golf domain.</gap>
+      <question>Add section "4.1.X Cache Invalidation Rules for Ocean Golf" specifying: When booking status changes → invalidate bookings list + specific booking detail. When course_request confirmed → invalidate booking detail + itineraries. When payment received → invalidate payments list + booking detail. When booking_modification approved → invalidate booking detail + modification list. Ensures Phase 7 developer implements consistent cache invalidation logic.</question>
+    </topic>
+    <topic id="SI-5-L2-3">
+      <context>Section 5.1-5.6 document integrations but lack explicit "What if webhook fails?" scenarios. E.g., Stripe webhook delivers payment_succeeded but Ocean Golf's webhook handler crashes before updating booking status — booking is stuck in 'awaiting_payment' forever. Idempotency key strategy not documented.</context>
+      <gap>Section 5.4 (Stripe webhook) documents webhook handling generically ("verify signature, extract data, update booking") but does not specify retry logic for failed webhook deliveries or webhook idempotency strategy. Template requires: "For each integration: webhook handler...error handling and fallback behavior." Missing: What happens if Stripe webhook delivery fails? What's the retry strategy?</gap>
+      <question>Add subsection "5.X Webhook Reliability & Idempotency" specifying: All webhooks handled via idempotency key (e.g., Stripe payment_intent.id as key). Ocean Golf stores (webhook_source, source_id) tuple to prevent duplicate processing. If webhook delivery fails (network timeout), Stripe retries per [Stripe retry policy]. Ocean Golf maintains webhook delivery log for audit. Adds robustness to integration layer.</question>
+    </topic>
+  </topic_group>
+
+  <topic_group source="L3 -- Downstream Consumer (Design Director / Principal Designer)">
+    <topic id="SI-5-L3-1">
+      <context>Section 4.3 describes SSE connection: "Middleware must refresh the auth session on every request." Section 5 states "Connection times out after 30 minutes of inactivity. Frontend automatically reconnects." No details on: (a) heartbeat interval, (b) how frontend detects stale connection, (c) how many reconnect attempts before giving up, (d) backoff strategy.</context>
+      <gap>Real-time architecture mentions Server-Sent Events (SSE) but does not specify timeout, heartbeat, or reconnection strategy. Long-lived connections need explicit lifecycle management.</gap>
+      <question>Add subsection: "Real-Time Connection Lifecycle: heartbeat every 30 seconds (comment-only frame), automatic reconnection on disconnect, exponential backoff (1s, 2s, 4s, 8s, 30s cap), max 5 reconnect attempts before user sees error. After reconnect, frontend re-subscribes to event channels."</question>
+    </topic>
+    <topic id="SI-5-L3-2">
+      <context>Section 6 "Security Architecture" lists CORS as a protection mechanism but Section 7 (Security Specification in outputs) mentions "CORS policy" without definition. No statement of which domains are allowed to make requests to the API.</context>
+      <gap>CORS (Cross-Origin Resource Sharing) policy is not specified. Template mentions "CORS policy" under security but D5 provides no allowed origins, credentials handling, or preflight details.</gap>
+      <question>Add CORS specification: "Allowed Origins: https://oceangolf.com (production), https://staging.oceangolf.com (staging), localhost:3000 (development). Credentials: include. Methods: GET, POST, PATCH, DELETE. Headers: Content-Type, Authorization. Preflight cache: 86400 seconds."</question>
+    </topic>
+    <topic id="SI-5-L3-3">
+      <context>Template states: "Design the rollback procedure (how to undo a bad deployment quickly)." Deliverable Section 8 says "If health check fails, rollback to previous version automatically" but provides no procedural steps, no Railway-specific rollback UI, no how-to for manual rollback if automatic fails.</context>
+      <gap>Rollback procedures are mentioned ("how to undo a bad deployment") but no specific steps or command examples are provided. Phase 7 build team will not know HOW to rollback.</gap>
+      <question>Add rollback procedure: "Railway automatic rollback: if health check fails after deploy, old instance stays live, new instance terminates, developer is alerted. Manual rollback: `railway up [previous_commit_sha]` or revert deployment in Railway dashboard and redeploy. Rollback SLA: <5 minutes from failure detection. Test rollback quarterly."</question>
+    </topic>
+    <topic id="SI-5-L3-4">
+      <context>Section 6.2 shows token generation and verification code but no statement of: (a) how long a CSRF token is valid, (b) does token get refreshed on each request, (c) can same token be used multiple times, (d) what happens if token expires mid-form edit.</context>
+      <gap>CSRF token lifecycle not specified. Deliverable shows token generation and verification but does not specify: token rotation strategy, reuse prevention, or token expiration.</gap>
+      <question>Add CSRF token lifecycle: "Token valid for entire session (same as JWT). One token per session; rotating token on each request is optional (adds complexity without security benefit). If token expires (user logged out), form submission fails with 403. Client must re-login and start form over. Document in Phase 8 that CSRF validation is framework-dependent (Next.js middleware vs. API route approach)."</question>
+    </topic>
+    <topic id="SI-5-L3-5">
+      <context>Section 2.1 states "Token stored in secure HTTP-only cookie (cannot be stolen by JavaScript)" and "Token is valid for 24 hours." But no mention of: (a) does backend maintain session store (Redis, DB), (b) if user logs out, how is old JWT invalidated (blacklist?), (c) what happens if user logs in from 10 devices simultaneously, (d) "logout everywhere" implementation.</context>
+      <gap>Session management strategy is vague. Deliverable states "Session managed via JWT token (stored in secure cookie)" but does not specify: server-side session store, session state tracking, or how invalidation is enforced.</gap>
+      <question>Clarify session architecture: "JWTs are stateless (no server-side session store required). Logout is client-side (delete cookie). 'Logout everywhere' requires server-side invalidation: user logs out, backend revokes JWT (optional: add to Redis blacklist for 24h TTL, or accept eventual consistency: old JWT works for up to 24h after logout). Default: client-side logout, no server-side revocation (simpler, acceptable for MVP)."</question>
+    </topic>
+  </topic_group>
+
+</interview_brief>

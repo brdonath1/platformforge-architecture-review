@@ -1,0 +1,125 @@
+{
+  "layer": 2,
+  "layer_name": "Domain Expert",
+  "phase": "6c",
+  "findings": [
+    {
+      "id": "L2-1",
+      "category": "must-fix",
+      "section": "SECTION 0: RESEARCH EXECUTION & PHASE CONTEXT",
+      "issue": "Research Point 6C.1 (icon library maintenance verification) and 6C.2 (developer sentiment analysis) are documented as \"REQUIRED before icon library selection\" in the template, but executed results are missing from D7 before icon library decision is made in Section 5.1.",
+      "evidence": "Template Area 15 states: \"Research point 6C.1 (REQUIRED before icon library selection): Use Perplexity Sonar Pro to verify the recommended icon library is actively maintained\" and \"Research point 6C.2 (REQUIRED before icon library selection): Use Grok to check developer sentiment.\" D7 Section 5.1 selects Heroicons without showing research execution in preceding sections.",
+      "recommendation": "Add a new section (after SECTION 0, before SECTION 1) titled \"RESEARCH EXECUTION (6C.1 & 6C.2)\" that explicitly documents the Perplexity and Grok queries executed, results found (maintenance status, sentiment analysis), and how those results informed the Heroicons selection decision. Current Section 17 documents these retroactively; they should appear before the decision in the decision-making flow."
+    },
+    {
+      "id": "L2-2",
+      "category": "must-fix",
+      "section": "SECTION 1.2: VOICE & TONE FRAMEWORK",
+      "issue": "Voice & tone definition is presented as founder-approved without evidence of founder approval recorded in the deliverable. Template requires \"The founder approves the voice definition\" but D7 shows approval as pending (\"Pending Lucia validation\") in the gate section.",
+      "evidence": "Template Section 13 states: \"The founder approves the voice definition. The AI applies it consistently to all patterns below.\" D7 top banner shows \"Founder Sign-Off: Pending Lucia validation (2-day review cycle)\" and there is no explicit founder approval statement for the voice definition itself.",
+      "recommendation": "Either (1) record explicit founder approval of the voice definition as a quote/statement in Section 1.2 (e.g., \"Founder approval: 'Personal and direct matches how I actually talk to Lucia. Lock it in.'\"), OR (2) update the gate section to clarify which elements are founder-approved vs. pending (voice may be pre-approved, tone scale pending final review)."
+    },
+    {
+      "id": "L2-3",
+      "category": "must-fix",
+      "section": "SECTION 2: COMPLETE MICROCOPY SPECIFICATIONS (Section 2.11)",
+      "issue": "Section 2.11 \"Real-Time Update Notifications\" appears to be duplicated (exists as both 2.11 and 2.11A), with 2.11A introducing keyboard shortcuts that are not part of the core microcopy specification and should belong in Section 12 (Interaction Patterns).",
+      "evidence": "Section 2.11 \"Real-Time Update Notifications\" specifies toasts for course confirmations, client responses, payments, etc. Immediately after (still labeled 2.11) is \"Keyboard Shortcuts & Discoverability\" section with shortcuts like `?` for help, which is interaction design, not microcopy. Then Section 2.11A repeats \"REAL-TIME UPDATE NOTIFICATIONS\" with the same toast content.",
+      "recommendation": "Reorganize: (1) Move keyboard shortcuts content (currently mislabeled 2.11A) to Section 12 (Interaction Patterns) as a dedicated subsection \"12.1 Keyboard Shortcuts & Discoverability\". (2) Keep Section 2.11 for real-time toast notifications only. (3) Renumber subsequent sections accordingly to eliminate duplicate 2.11."
+    },
+    {
+      "id": "L2-4",
+      "category": "must-fix",
+      "section": "SECTION 5: ASSET SPECIFICATIONS, Subsection 5.1",
+      "issue": "Icon library selection (Heroicons) is presented as locked, but research verification points (6C.1 & 6C.2) are documented in Section 17 (Methodology Observations) rather than Section 0 where research findings should appear before the decision is made.",
+      "evidence": "D7 Section 5.1 states \"Icon Library: Heroicons (v2.0+)\" as a specification with \"Verified active maintenance as of March 2026\" but the actual query results and verification are missing. Section 17 contains \"RESEARCH POINT 6C-001: ICON LIBRARY MAINTENANCE & SENTIMENT ANALYSIS\" with findings, but this appears after the decision is already locked in Section 5.1.",
+      "recommendation": "Move RESEARCH POINT 6C-001 and 6C-002 content to a new section immediately following Section 0 context (titled \"RESEARCH EXECUTION & FINDINGS\") so that research conclusions inform icon library selection in Section 5.1, rather than appearing retroactively in the methodology section."
+    },
+    {
+      "id": "L2-5",
+      "category": "must-fix",
+      "section": "SECTION 12: INTERACTION PATTERNS AND MOBILE-SPECIFIC BEHAVIOR",
+      "issue": "Template requires \"Legal/consent UI locations\" to be \"Explicitly identified\" with \"pages, routes, or components for: (1) cookie consent mechanism, (2) privacy settings, (3) terms of service acceptance.\" D7 defers these entirely to Phase 8 without specifying MVP locations.",
+      "evidence": "",
+      "recommendation": "D7 must specify MVP locations even if implementation is deferred. For Phase 7: Identify where privacy/terms links appear (login page per Section 13), what the minimal legal UI contains (links only, no checkboxes in MVP per findings), and explicitly note that cookie consent, privacy settings route, and terms acceptance flows are Phase 8 additions. Update Section 12 to include a subsection \"Legal/Consent UI Locations (MVP Minimal)\" documenting these routes/components for D12/D13 verification."
+    },
+    {
+      "id": "L2-6",
+      "category": "must-fix",
+      "section": "D14 (Accessibility Compliance Spec) \u2014 APPENDIX A OUTLINE",
+      "issue": "D14 is documented as a \"parallel output\" of Phase 6C, but D7 does not indicate whether D14 has been generated, signed off, or merely outlined. Template requires D14 to be \"approved alongside D7\" but D7 status line states \"Awaiting Lucia validation\" without mentioning D14 approval status.",
+      "evidence": "D7 top status: \"Founder Sign-Off: \u2705 Approved (Rafael, March 3, 2026)\" but the \"Founder Sign-Off\" applies only to D7, not explicitly to D14. APPENDIX A provides D14 outline but APPENDIX A is a template/placeholder, not a complete specification. Template states: \"once the full Phase 6 completion gate is satisfied, synthesize the following deliverables. These form... D7... D14...\"",
+      "recommendation": "Add explicit sign-off status for D14 at top of D7 (or in a separate D14 header if D14 is included as a companion document). Clarify whether APPENDIX A is complete D14 draft or placeholder awaiting Phase 6C synthesis. If D14 is still being synthesized, update D7 status to \"D7: Implementation-Ready. D14: Synthesis In Progress\" rather than suggesting both are locked together."
+    },
+    {
+      "id": "L2-7",
+      "category": "should-improve",
+      "section": "SECTION 2: COMPLETE MICROCOPY SPECIFICATIONS (All Sections 2.1-2.10)",
+      "issue": "Microcopy examples are written in first-person narrative context (Lucia performs action, sees toast) but some error message examples blame the user (\"Group size must be 1-4 golfers\") where they should use voice that blames the right culprit per Section 1.2 voice definition (\"Honest, not euphemistic\").",
+      "evidence": "Section 2.10 example: \"Invalid phone number for Carlos \u2014 Check contact info\" is specific (good) but phrased as \"Check contact info\" (imperative) rather than in the \"honest, respectful\" voice that acknowledges \"This is a data issue in our system\" vs. \"You entered it wrong.\" Section 1.2 voice definition states: \"Blame the right culprit\" with example \"Network error\" not \"You tried to send without connection.\"",
+      "recommendation": "Audit all error messages in Sections 2.1-2.10 for voice consistency. Where errors are data-quality or system issues (invalid phone stored in system), frame as \"System issue: [field] in our database appears invalid\" rather than \"Check contact info\" (which sounds like Lucia's fault). Verify all 100+ phrases against the voice definition in Section 1.2 before Phase 7 implementation to ensure consistency."
+    },
+    {
+      "id": "L2-8",
+      "category": "should-improve",
+      "section": "SECTION 4: DARK MODE IMPLEMENTATION, Subsection 4.5",
+      "issue": "Dark mode color transition timing specification (150ms ease-out) is presented as founder-approved, but the approval appears to be inferred from founder feedback rather than explicitly stated as locked. Template requires founder approval of timing, and founder's original question (\"Would a fade feel smoother, or would that just feel slow?\") suggests this was a trade-off decision, not a finalized spec.",
+      "evidence": "Section 4.5 states: \"Founder's Implementation Question: 'Would a fade feel smoother...'\" and D7 resolution proposes 150ms. Then Section 4.6 notes \"Pending 2-day Lucia review: During the 2-day validation cycle, Lucia should confirm 150ms feels appropriate...\" This indicates 150ms is a proposal pending validation, not locked approval.",
+      "recommendation": "Update Section 4.5 to clarify decision status: (1) If founder has explicitly approved 150ms, quote the approval. (2) If timing is pending Lucia's operational feedback, move to \"PENDING VALIDATION\" section and note that Phase 7 should not hard-code timing until confirmed. Currently it's ambiguous whether 150ms is a founder decision or a designer proposal."
+    },
+    {
+      "id": "L2-9",
+      "category": "should-improve",
+      "section": "SECTION 12: INTERACTION PATTERNS AND MOBILE-SPECIFIC BEHAVIOR, Subsection on \"Real-Time Updates\"",
+      "issue": "Real-time update rendering pattern specifies \"highlight flash (1 second accent background fade)\" for updated items, but this animation timing is not mapped to D7 transition/animation tokens, creating a discrepancy with design system discipline (D7 Section 6: \"All visual properties must reference design tokens, never hardcoded values\").",
+      "evidence": "Section 12 states: \"Updated items: brief highlight flash (1 second accent background fade).\" D7 transition scale (from Section 1 context) uses: 100-150ms (micro), 200-250ms (state transitions), 250-350ms (page transitions), 400-600ms (complex). 1 second (1000ms) is not on this scale. Template Section 12 says \"All new timing values... must reference the existing duration scale from Phase 6A. If a new duration is needed... add it to the duration scale rather than using an ad-hoc value.\"",
+      "recommendation": "Either (1) update the highlight flash to use an existing D7 transition duration (e.g., 200-250ms state transition timing is appropriate for item highlight), OR (2) add a new \"highlight flash\" duration (1000ms) to D7's transition/animation scale with explicit token name (e.g., `--duration-highlight-flash: 1000ms`) and document in D7 Section 1 so Phase 7 references the token rather than hard-coding 1 second."
+    },
+    {
+      "id": "L2-10",
+      "category": "should-improve",
+      "section": "SECTION 2.11A: KEYBOARD SHORTCUTS & DISCOVERABILITY",
+      "issue": "Keyboard shortcut list is incomplete relative to template requirements. Template requires \"Discoverability: '?' key opens shortcut reference modal; tooltips show shortcuts on hover. Must not conflict with browser or OS shortcuts.\" D7 only specifies `?` for help and does NOT verify Cmd+K/Ctrl+K for search (which appears in D8 as deferred to Phase 8) against browser defaults or document verification method.",
+      "evidence": "Section 2.11A lists shortcuts including \"K - Open Search (Phase 8+)\" with note \"Deferred to Phase 8\". Template Area 12 requires: \"Before proposing any `Cmd+[single key]` combination, verify against common browser defaults: Cmd+D (bookmark), Cmd+B (bold), Cmd+L (address bar)...\" D7 does not show this verification step for Cmd+K.",
+      "recommendation": "Add a verification table in Section 2.11A documenting which shortcuts were tested against browser/OS defaults (e.g., \"Cmd+K verified not reserved in Chrome/Safari/Firefox as of Feb 2026\"). Include testing method/tool used. If Cmd+K is being deferred to Phase 8, note explicitly that verification will occur during Phase 8 search implementation."
+    },
+    {
+      "id": "L2-11",
+      "category": "should-improve",
+      "section": "SECTION 14: ACCESSIBILITY SPECIFICATION",
+      "issue": "Section 14 is marked as a placeholder referring to D14, but the template requires a comprehensive accessibility section in D7 itself (\"This section feeds directly into D14\"). D7 Section 14 is essentially a stub that says \"See D14\" rather than providing the accessibility specification that Phase 7 developers should reference while building.",
+      "evidence": "Template Area 14 states: \"Accessibility Specification: Target standard, contrast verification tables (light + dark), focus management, touch targets, screen reader requirements, keyboard navigation map, motion policy, color independence verification, testing checklist. This section feeds directly into D14.\" D7 Section 14 is ~200 words pointing to APPENDIX A (D14 outline) rather than containing the full specification.",
+      "recommendation": "Expand D7 Section 14 to include all accessibility requirements (contrast tables, touch targets, focus indicators, screen reader annotations) so Phase 7 developers don't need to cross-reference D14 constantly. D14 can be the detailed audit checklist, but D7 Section 14 should be the implementation reference (what colors pass contrast, which ARIA attributes are required, etc.)."
+    },
+    {
+      "id": "L2-12",
+      "category": "consider",
+      "section": "APPENDIX B: DESIGN DECISION LEDGER (D55 \u2014 PHASE 6C ENTRIES)",
+      "issue": "D55-P6C ledger entries are listed (13 entries total) but several entries (e.g., D55-P6C-010, D55-P6C-012) reference decisions that appear to be inherited from Phase 6A/6B (page inventory reference in manifest, multi-tenant permission integration) rather than new Phase 6C decisions. This causes potential confusion about what is a Phase 6C decision vs. what is carried forward from prior phases.",
+      "evidence": "D55-P6C-010 entry: \"Page Inventory \u2014 Ref. in Manifest, Not in Main Text\" appears to be a Phase 6B decision (D8 was built in 6B, D7 Section 6 reproduces it from 6B). D55-P6C-012 notes \"Accessibility \u2014 44\u00d744px Touch Targets (Beyond Legal)\" appears to be a Phase 6A decision carried forward (referenced in D7A component specs).",
+      "recommendation": "Clarify in Appendix B header: \"D55-P6C entries include both new Phase 6C decisions and confirmed Phase 6A/6B decisions carried forward to Phase 6C implementation.\" Add a \"Originating Phase\" column to the ledger table to show which decisions are new (6C) vs. carried forward (6A/6B). This helps Phase 7 developers understand decision history and traceability."
+    },
+    {
+      "id": "L2-13",
+      "category": "consider",
+      "section": "SECTION 1: DESIGN PHILOSOPHY & INTEGRATION WITH D7A",
+      "issue": "Integration claim states \"All microcopy, interactions, and visual specifications in D7 Section 2+ reference the design foundation locked in Phase 6A\" but the reference is not systematically verified. No cross-reference table shows which Section 2 microcopy uses which color tokens, which button uses which spacing token, etc.",
+      "evidence": "Section 1.3 claims \"Integration with D7A Design Tokens\" but provides no mapping of microcopy/interaction patterns to specific tokens. Example: \"Button loading state shows spinner icon (16\u00d716px) + 'Loading...' text\" \u2014 is 16\u00d716px coming from an icon size token? Which spacing token separates icon from text? Not documented.",
+      "recommendation": "Add a \"Token Usage Index\" (brief table or list) in Section 1.3 showing major design decisions and which D7 tokens they reference. Example: \"[Button Loading State] uses icon-size-sm (16\u00d716px from D7 Section 2.1), text color from button-text-primary, spacing-2 gap between icon and text.\" This verifies design system discipline and helps Phase 7 developers understand token application patterns."
+    },
+    {
+      "id": "L2-14",
+      "category": "consider",
+      "section": "SECTION 16: ASSET AND RESOURCE SPECIFICATION, Subsection 5.1",
+      "issue": "Heroicons selection is verified as maintained and sentiment-positive, but no explicit bundle-size or tree-shaking efficiency verification is documented. Template requires \"tree-shaking support\" as a criterion. D7 states this implicitly (\"no additional dependency overhead\") but does not show actual bundle-size metrics or tree-shaking test results.",
+      "evidence": "Section 5.1 states \"Tree-shaking removes unused components; only ship what you use\" but provides no evidence (webpack bundle analysis, actual numbers, or testing method). Template Area 15 states: \"tree-shakeability\" is a selection criterion. Research point verification should include bundle-size impact verification.",
+      "recommendation": "Add metrics to Section 5.1: \"(1) Heroicons base bundle size: ~[X]KB with tree-shaking, (2) typical icons used: ~[Y]KB final, (3) tree-shaking tested via: webpack bundle analyzer or equivalent.\" This provides Phase 7 developers with confidence in bundle-size impact and gives them metrics for bundle-size budgeting."
+    }
+  ],
+  "summary": {
+    "must_fix": 6,
+    "should_improve": 5,
+    "consider": 3,
+    "total": 14
+  }
+}

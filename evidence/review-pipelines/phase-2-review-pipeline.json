@@ -1,0 +1,30 @@
+{
+  "phase": "2",
+  "review_model": "claude-haiku-4-5-20251001",
+  "pipeline_elapsed_seconds": 784,
+  "l1_initial_missing": 0,
+  "l2_findings": {
+    "must_fix": 15,
+    "should_improve": 6,
+    "consider": 4
+  },
+  "l3_findings": {
+    "must_fix": 6,
+    "should_improve": 5,
+    "consider": 9
+  },
+  "l4_findings": {
+    "must_fix": 4,
+    "should_improve": 13,
+    "consider": 1
+  },
+  "reengagement_triggered": true,
+  "deliverable_delta_chars": 53687,
+  "timing": {
+    "l1_initial_seconds": 1,
+    "parallel_review_wall_seconds": 88,
+    "correction_synthesis_seconds": 156,
+    "reengagement_seconds": 462,
+    "final_l1_seconds": 77
+  }
+}

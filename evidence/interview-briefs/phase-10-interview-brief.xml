@@ -1,0 +1,50 @@
+<interview_brief phase="10">
+  <summary>17 should-improve items found across L2 (7), L3 (5), L4 (5) for Phase 10 deliverable.</summary>
+
+  <topic_group source="L2 -- Domain Expert (Technical Program Manager)">
+    <topic id="SI-10-L2-1">
+      <context>README states founder should read D9 and D10 before D1, but founder has not built the platform yet and lacks business context about competitive positioning, revenue model, and operational constraints that D1 establishes. Phase template specifies reading order for build tools, not founder.</context>
+      <gap>README reading order section recommends "Before you start building (30 minutes): 1. This document... 2. D9 (Credential Guide)... 3. D10 (Cost Model)" but does not explain why founder should not read D1 (Platform Vision) first, which would provide business context.</gap>
+      <question>Clarify reading order: suggest founder reads D1 first (30 min) for business context, then D9/D10 for implementation planning, rather than jumping to credentials without understanding the strategic intent.</question>
+    </topic>
+    <topic id="SI-10-L2-2">
+      <context>README states "Open operations/d09-credential-guide.md. Complete the 'Pre-Build' section before doing anything else." But provides no checklist of the 12 accounts required, no time estimate (template specifies "2-3 hours total" but README omits this), and no validation step to confirm all credentials are actually saved.</context>
+      <gap>README directs founder to D9 credential guide but does not explain the time investment or provide a completion checklist, creating potential for founder to abandon setup mid-process.</gap>
+      <question>Add quick summary: "D9 credential setup requires 2-3 hours and involves creating 12 accounts (GitHub, Supabase, Stripe, Resend, Clerk, Railway, Sentry, UptimeRobot, Google Analytics, domain registrar, password manager, hosting provider). Use the checklist in D9 to confirm each account is created before moving to Step 2."</question>
+    </topic>
+    <topic id="SI-10-L2-3">
+      <context>README states "Run them in order. Commit after each one. If a card fails three times, skip it and move to the next independent card — then come back to it." But does not specify how to identify "independent" cards or how to recover from skipped cards without introducing technical debt or breaking downstream cards.</context>
+      <gap>README instructs founder to "Run build cards in order" but does not address what to do if a build card fails, creating risk of blocking progress without clear recovery path.</gap>
+      <question>Add explicit guidance: "Build cards have dependencies documented in D8. If a card fails, check Section 3 of D8 to see which other cards depend on it. If safe to skip, do so and return after completing independent cards. If other cards depend on it, pause and get help from AI tool (paste the error message and card ID)."</question>
+    </topic>
+    <topic id="SI-10-L2-4">
+      <context>README states "D12 — Privacy Policy: ⚠️ Have a lawyer review this before publishing. Estimated cost: $500–$1,500. D13 — Terms of Service: ⚠️ Same — lawyer review before publishing." But does not specify when to send them (immediately after Phase 7 build completes on June 10? during Phase 9 pre-launch setup?), how long review takes (2 weeks? 4 weeks?), or what happens if lawyer requires revisions.</context>
+      <gap>README recommends founder send D12 (Privacy Policy) and D13 (Terms of Service) to lawyer "before launch" but does not provide timeline or cost estimate, creating risk of legal documents not being ready by September 1 launch date.</gap>
+      <question>Clarify timeline: "Send D12 and D13 to lawyer on June 15 (right after Phase 7 build completes). Budget 2-4 weeks for review and revisions. Confirm with lawyer by July 31 at latest (60 days before launch) to allow time for final revisions. Estimated cost: $1,000-$2,000 for both documents."</question>
+    </topic>
+    <topic id="SI-10-L2-5">
+      <context>README provides table with "Layer | Choice | Why" format but does not link each choice back to D5 or provide "if this breaks, see [section]" guidance. For example, "Stripe — Industry standard, test mode for development, global support" lacks pointer to D5 Section 2.3 or to D18 for monitoring Stripe webhook failures.</context>
+      <gap>README lists 11 technology choices with justifications but does not reference which deliverable (D5 Technical Architecture) explains each choice or how to troubleshoot if a tool is not working as expected.</gap>
+      <question>Add reference column to technology stack table: "Tool | Section in D5 | Troubleshooting in D18 | Setup in D9" so founder can quickly find relevant documentation if a tool malfunctions during build.</question>
+    </topic>
+    <topic id="SI-10-L2-6">
+      <context>README states "✅ 12 MVP features fully implemented — F-001 through F-012 are complete and tested" but does not specify what "complete and tested" means. Does it mean feature works in localhost? deployed to production? passes user acceptance testing with Lucia?</context>
+      <gap>README lists 8 success criteria (12 MVP features, zero critical bugs, 120 build cards complete, etc.) but does not provide acceptance test procedures or explain how founder will know if each criterion is actually met.</gap>
+      <question>Add "Acceptance Test" column next to each success criterion: e.g., "12 MVP features: Each feature has a passing test in build card acceptance criteria section (D8); feature has been deployed to staging environment and manually tested by Lucia or Rafael."</question>
+    </topic>
+    <topic id="SI-10-L2-7">
+      <context>README states "Build tool issues: Start a new conversation in Claude.ai with the specific error message and the build card you're working on" but does not point founder to D20 incident response procedures or troubleshooting checklist that may address the issue more efficiently.</context>
+      <gap>README provides generic help guidance but does not reference specific sections of D20 (Maintenance Playbook) that address common build-time issues like deployment failures, database migration errors, or Stripe integration bugs.</gap>
+      <question>Add cross-references: "For common issues, see D20 Troubleshooting section before opening a new conversation: D20 Section 4.2 covers deployment failures, Section 4.3 covers database errors, Section 4.4 covers payment processing failures."</question>
+    </topic>
+  </topic_group>
+
+  <topic_group source="L3 -- Downstream Consumer (CTO (Holistic Review))">
+    <topic id="SI-10-L3-1">
+      <context>D9 manifest clearly separates: "Pre-Build: 7 accounts" (GitHub, Supabase, Stripe, Resend, Domain, Hosting, Password Manager); "During-Build: 3 accounts" (WhatsApp, Twilio conditional); "Post-Build: 2 accounts" (Google Analytics, Sentry). Checklist says "All 12 accounts created" before Phase 7 starts, contradicting D9's own timeline.</context>
+      <gap>The checklist begins with "D9 (Credential Guide) — All 12 accounts created" but D9 Section 1 lists "7 services pre-build" not 12 total. The 12-account figure includes services created during-build (WhatsApp, Twilio, Google Analytics, Sentry) which the checklist then marks as "before Phase 7" which is inconsistent with D9's own phase-based organization.</gap>
+      <question>Split checklist item into: "Pre-Phase 7: D9 Pre-Build Accounts (7 total) — all created ✓. During-Phase 7: D9 During-Build Accounts (3 total) — created as Phase 7 cards require them."</question>
+    </topic>
+  </topic_group>
+
+</interview_brief>

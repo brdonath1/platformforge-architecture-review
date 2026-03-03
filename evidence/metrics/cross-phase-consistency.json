@@ -1,0 +1,82 @@
+{
+  "consistency_score": 72,
+  "naming_conflicts": [
+    {
+      "entity": "Course Contact parent entity",
+      "phase_a": "Phase 2 (D2 D55-P2-005): 'Course Contacts are linked to Course entities'",
+      "phase_b": "Phase 4 (D4 \u00a72.4): course_contacts table has FK to properties, not courses",
+      "description": "D2 defines course contacts as linked to the 'course' entity. D4 introduced a property/course split and links course_contacts to the 'properties' table instead. D4 cites D55-P2-005 as its source but reverses the linkage target from course to property without updating D2's terminology."
+    },
+    {
+      "entity": "Course count (14 vs 15)",
+      "phase_a": "Phases 1-7 (D1 \u00a72.1, D2 \u00a71.10, D3 F-075, D7 \u00a78.1, D8 FC-015): '14 courses across 11 properties'",
+      "phase_b": "Phase 9 Correction 5: '15 courses across 12 properties' (Cabo Real removed, Costa Palmas and Solaz added)",
+      "description": "Phase 9 identified 14 propagation points across 5 deliverables referencing '14 courses' and corrected them to 15. However, the body texts of D1, D2, D3, D7, and D8 as provided still contain the original '14 courses' figures. A developer reading any pre-Phase-9 deliverable without cross-referencing Phase 9 would build for the wrong course count."
+    },
+    {
+      "entity": "Transition timing tokens",
+      "phase_a": "Phase 6A (D7 6A \u00a72.4.3): --transition-fast (150ms), --transition-medium (200ms), --transition-slow (300ms)",
+      "phase_b": "Phase 6C consolidated D7 (\u00a72.4): --transition-micro (100-150ms), --transition-state (200-250ms), --transition-page (250-350ms), --transition-complex (400-600ms)",
+      "description": "The consolidated D7 replaced the Phase 6A three-token transition scale with a four-token scale using different names and adjusted duration ranges. The divergence is documented in D7 \u00a72.4, and the 6A manifest was marked superseded in v1.1, but a developer loading the 6A sub-phase manifest in isolation would see stale token names."
+    },
+    {
+      "entity": "Dave Torres trip count in demo scenario",
+      "phase_a": "Phase 1 (D1 Demo Requirements): 'his second annual Cabo trip' (implying 1 prior trip)",
+      "phase_b": "Phase 7 (D8 FC-015 seed data): '3 prior trips'",
+      "description": "D1's demo narrative describes Dave requesting his 'second annual Cabo trip', implying one prior trip. The seed data in D8 FC-015 gives Dave 3 prior trips. Phase 9 FC-072 correction references 'three-trip history'. The demo data enriches beyond D1's narrative but creates a factual inconsistency with the original scenario description."
+    },
+    {
+      "entity": "Property count (11 vs 12)",
+      "phase_a": "Phase 7 (D8 FC-015 v1.1): '11 properties' with Rancho San Lucas added",
+      "phase_b": "Phase 9 Correction 5: '12 properties' (Cabo Real removed, Costa Palmas and Solaz added as two new properties)",
+      "description": "D8 v1.1 recalibration added Rancho San Lucas as the 11th property. Phase 9 then corrected to 12 properties by removing Cabo Real and adding Costa Palmas and Solaz. The D8 body text still references 11 properties."
+    }
+  ],
+  "technology_contradictions": [
+    {
+      "component": "Stripe effective processing rate",
+      "phase_a": "Phase 1 (D1 \u00a76.3): 'approximately 4.5\u20135% per transaction'",
+      "phase_b": "Phase 5 (D5 Part 3): '~5.5\u20136.0%'; Phase 8 (D10): '~5.6%'",
+      "description": "The Stripe cross-border processing rate was progressively refined across three phases. D1 estimated ~4.5-5%, D5 decomposed fee components to ~5.5-6.0%, and D10 confirmed ~5.6%. Phase 9 documents this as progressive refinement, but D1's cost model (\u00a76.3 unit economics table) still uses the ~4.5-5% figure, producing per-client processing costs of ~$50-$105 that are lower than the actual ~$65-$125 at the confirmed rate."
+    },
+    {
+      "component": "Day Zero infrastructure cost",
+      "phase_a": "Phase 5 (D5 \u00a77.1): 'Infrastructure Total: $0/mo' at Day Zero",
+      "phase_b": "Phase 8 (D10 \u00a72): 'Infrastructure subtotal: $68.50/mo' at Day Zero",
+      "description": "D5 calculated Day Zero costs on all free tiers. Phase 8 decisions (D55-P8-003 Supabase Pro $25/mo, D55-P8-004 UptimeRobot Pro $7/mo, D55-P8-001 1Password $15/mo, plus Vercel Pro $20/mo) moved Day Zero to $68.50/mo. Phase 10 README documents this with a cross-reference parenthetical, but D5's cost projection table still shows $0."
+    },
+    {
+      "component": "Service fee pricing tiers",
+      "phase_a": "Phase 1 (D1 \u00a76.1): '$75\u2013$125 per person'; Phase 7 (D8 FC-058): seed data '$125 for 2\u20133, $100 for 4\u20136, $75 for 7+'",
+      "phase_b": "Phase 8 (D55-P8-015): '$150 solo / $125 for 2\u20133 / $100 for 4+; old $75 tier eliminated'",
+      "description": "Service fee pricing was updated in Phase 8 to absorb Stripe processing costs, eliminating the $75 tier entirely. Phase 9 Issue #3 corrects FC-058, but D1's monetization strategy and D3's feature descriptions still reference the original $75-$125 range. A developer building FC-058 from D8's body text (without reading Phase 8's recalibration note or Phase 9's correction) would load superseded pricing."
+    }
+  ],
+  "other_inconsistencies": [
+    {
+      "type": "user_role_permission",
+      "description": "D2 Section 4.2 Permission Matrix grants Team Members \ud83d\udcdd (create/update) access to referral partner records. D5 Section 2.6 restricts POST /api/referral-partners to Operator and Senior Concierge only. D7 Page #19 (Create Referral Partner) restricts visibility to Operator/SC. Phase 9 Issue #2 documents the correction to D2 (change to \ud83d\udcd6 read-only), but D2's actual body text still shows \ud83d\udcdd. Three deliverables (D2, D5, D7) contain contradictory permission specifications for the same entity."
+    },
+    {
+      "type": "accessibility_standard_divergence",
+      "description": "D2 Appendix D Section D.3 establishes WCAG 2.1 AA as the accessibility target. D7 Phase 6A Section 5.1 upgrades this to WCAG 2.2 AA (ISO/IEC 40500:2025) with an explicit divergence note citing the D3 precedent. D14 uses WCAG 2.2 AA. The upgrade is intentional and documented, but D2's body text was never updated, creating a contradiction between D2 (2.1 AA) and D7/D14 (2.2 AA) that a developer reading D2 in isolation would follow incorrectly."
+    },
+    {
+      "type": "database_rls_syntax",
+      "description": "D4 Section 3 RLS policies use the shorthand auth.jwt() ->> 'operator_id' and auth.jwt() ->> 'role'. D5 Section 1.3.4 specifies the actual JWT path as auth.jwt() -> 'app_metadata' ->> 'operator_id' and auth.jwt() -> 'app_metadata' ->> 'role'. D5 Methodology Feedback item #5 acknowledges this gap. Phase 9 Correction 6 adds a note to D4 Section 3, but the RLS policy examples throughout D4 Section 3 still use the non-functional shorthand syntax. A developer implementing RLS from D4 without reading the D5 correction would produce policies that silently fail."
+    },
+    {
+      "type": "cross_reference_label",
+      "description": "D3 cross-reference manifest references_in entry reads 'from: D6 \u2014 Feature Registry \u2192 UI component inventory'. D6 is the API Specification; D7 is the Design System containing the UI component inventory. Phase 9 Correction 7 fixes this label, but the D3 manifest text as provided still shows the incorrect reference."
+    },
+    {
+      "type": "service_count_discrepancy",
+      "description": "D5 selects 8 external services (Supabase, Vercel, Stripe, Resend, Sentry, UptimeRobot, React PDF, GitHub). Phase 8 adds 1Password as a 9th service (D55-P8-001). D9 lists 9 services. D10 includes 1Password in cost projections. D5's service list and manifest were never updated to include 1Password, and D8's original pre-build checklist omitted it (corrected by Phase 9 Issue #1). The 8-vs-9 service count appears in different documents depending on whether they pre-date or post-date Phase 8."
+    },
+    {
+      "type": "feature_module_vs_tier_placement",
+      "description": "D3 Feature Registry places F-085 (WhatsApp Business API Integration) and F-087 (Proactive Seasonal Outreach Automation) in Module 15 'Future / Multi-Operator & Strategic' but assigns them Growth tier for implementation timeline. The module heading implies Future tier while the features are Growth. D3 includes a footnote explaining this organizational choice, but the manifest lists them under growth without noting the module mismatch, potentially confusing a developer scanning only the manifest."
+    }
+  ],
+  "total_issues": 14
+}

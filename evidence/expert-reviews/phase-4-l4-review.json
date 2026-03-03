@@ -1,0 +1,173 @@
+{
+  "layer": 4,
+  "layer_name": "Founder Comprehension",
+  "phase": "4",
+  "findings": [
+    {
+      "id": "L4-1",
+      "category": "should-improve",
+      "section": "Executive Summary",
+      "issue": "Technical jargon (\"Row-Level Security,\" \"JSONB,\" \"VIEWs\") appears without founder-friendly explanation in the opening summary.",
+      "evidence": "\"Row-Level Security policies automatically filter all queries by `operator_id`\" \u2014 introduced without explaining what RLS is or why a founder should care.",
+      "recommendation": "Add one-sentence plain-language definition for each major technical term in the Executive Summary: \"Row-Level Security (database rules that prevent unauthorized data access)\" or \"VIEWs (database filters that hide sensitive columns).\""
+    },
+    {
+      "id": "L4-2",
+      "category": "should-improve",
+      "section": "Part 1: Core Architecture \u2014 Multi-Operator Isolation",
+      "issue": "The founder-facing explanation of operator_id isolation is strong, but the RLS policy code block uses SQL syntax without translating what the SQL actually does into business terms.",
+      "evidence": "\"CREATE POLICY \"Users see only own operator's data\" ON bookings FOR SELECT USING (operator_id = (SELECT operator_id FROM users WHERE id = auth.uid()));\" \u2014 This SQL is correct but unexplained for non-technical reader.",
+      "recommendation": "Add a plain-English translation immediately after the SQL: \"In plain English: When a user tries to view bookings, the database checks who that user is, looks up their operator ID, and only returns bookings belonging to that operator. Automatically. No code needed.\""
+    },
+    {
+      "id": "L4-3",
+      "category": "should-improve",
+      "section": "Part 1: Field-Level Security: VIEWs as a Second Layer",
+      "issue": "The section assumes the founder understands what a \"VIEW\" is (a database concept). No plain-language explanation provided before diving into code.",
+      "evidence": "\"Instead of allowing Lucia to query the full `bookings` table, she queries `bookings_for_operations`\u2014a VIEW (a virtual table)...\" \u2014 \"virtual table\" is still jargon.",
+      "recommendation": "Expand the parenthetical: \"a VIEW (think of it as a filtered window into a table\u2014Lucia can only see certain columns through this window, others are physically hidden)\"."
+    },
+    {
+      "id": "L4-4",
+      "category": "should-improve",
+      "section": "Part 2, Section 1: TABLE: organizations",
+      "issue": "The `config` column uses JSONB with a brief explanation, but doesn't justify to a founder why JSONB is the right choice here vs. just adding more columns later.",
+      "evidence": "\"config | JSONB | DEFAULT '{}' | Operator-specific configuration: service fee percentage, email templates, course list, commission structure. Stored as JSON for flexibility without schema changes.\"",
+      "recommendation": "Add a \"so-what\" statement: \"Why JSONB here: If you add a new operator setting (e.g., preferred language, local tax ID), you can add it without redesigning the database. Just update the config field. The alternative would require an ALTER TABLE command and downtime.\""
+    },
+    {
+      "id": "L4-5",
+      "category": "should-improve",
+      "section": "Part 2, Section 1: TABLE: clients (GDPR/CCPA columns)",
+      "issue": "GDPR/CCPA/Mexico compliance fields are listed but not explained in terms of business impact. A founder paying for this needs to understand: \"Why do I care about these fields? What will they enable?\"",
+      "evidence": "Columns like `consent_to_data_processing`, `gdpr_deletion_request`, `ccpa_opt_out_sale` are present with definitions but no founder-context explanation of legal/business consequence.",
+      "recommendation": "Add a \"Compliance Notes\" subsection under the clients table explaining: \"These fields let you prove compliance if regulators ask. If a client in California requests deletion, you have the infrastructure to comply. Without these fields, deletion is manual and error-prone.\""
+    },
+    {
+      "id": "L4-6",
+      "category": "should-improve",
+      "section": "Part 2, Section 2: TABLE: bookings (status field)",
+      "issue": "The status workflow (11 states) is listed but the founder won't understand why this many states are needed or what business problem each one solves.",
+      "evidence": "\"status | TEXT | NOT NULL, DEFAULT 'pending_rafael_review' | Booking workflow state. Valid values (in order): 'pending_rafael_review' \u2192 'pending_course_confirmations' \u2192 ...\" \u2014 States listed but no business justification.",
+      "recommendation": "Reorganize as: \"Why this many states: Each state represents a real step in fulfilling a booking. 'pending_course_confirmations' means you're waiting on vendors. 'awaiting_payment' means the work is done, just waiting for money. Lucia filters her dashboard by status to find the next action to take. Each state is a checkpoint.\""
+    },
+    {
+      "id": "L4-7",
+      "category": "should-improve",
+      "section": "Part 2, Section 3: TABLE: payments",
+      "issue": "PCI compliance is mentioned, but the founder may not understand why storing only `stripe_payment_intent_id` (and not card data) is a big deal for their business.",
+      "evidence": "\"Stripe Payment Intent ID | TEXT | Reference to Stripe transaction. This is the ONLY Stripe data we store. Card data stays on Stripe's servers. PCI compliance is automatic because we don't touch card data.\"",
+      "recommendation": "Add business-impact translation: \"Why this matters: If you stored card data, you'd need to pass a security audit every year, hire security consultants, and face huge liability if there's a breach. By using Stripe's hosted form, you skip all of this. Your compliance cost is $0.\""
+    },
+    {
+      "id": "L4-8",
+      "category": "should-improve",
+      "section": "Part 2, Section 3: TABLE: booking_modifications",
+      "issue": "This is arguably the most important table for Lucia's workflow, but the founder-facing explanation doesn't make clear why this table exists as a separate entity (rather than just tracking changes in the bookings table).",
+      "evidence": "The table is well-structured but the explanation focuses on technical fields rather than: \"When a client changes courses, this table is how Lucia knows: (1) the change was approved, (2) the new course is cheaper/more expensive, (3) which payment action is needed.\"",
+      "recommendation": "Add a founder-centric opening: \"Why a separate table: Every booking change has a financial consequence. This table forces you to think through: Did the cost change? Who approved it? Does Lucia need to invoice or refund? When you document the change here, the payment follow-up is never forgotten.\""
+    },
+    {
+      "id": "L4-9",
+      "category": "should-improve",
+      "section": "Part 2, Section 4: TABLE: client_communications",
+      "issue": "The table definition is complete, but it's not clear to the founder WHY having this complete communication history is worth the engineering effort (or what problem it solves).",
+      "evidence": "\"When a client calls claiming 'I never got the itinerary,' you pull up `client_communications` and show them proof: 'Sent via email, June 1 at 2:15pm.'\" \u2014 This example exists in an earlier section (Part 1) but is not repeated here.",
+      "recommendation": "Repeat the dispute-resolution example under the client_communications table definition: \"This table solves the 'he said, she said' problem. When a client disputes a charge or claim, you have proof of every communication with timestamp.\""
+    },
+    {
+      "id": "L4-10",
+      "category": "should-improve",
+      "section": "Part 3: Security Model",
+      "issue": "RLS explanation is technical and uses database terminology (\"USING clause,\" \"JWT claims\") without translating for a founder.",
+      "evidence": "\"When Lucia queries `SELECT * FROM bookings`, the database automatically rewrites it to `SELECT * FROM bookings WHERE operator_id = (SELECT operator_id FROM users WHERE id = auth.uid())`\" \u2014 This is SQL-centric, not founder-centric.",
+      "recommendation": "Simplify to founder language: \"When Lucia logs in, the system knows who she is. When she looks at bookings, the database automatically filters to show only her operator's bookings. She cannot accidentally see another operator's data\u2014the database won't let her, no matter what code does.\""
+    },
+    {
+      "id": "L4-11",
+      "category": "should-improve",
+      "section": "Glossary Integration Note",
+      "issue": "The deliverable references a GLOSSARY.md but doesn't include it. For a founder unfamiliar with database concepts, a glossary defining terms like \"JSONB,\" \"foreign key,\" \"RLS,\" \"soft delete,\" \"index,\" \"VIEW\" would be essential for comprehension.",
+      "evidence": "Phase Behavioral Rules state: \"GLOSSARY.md \u2014 Updated with database and data terminology introduced during this phase\" but no glossary is provided in the deliverable.",
+      "recommendation": "Add a \"Glossary of Database Terms\" section at the end defining: JSONB, RLS, foreign key, soft delete, index, VIEW, timestamp, UUID, constraint. One-sentence definitions in plain English."
+    },
+    {
+      "id": "L4-12",
+      "category": "should-improve",
+      "section": "Part 4: Plain-English Data Dictionary \u2014 Overall Structure",
+      "issue": "The data dictionary summarizes tables in one sentence each, but for complex tables like `booking_modifications` or `client_communications`, one sentence is insufficient for a founder to understand business impact.",
+      "evidence": "\"booking_modifications \u2014 Records when bookings change (course change, date change) and calculates financial impact. Lucia filters her dashboard by payment adjustment status.\" \u2014 This is good but the full complexity isn't obvious from the summary.",
+      "recommendation": "Expand high-impact table summaries to 2-3 sentences. Include the \"so-what\": \"Why it matters: Lucia's entire workflow depends on this table. It's how she knows which bookings need payment follow-up and how much money is owed.\""
+    },
+    {
+      "id": "L4-13",
+      "category": "should-improve",
+      "section": "Part 5: Deployment Checklist",
+      "issue": "The checklist is technical (table counts, RLS policies, indexes) without founder-context explanation of what \"all deployed\" means for their business.",
+      "evidence": "Checkmark list shows \"\u2705 All RLS Policies\" but doesn't explain: \"What this means for you: Your data is secure from day one. No manual access control checks needed. The database enforces isolation automatically.\"",
+      "recommendation": "Add a founder-facing interpretation: \"What's shipping: A complete, secure database ready for production use in September. Every feature from Phase 3 has the tables it needs. Growth Phase tables are ready to activate in October without any database changes.\""
+    },
+    {
+      "id": "L4-14",
+      "category": "consider",
+      "section": "Part 2: Complete Database Schema",
+      "issue": "Tables for Growth Phase (analytics_events, support_issues, churn_flags) are listed as \"empty, activated Oct 2026,\" but the deliverable doesn't explain why deploying empty tables in September is better than creating them in October.",
+      "evidence": "\"\u2705 **Growth Phase Infrastructure (3) \u2014 Empty, activated Oct 2026:** analytics_events, support_issues, churn_flags\"",
+      "recommendation": "Add a founder-context explanation: \"Why deploy empty tables now: When Growth Phase features launch in October, the tables already exist. You don't need a database migration during launch (which would cause downtime). You just start writing data to tables that are ready. Migration cost: $0. Downtime risk: $0.\""
+    },
+    {
+      "id": "L4-15",
+      "category": "consider",
+      "section": "Decision Ledger (D55-P4)",
+      "issue": "The decision ledger is thorough and technical, but doesn't include a founder-friendly summary of \"which decisions matter most for the business.\" A founder reading 20 decisions may lose sight of the 3-4 that are truly critical.",
+      "evidence": "20 detailed decisions (D55-P4-001 through D55-P4-020) but no prioritization or \"top 3 decisions that protect your business\" summary.",
+      "recommendation": "Add a brief \"Decision Priority Summary\" before the ledger: \"Top 3 decisions that protect your business: (1) Multi-operator isolation\u2014enables infinite operators without code changes. (2) Field-level security VIEWs\u2014prevents accidental data leaks. (3) Complete audit logging\u2014covers you in disputes and compliance reviews.\" Then reference the full ledger for details."
+    },
+    {
+      "id": "L4-16",
+      "category": "consider",
+      "section": "Overall Deliverable Structure",
+      "issue": "The deliverable is 10,000+ words and extremely comprehensive, but a founder reading it straight through may get lost in technical depth. No executive-summary-level diagram (e.g., \"here are the 6 core data entities and how they relate\") is provided upfront.",
+      "evidence": "Part 1 explains philosophy, then Part 2 dives into 28 table definitions with detailed column specs, then Part 4 summarizes. A founder may not reach the summary.",
+      "recommendation": "Add a \"Quick Visual Reference\" section after the Executive Summary: A simple ASCII or described entity-relationship diagram showing the 6-8 core tables (organizations, users, clients, courses, bookings, payments, costs, audit_logs) and their key relationships. E.g., 'organizations \u2192 users', 'bookings \u2192 golfers', 'bookings \u2192 payments & costs'.\""
+    },
+    {
+      "id": "L4-17",
+      "category": "consider",
+      "section": "Part 6: Database Portability",
+      "issue": "The section states \"No vendor lock-in,\" but doesn't explain to a founder why this matters or when they might care.",
+      "evidence": "\"This schema uses only standard PostgreSQL. No Supabase-specific syntax in the data model... If you need to migrate away from Supabase (to AWS RDS, self-hosted PostgreSQL, or another provider)... No vendor lock-in.\"",
+      "recommendation": "Add founder context: \"Why this matters: If Supabase has an outage or you find a cheaper provider in 2027, you can move your data without redesigning your entire database. This gives you optionality and protects you from vendor risk.\""
+    },
+    {
+      "id": "L4-18",
+      "category": "consider",
+      "section": "Part 2, Section 2: TABLE: bookings",
+      "issue": "The `rafael_strategy_notes` and `rafael_relationship_context` columns are justified in Part 1 but the founder may not understand: \"What if someone else becomes the decision-maker? How is the strategy knowledge transferred?\"",
+      "evidence": "These fields exist but there's no discussion of knowledge transfer or business continuity if Rafael becomes unavailable.",
+      "recommendation": "Add a consideration note: \"Future consideration: These private notes are tied to one person (Rafael). If roles change, consider whether strategy notes should be moved to a shared field or migrated to team-accessible storage. The schema supports this migration.\""
+    },
+    {
+      "id": "L4-19",
+      "category": "consider",
+      "section": "Part 2, Section 5: Growth Phase Infrastructure",
+      "issue": "Three Growth Phase tables are listed as \"empty, activated Oct 2026,\" but there's no discussion of: What happens to data in these tables if the system fails? How are they backed up?",
+      "evidence": "Tables listed with no mention of backup, recovery, or data retention for these operational tables.",
+      "recommendation": "Note that backup and disaster recovery strategy is addressed in D19 (Phase 8). Reference it: \"Backup strategy for analytics_events, support_issues, and churn_flags is covered in D19 (Backup & Disaster Recovery).\""
+    },
+    {
+      "id": "L4-20",
+      "category": "consider",
+      "section": "Cross-Reference Manifest: D4",
+      "issue": "The manifest is comprehensive and technical, but it's a YAML structure that a non-technical founder may not find useful or readable. The manifest is more useful for the development team than the founder.",
+      "evidence": "Manifest includes `imports`, `exports`, `references_out`, `personal_data_tables` \u2014 all technical metadata, no founder-facing value.",
+      "recommendation": "Add a \"Founder's Guide to the Manifest\" summary before the YAML: \"The manifest below is for the development team. What matters for you: 28 tables total, 14 deployed in September, 3 Growth Phase tables ready for October, 9 Expansion tables for 2027. Everything is built in one step. No future migrations.\""
+    }
+  ],
+  "summary": {
+    "must_fix": 0,
+    "should_improve": 13,
+    "consider": 7,
+    "total": 20
+  }
+}

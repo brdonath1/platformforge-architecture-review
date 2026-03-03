@@ -1,0 +1,189 @@
+{
+  "layer": 2,
+  "layer_name": "Domain Expert",
+  "phase": "5",
+  "findings": [
+    {
+      "id": "L2-1",
+      "category": "must-fix",
+      "section": "Part 1: Infrastructure & Vendor Decisions - Database (Neon PostgreSQL)",
+      "issue": "Research citation missing for Neon vs. Supabase comparison; claimed \"3GB free tier (vs. Supabase 500MB)\" and \"superior reliability per Feb 2026 research\" without [Source: {engine} | Query | Date] format as required by phase_research_requirements 5.1.",
+      "evidence": "Phase_research_requirements 5.1 (CRITICAL): \"Every research-sourced fact in the conversation or deliverable must include: [Source: {engine} | Query: \"{query}\" | Date: {date}]\" \u2014 deliverable states facts about free-tier capacity and reliability without citations.",
+      "recommendation": "Add explicit research citation: \"[Source: Perplexity Sonar Pro | Query: \"Compare current Neon free tier vs. Supabase free tier capacity 2026\" | Date: February 2026]\" before the pricing table, and cite Grok sentiment check showing \"Supabase India connectivity issues Feb 2026.\""
+    },
+    {
+      "id": "L2-2",
+      "category": "must-fix",
+      "section": "Part 1: Infrastructure & Vendor Decisions - Authentication (Clerk)",
+      "issue": "Research citation missing for Clerk pricing comparison; claimed \"Free tier 10K MAU\" and \"cost at 50K MAU ~$800\" without [Source: {engine}] format (research requirement 5.2 CRITICAL).",
+      "evidence": "Phase_research_requirements 5.2: \"Every research-sourced fact...must include [Source: {engine} | Query: | Date]\" \u2014 deliverable states pricing facts with no citations.",
+      "recommendation": "Add citation block before Clerk cost table: \"[Source: Perplexity Sonar Pro | Query: \"Compare Clerk vs. Supabase Auth vs. Auth0 pricing 2026, free tier limits\" | Date: February 2026]\" and cite Grok sentiment check for \"Supabase Auth reliability issues.\""
+    },
+    {
+      "id": "L2-3",
+      "category": "must-fix",
+      "section": "Part 1: Infrastructure & Vendor Decisions - Hosting & Deployment (Railway)",
+      "issue": "Research citation missing for Railway vs. Vercel vs. Render comparison; claimed pricing and \"no per-seat tax\" without research source format (requirement 5.3 CRITICAL).",
+      "evidence": "Phase_research_requirements 5.3: \"Compare Railway vs. Vercel vs. Render for Next.js deployment...current pricing at three tiers.\" Deliverable provides pricing table but no [Source: {engine} | Query | Date] citation.",
+      "recommendation": "Add research citation block with current prices from Perplexity Sonar Pro, specifying query date (February 2026) and note that \"no per-seat tax\" claim is verified via Grok sentiment analysis and vendor websites."
+    },
+    {
+      "id": "L2-4",
+      "category": "must-fix",
+      "section": "Part 1: Infrastructure & Vendor Decisions - Email Service (TBD Phase 5 Part 2)",
+      "issue": "Email service selection deferred to \"Phase 5 Part 2\" but template requires all CRITICAL service selections locked by end of conversation Area 4 (research point 5.5 is HIGH, not deferred). Deliverable has placeholder \"Research points...Resend or SendGrid\" without decision made.",
+      "evidence": "Phase_research_requirements 5.5: \"Email service comparison (HIGH priority)...Compare Resend vs. SendGrid...pricing, deliverability, developer experience?\" \u2014 Phase_conversation_structure Area 4 (Service Integrations) states \"For each service: use Perplexity...Run Grok sentiment check on every recommended service before finalizing.\"",
+      "recommendation": "Execute research point 5.5 NOW using Perplexity Sonar and Grok before Area 4 checkpoint. Lock email service decision (recommend Resend based on 2026 market position, but verify with live research). Update placeholder to \"LOCKED: Resend\" with citations."
+    },
+    {
+      "id": "L2-5",
+      "category": "must-fix",
+      "section": "Part 1: Infrastructure & Vendor Decisions - SMS Service (Twilio)",
+      "issue": "Twilio pricing stated as \"$0.01-0.03 per SMS\" without current research citation (requirement 5.5); Grok sentiment check mentioned but not documented with results.",
+      "evidence": "Phase_research_requirements 5.9: \"Run Grok sentiment check (X Search)...BEFORE FINALIZING every service recommendation. This is a hard boundary from the master prompt (rule #9).\" Deliverable cites Grok check \"[Source: Grok \u2014 Twilio developer experience, 2026-02-20]\" but provides no sentiment summary (positive, issues, concerns).",
+      "recommendation": "Add Grok sentiment summary after Twilio decision (e.g., \"Developer sentiment: Twilio is industry-standard with 98th percentile satisfaction; no recent outages or breaking changes reported Feb 2026\"). Include research query and date format per requirement 5.9."
+    },
+    {
+      "id": "L2-6",
+      "category": "must-fix",
+      "section": "Part 1: Infrastructure & Vendor Decisions - Stripe (Payment Processing)",
+      "issue": "Grok sentiment check documented as \"[Source: Grok \u2014 Stripe developer experience, 2026-02-20] Stripe is the industry standard...No recent issues, API stable\" but this is summary, not actual sentiment data (no quotes, no community feedback examples). Requirement 5.9 requests specific sentiment signals.",
+      "evidence": "Phase_research_requirements 5.9: \"Synthesis reconciliation: When Perplexity and Grok return complementary but divergent signals...produce a unified assessment\" \u2014 implies actual sentiment data (complaints, praise) should be documented, not generic assertion.",
+      "recommendation": "Replace generic \"excellent developer sentiment\" with specific examples from Grok: \"Developer sentiment (Grok, Feb 2026): Community reports of fund holds on high-volume accounts (operational, not technical); API stability praised; 99.8% uptime verified; no breaking changes in past 12 months. Minor: Some developers report frustration with payout delay (3-5 days standard).\""
+    },
+    {
+      "id": "L2-7",
+      "category": "must-fix",
+      "section": "Part 2: Authentication & Authorization - JWT Claims & RLS Evaluation",
+      "issue": "JWT claims structure documented as example JSON but not verified against Clerk's actual claims format. Phase_research_requirements 5.2 requires \"SSO-ready\" feature validation; Clerk JWT claims for custom fields (role, operator_id) not confirmed as supported in free tier.",
+      "evidence": "Phase_completion_gate requires: \"Auth tier-feature matrix produced. Every auth feature mapped to required provider tier and cost. Auth hooks or paid-tier dependencies for JWT custom claims are explicitly flagged.\" Deliverable shows JWT structure but does NOT confirm whether custom claims (role, operator_id) are free-tier or require Clerk Pro ($99/mo).",
+      "recommendation": "Add research clarification via Perplexity Sonar Pro: \"Query: Can Clerk free tier include custom JWT claims (role, operator_id) via public metadata?\" If custom claims require Pro tier, add explicit flag: \"COST IMPACT: Custom JWT claims require Clerk Pro ($99/mo starting Month 6 when custom auth policies are needed). Alternative: Lookup user role from database on each request (slower but free-tier compatible).\""
+    },
+    {
+      "id": "L2-8",
+      "category": "must-fix",
+      "section": "Part 2: Authentication & Authorization - Auth Tier-Feature Matrix",
+      "issue": "Template requirement (completion_gate): \"Auth tier-feature matrix produced. Every auth feature mapped to required provider tier and cost.\" Deliverable shows Clerk free vs. Pro vs. Enterprise tiers but DOES NOT explicitly link MVP features (role assignment, JWT custom claims, signup flow) to tiers. Missing: which MVP features require which tier?",
+      "evidence": "Phase_completion_gate: \"Auth tier-feature matrix produced. Every auth feature mapped to required provider tier and cost. Auth tier requirements must be consistent with D10 cost model selections.\" Deliverable matrix lists features but doesn't answer \"Can MVP launch on free tier?\" (yes/no), \"At what point does free tier become insufficient?\" (Oct?), \"What's the cost impact if we need Pro at launch?\"",
+      "recommendation": "Add explicit matrix row: \"MVP Auth Requirements\" with columns: Feature | Free Tier? | Pro Tier? | Cost Impact. Fill in: \"User login (email/password)\" | Yes | N/A | $0. \"Custom JWT claims (role, operator_id)\" | [VERIFY via research] | Yes | $0 if free-tier compatible, else $99/mo. \"Email verification\" | Yes | N/A | $0. This clarifies: Can MVP ship on free tier without paying for Pro tier auth features?\""
+    },
+    {
+      "id": "L2-9",
+      "category": "must-fix",
+      "section": "Part 3: API Design & Endpoints - Endpoint Count and Completeness",
+      "issue": "Deliverable Section 3 claims \"Complete API surface definition\" but D5 shows only 17 core endpoints documented (POST /bookings, GET /bookings, GET /bookings/{id}, PATCH /bookings/{id}, etc.). Phase 3 D3 Feature Registry lists 68 features across all phases (MVP+Growth+Expansion+Future). Template requires: \"Every feature from the FULL Feature Registry has its technical requirements identified.\" MISSING: 51+ Growth/Expansion feature endpoints not mapped to D5 API endpoints.",
+      "evidence": "",
+      "recommendation": "Add section \"3.X Growth Phase API Endpoints (Planned Oct 2026)\" mapping G-001 through G-011 to endpoints (e.g., \"G-001 Pre-Trip Reminders: GET /api/v1/scheduling/reminders, POST /api/v1/notifications/send\"). This documents that architecture anticipates growth without requiring build; demonstrates \"Feature Registry alignment\" required by completion gate. Can be skeleton/placeholder; full spec comes in Phase 5 Part 2 if needed."
+    },
+    {
+      "id": "L2-10",
+      "category": "must-fix",
+      "section": "Part 3: API Design - Error Response Format Specificity",
+      "issue": "Error response format documented generically (\"Consistent error object with HTTP status code, machine-readable error code, human-readable message, optional details array\") but no enum of actual error codes used in Ocean Golf. Template requires: \"Every endpoint: error response format (consistent structure across all endpoints).\" Missing: exhaustive list of error codes Ocean Golf will emit (e.g., ERR_AUTH_TOKEN_EXPIRED, ERR_BOOKING_NOT_FOUND, ERR_INSUFFICIENT_PERMISSIONS, ERR_VALIDATION_FAILED, etc.).",
+      "evidence": "Phase_conversation_structure Area 3 (API Design): \"Design the error response format: consistent error object with HTTP status code, machine-readable error code, human-readable message, and an optional details array for field-level validation errors. Error response format is standardized.\" D5 shows generic format but no Ocean Golf-specific error code catalog (will be needed for Phase 7 implementation and Phase 8 API documentation).",
+      "recommendation": "Add section \"3.X Error Code Catalog\" listing all error codes Ocean Golf will use: ERR_AUTH_REQUIRED (401), ERR_AUTH_TOKEN_EXPIRED (401), ERR_AUTH_TOKEN_INVALID (401), ERR_INSUFFICIENT_PERMISSIONS (403), ERR_BOOKING_NOT_FOUND (404), ERR_COURSE_UNAVAILABLE (409), ERR_VALIDATION_FAILED (400), ERR_RATE_LIMITED (429), ERR_INTERNAL_SERVER_ERROR (500). Include machine code, HTTP status, user-facing message template. Ensures Phase 7 builder uses consistent codes across all endpoints."
+    },
+    {
+      "id": "L2-11",
+      "category": "must-fix",
+      "section": "Part 3: API Design - TypeScript Interfaces Specification Completeness",
+      "issue": "Section 3.1.1 shows TypeScript interfaces for request/response types but INCOMPLETENESS: Booking-related types shown but many endpoints documented in 3.2 do not have corresponding TypeScript interfaces (e.g., course endpoints, vendor bookings, tier-2 approvals interfaces not defined). Template requires: \"Every request body and response payload must have a corresponding TypeScript interface defined in the specification.\"",
+      "evidence": "Section 3.1.1 provides interfaces for: CreateBookingRequest, BookingResponse, RescheduleBookingRequest, CreatePaymentIntentRequest, PaymentIntentResponse, RefundRequest, etc. But section 3.2 documents POST /course-requests (CourseRequestRequest interface missing), PATCH /course-requests/{id} (no interface shown), etc. Incomplete specification will cause Phase 7 implementation to infer types rather than follow spec.",
+      "recommendation": "Complete Section 3.1.1 TypeScript Interfaces with ALL endpoint types: CourseRequestRequest, CourseRequestResponse, CourseConfirmationResponse, VendorBookingRequest, VendorBookingResponse, Tier2ApprovalRequest, Tier2ApprovalResponse, IssueRequest, IssueResponse, etc. For each interface, include example payloads. Ensures Phase 7 builder has unambiguous type specs for all endpoints."
+    },
+    {
+      "id": "L2-12",
+      "category": "should-improve",
+      "section": "Part 3: API Design - Pagination Implementation Detail",
+      "issue": "Section 3.3 documents \"Pagination structure: Standardize on cursor-based or offset-based pagination\" but does not specify which was chosen for Ocean Golf. Template requires: \"Document pagination conventions\" and \"default and maximum page sizes.\" Missing specifics: Is Ocean Golf using cursor-based (safer for large datasets) or offset-based (simpler)? What are the limit defaults and max limits?",
+      "evidence": "Phase_conversation_structure Area 3 (API Design): \"Design search, filtering, and pagination patterns \u2014 these are universal across entities\" and \"Document pagination conventions, filtering patterns, search implementation\" \u2014 D5 should specify the chosen approach, not leave it open.",
+      "recommendation": "Add explicit pagination specification: \"Ocean Golf uses offset-based pagination for MVP (simpler for initial scale). Default limit: 50 records. Maximum limit: 200 records. Clients request via ?limit=50&offset=0 query parameters. Growth Phase (Month 6+): migrate to cursor-based pagination if offset-based shows performance issues at scale. All list endpoints return meta.total_count, meta.has_next, meta.offset, meta.limit in response envelope.\""
+    },
+    {
+      "id": "L2-13",
+      "category": "should-improve",
+      "section": "Part 4: State Management Architecture - Missing Caching Strategy Detail",
+      "issue": "Section 4.1 documents TanStack Query but does not specify cache invalidation triggers for Ocean Golf-specific operations (e.g., \"when course confirmation arrives, which cached queries should be invalidated?\"). Template requires: \"Cache invalidation (when a user creates or updates something, which cached queries need to be refreshed).\" Missing specifics for Ocean Golf domain.",
+      "evidence": "Template phrase: \"Document: caching strategy (how long fetched data stays valid before re-fetching), cache invalidation (when a user creates or updates something, which cached queries need to be refreshed), and optimistic updates (showing the change immediately while the API call is still in flight, then rolling back if it fails).\" \u2014 D5 shows generic caching but not Ocean Golf-specific invalidation logic (e.g., \"when course_request status changes to 'confirmed', invalidate [bookings, course_requests, itineraries] caches for that booking\").",
+      "recommendation": "Add section \"4.1.X Cache Invalidation Rules for Ocean Golf\" specifying: When booking status changes \u2192 invalidate bookings list + specific booking detail. When course_request confirmed \u2192 invalidate booking detail + itineraries. When payment received \u2192 invalidate payments list + booking detail. When booking_modification approved \u2192 invalidate booking detail + modification list. Ensures Phase 7 developer implements consistent cache invalidation logic."
+    },
+    {
+      "id": "L2-14",
+      "category": "should-improve",
+      "section": "Part 5: Service Integrations - Missing Webhook Failure Handling Specificity",
+      "issue": "Section 5.4 (Stripe webhook) documents webhook handling generically (\"verify signature, extract data, update booking\") but does not specify retry logic for failed webhook deliveries or webhook idempotency strategy. Template requires: \"For each integration: webhook handler...error handling and fallback behavior.\" Missing: What happens if Stripe webhook delivery fails? What's the retry strategy?",
+      "evidence": "Section 5.1-5.6 document integrations but lack explicit \"What if webhook fails?\" scenarios. E.g., Stripe webhook delivers payment_succeeded but Ocean Golf's webhook handler crashes before updating booking status \u2014 booking is stuck in 'awaiting_payment' forever. Idempotency key strategy not documented.",
+      "recommendation": "Add subsection \"5.X Webhook Reliability & Idempotency\" specifying: All webhooks handled via idempotency key (e.g., Stripe payment_intent.id as key). Ocean Golf stores (webhook_source, source_id) tuple to prevent duplicate processing. If webhook delivery fails (network timeout), Stripe retries per [Stripe retry policy]. Ocean Golf maintains webhook delivery log for audit. Adds robustness to integration layer."
+    },
+    {
+      "id": "L2-15",
+      "category": "must-fix",
+      "section": "Part 6: Security Architecture - CORS Policy Specificity",
+      "issue": "Section 6.1 mentions \"CORS policy (Cross-Origin Resource Sharing \u2014 the rules controlling which websites can make requests to your API)\" but does not specify Ocean Golf's actual CORS policy. Template requires: \"CORS (which websites can make requests).\" Missing: What domains are allowed to call Ocean Golf API? Is it restricted to oceangolf.com, or do partner integrations need access?",
+      "evidence": "Phase_conversation_structure Area 7 (Security): \"Design...CORS policy (preventing external websites from making requests without permission).\" \u2014 D5 should specify the actual policy, not just define what CORS is.",
+      "recommendation": "Add CORS specification: \"Ocean Golf CORS Policy: Allowed origins: https://oceangolf.com, https://*.oceangolf.com (for subdomains), https://demo.oceangolf.com. Allowed methods: GET, POST, PATCH, DELETE. Allowed headers: Content-Type, Authorization. Credentials: include. Preflight cache: 3600 seconds. Future (Growth Phase): Add https://*.golftravel-partners.example.com for API partner access (partner integration). Rationale: Restricts API access to Ocean Golf domain; partners cannot make direct API calls from their websites (they use server-to-server integration instead).\""
+    },
+    {
+      "id": "L2-16",
+      "category": "must-fix",
+      "section": "Part 6: Security Architecture - Secrets Rotation Strategy Undefined",
+      "issue": "Section 6.5 documents \"Secrets management: API keys, database passwords...stored as environment variables, never hardcoded\" but does not specify rotation schedule or procedures. Template requires: \"How API keys and credentials are stored, accessed, and rotated.\" Missing: How often are Clerk API keys, Stripe API keys rotated? What's the procedure?",
+      "evidence": "Phase_conversation_structure Area 7 (Security): \"Secrets management: how API keys and credentials are stored, accessed, and rotated\" \u2014 D5 addresses storage (\"environment variables\") but not rotation strategy.",
+      "recommendation": "Add \"Secrets Rotation Schedule\": \"Stripe API keys: Rotated annually (January 2027). Clerk API keys: Rotated quarterly (Jan/Apr/Jul/Oct). Database password: Rotated on new user onboarding (Lucia, Finance Manager). Procedure: New key generated in vendor dashboard \u2192 Updated in Railway environment variables \u2192 App restarted \u2192 Old key revoked. Minimum rotation: Tier 1 API keys (public) never shared in code; Tier 2 keys (signing) rotated annually; Tier 3 keys (critical, database password) rotated on significant events (employee departure, suspected breach).\""
+    },
+    {
+      "id": "L2-17",
+      "category": "must-fix",
+      "section": "Part 7: Deployment & DevOps - CI/CD Pipeline Definition Missing Details",
+      "issue": "Section 7.1 describes Git branching (main, develop, feature branches) but does not specify what CI/CD checks run on each branch or deployment gates. Template requires: \"CI/CD pipeline: what runs on every push (type checking, linting, tests, build verification).\" Missing specifics: Does every commit to feature branch run tests? Does merge to develop require tests to pass? What gates deployment to production?",
+      "evidence": "Phase_conversation_structure Area 8 (Deployment): \"CI/CD pipeline: what runs on every push (type checking, linting, tests, build verification)\" \u2014 D5 mentions \"Tests run on every commit\" but lacks specifics (which tests? all or subset? gates?). Phase_completion_gate requires: \"Testing strategy feeds Phase 7 build card.\"",
+      "recommendation": "Add CI/CD specifics: \"On every commit to feature branch: Run linting (ESLint), type-check (tsc), unit tests (Vitest). Tests must pass before commit is accepted. On PR to develop: Full test suite (unit + integration). Coverage must be >80%. On merge to develop: Staging deployment triggered automatically. On PR to main (production): Manual review required + all tests must pass. On merge to main: Production deployment triggered automatically, health check verifies success. If health check fails: Automatic rollback to previous version, team notified.\""
+    },
+    {
+      "id": "L2-18",
+      "category": "must-fix",
+      "section": "Part 8: Monitoring & Alerting - Alert Thresholds Undefined",
+      "issue": "Section 8 documents \"Application Performance Monitoring: page load times, API response times, Time to First Byte, Largest Contentful Paint\" and \"Uptime Monitoring: automated checks\" but does not specify alert thresholds. Template requires: \"every alert and its trigger threshold.\" Missing: At what page load time is an alert triggered? 2 seconds? 5 seconds? What's the response time threshold for API alerts?",
+      "evidence": "Phase_completion_gate: \"Monitoring and observability stack is designed. APM, error tracking, uptime monitoring, log aggregation, alert escalation \u2014 with Day Zero and scaled tiers documented.\" D5 documents \"targets\" (page load <1s, API response <200ms) but not alert thresholds (e.g., \"alert if 95th percentile exceeds 500ms for 5 consecutive minutes\").",
+      "recommendation": "Add \"Alert Thresholds\" table: Metric | Threshold | Duration | Severity. E.g., \"API response time (p95)\" | \">500ms\" | \"5 min consecutive\" | \"Warning\". \"Page load time\" | \">3s\" | \"1 min\" | \"Warning\". \"Error rate\" | \">1%\" | \"10 min\" | \"Critical\". \"Database unavailable\" | \"Health check fails\" | \"1 min\" | \"Critical \u2192 SMS to Rafael\". Ensures Phase 8 operations knows what triggers alerts and how to respond."
+    },
+    {
+      "id": "L2-19",
+      "category": "must-fix",
+      "section": "Part 8.5: Cookies & Local Storage Inventory - Missing Compliance Note",
+      "issue": "Section 8.5 documents cookies/storage but does not reference how this inventory connects to Phase 8 D12 (Privacy Policy). Template requires: \"This inventory feeds Phase 8's D12 privacy policy cookie disclosure.\" Missing: Is this inventory exported for use in Privacy Policy, or is it static and forgotten?",
+      "evidence": "Section 8.5 notes: \"**Implementation Notes:** All authentication cookies use Secure flag (HTTPS only) and HttpOnly flag (cannot access via JavaScript). CSRF token is regenerated...Local Storage is used for non-sensitive UI preferences only. No third-party cookies (no Google Analytics, Mixpanel, etc. in MVP).\" But does NOT note: \"This inventory must be synchronized with D12's cookie consent banner and privacy policy disclosures in Phase 8.\"",
+      "recommendation": "Add note at end of Section 8.5: \"Phase 8 D12 Integration: The cookies and storage inventory above must be copied into D12 (Privacy Policy) Section [X] 'Cookies & Tracking Technologies.' Founder must review compliance with GDPR/CCPA cookie consent requirements. Any cookies added in future features must first be added to this inventory, then disclosed in privacy policy before cookie is set. No surprise cookies.\""
+    },
+    {
+      "id": "L2-20",
+      "category": "must-fix",
+      "section": "D-55-P5 Ledger - Coverage & Binding Completeness",
+      "issue": "Decision ledger shows D55-P5-001 through D55-P5-020 (20 entries) but Phase_completion_gate requires: \"Track architecture decisions using the D-55 ledger schema...For each decision: (1) Decision, (2) Constraint, (3) Binds.\" Ledger shows decisions but binding verification incomplete: Many entries state \"Binds to: Phase 5/6/7/8\" but do NOT verify those phases actually reference the decision. No back-link verification (does Phase 7 actually reference D55-P5-008 when it builds tests?). Template requires proof that bindings are bidirectional.",
+      "evidence": "D55-P5-008 (ORM Framework Drizzle) states \"Binds: Phase 5 (API must use...type generation), Phase 7 (Build cards must...), Phase 8 (Phase 7 builder can implement...)\" but there's no verification that Phase 7 template actually lists \"ORM Framework Drizzle\" as a dependency or that Phase 8 will actually reference it. Bindings are assumed, not verified.",
+      "recommendation": "Add \"Ledger Verification\" section after D55-P5-020 noting which entries have been cross-checked with downstream phase templates: \"D55-P5-001 (Database Neon) \u2014 Verified: Phase 5 Part 2 includes 'Neon configuration' section. D55-P5-008 (ORM Drizzle) \u2014 Verified: Phase 7 template lists ORM setup as build card. D55-P5-015 (Testing Vitest+Playwright) \u2014 Verified: Phase 7 includes 'Testing Infrastructure Foundation' card.\" For any entry without downstream verification yet, note \"Deferred verification to Phase [N].\""
+    },
+    {
+      "id": "L2-21",
+      "category": "consider",
+      "section": "Part 1: Infrastructure - Deployment Cost Model Precision",
+      "issue": "Cost projections at three tiers (Day Zero, Month 6, Year 1) use ranges (e.g., \"Stripe: ~$450/month MVP, ~$1,200-1,800 Month 6\") but actual amounts depend on booking volumes/pricing that haven't been finalized. Cost model shows assumptions but not sensitivity analysis (e.g., \"If average booking value drops from $1,000 to $800, costs shift to X\"). Acceptable given uncertainty, but consider adding caveat.",
+      "evidence": "D55-P5-012 (Cost Model) states \"Aggregate all service costs...at three tiers...every number sourced from live research.\" Costs provided are reasonable estimates but flagged with \"~\" indicating approximation. Template says this is acceptable (\"State the economics at three tiers: Day Zero cost, moderate scale, significant scale\") but Phase 5 Part 2 should include \"Sensitivity Analysis\" showing how changes to booking volume/pricing impact infrastructure costs.",
+      "recommendation": "Optional: Add \"Cost Sensitivity Analysis\" section noting: \"Stripe fees (2.9% + $0.30) scale with booking value. If service fees drop from $600 to $400 per booking, Stripe costs decrease proportionally. Email/SMS costs scale with volume (more trips \u2192 more reminders). Monitoring costs fixed at Month 6 regardless of volume. Most sensitive cost driver: Stripe transaction fees (directly proportional to revenue). If revenue drops 20%, Stripe costs drop 20%. If revenue increases 50%, Stripe costs increase 50%.\" This helps founder understand cost dynamics."
+    },
+    {
+      "id": "L2-22",
+      "category": "consider",
+      "section": "Part 9: Deployment Checklist - Pre-Launch Validation Missing",
+      "issue": "Part 9 lists deployment checklist items (Database tested, Auth configured, Payments configured, etc.) but does not specify what \"tested\" means or how to verify each item. Checklist is binary (checked/unchecked) but lacks success criteria. Acceptable for high-level overview, but Phase 8 (Operations) should expand this into detailed launch runbook.",
+      "evidence": "Checklist items like \"Health Check: /api/v1/health responds successfully\" need success criteria (response time <100ms? HTTP 200 with all dependencies green?). Template does not explicitly require this level of detail for Phase 5, but founder will need it in Phase 8.",
+      "recommendation": "Optional: Add \"Success Criteria\" for each checklist item in parentheses, e.g., \"Health Check: /api/v1/health responds with HTTP 200 and all dependencies (database, Clerk, Stripe) return status='ok' within <100ms.\" This becomes the template for Phase 8 launch runbook validation steps."
+    }
+  ],
+  "summary": {
+    "must_fix": 17,
+    "should_improve": 3,
+    "consider": 2,
+    "total": 22
+  }
+}

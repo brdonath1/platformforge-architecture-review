@@ -1,0 +1,50 @@
+<interview_brief phase="6a">
+  <summary>25 should-improve items found across L2 (5), L3 (8), L4 (12) for Phase 6a deliverable.</summary>
+
+  <topic_group source="L2 -- Domain Expert (Design Director / Principal Designer)">
+    <topic id="SI-6a-L2-1">
+      <context>Section provides color values but does not specify CSS transition properties (e.g., `transition: background-color 200ms ease-out`) needed to smoothly animate color changes on dark mode toggle, potentially causing jarring visual flash.</context>
+      <gap>Light mode and dark mode color values are provided but no guidance on how to handle the transition (fade duration, easing function) or how to prevent color "flash" when user toggles dark mode.</gap>
+      <question>Add: CSS transition duration and easing for dark mode toggle (e.g., "Color transitions: 150ms ease-out to prevent harsh flashing"), and note on how to detect prefers-color-scheme changes and update colors dynamically without page reload.</question>
+    </topic>
+    <topic id="SI-6a-L2-2">
+      <context>Section describes password requirements UI and real-time validation but does not state whether server must also validate (e.g., API endpoint validates password length, complexity before accepting) or if client-side validation alone is sufficient.</context>
+      <gap>Password requirements checklist is designed but no guidance on whether password rules are enforced server-side or only validated client-side, creating potential security gap if client validation is bypassed.</gap>
+      <question>Add: explicit note that "Password validation MUST be enforced server-side on API endpoints. Client-side validation is UX only; server validation is security-critical. API rejects weak passwords even if client validation is bypassed."</question>
+    </topic>
+    <topic id="SI-6a-L2-3">
+      <context>Checklist item: "[ ] Dark mode tested: Colors adjusted, not inverted; all text still readable" is vague about test scope and methodology; does not specify whether all 28+ color combinations are tested or just spot-checked.</context>
+      <gap>Checklist verifies "Dark mode tested" but does not specify what "tested" means (manual visual inspection? automated contrast testing? full coverage of all components?).</gap>
+      <question>Clarify: "Dark mode tested: All text/background color combinations verified for 4.5:1 contrast in dark mode via WebAIM; all components with background colors tested for visual consistency (no inverted colors creating harsh contrast); tested on Chrome, Safari, Firefox."</question>
+    </topic>
+    <topic id="SI-6a-L2-4">
+      <context>Section 0 and conclusion mention "D-55 running ledger updated" and "D-55 entries" but the actual ledger table showing all P6A decisions is embedded only in passing; a standalone ledger table should be provided as a design system reference artifact.</context>
+      <gap>D-55 ledger entries (D55-P6A-001 through D55-P6A-014+) are referenced throughout but the ledger itself is not provided in this deliverable; entries are mentioned but not fully materialized as a standalone table for Phase 7 reference.</gap>
+      <question>Provide a standalone D-55 Phase 6A Decision Ledger table (separate from existing narrative) with columns: Entry ID, Decision, Constraint, Rationale, Binding Phase, Status; ensure all 14+ decisions are listed and can be indexed by Phase 7 developers.</question>
+    </topic>
+    <topic id="SI-6a-L2-5">
+      <context>Section states "Awaiting 2-day founder validation cycle (post-D7 lockdown)" and "Status: Awaiting founder confirmation" but does not specify: (1) what happens if founder rejects decisions, (2) timeline for re-iteration, (3) gate criteria for proceeding to D6B without founder approval.</context>
+      <gap>Founder decision checkpoints describe pending validation but the structure suggests Lucia validation should occur during D7 review cycle, yet no explicit timeline or gate condition is provided for when D6A is considered "locked" vs. "pending founder feedback".</gap>
+      <question>Add: explicit founder validation gate with criteria: "D7 is locked pending Lucia's approval of (1) color palette emotional alignment, (2) dark mode necessity, (3) component library flexibility. If Lucia requests changes: re-validate contrast, re-execute research point 6.2, re-lock D7 within 2 business days. If changes are substantial, Phase 6B start is delayed by up to 1 week."</question>
+    </topic>
+  </topic_group>
+
+  <topic_group source="L3 -- Downstream Consumer (Engineering Manager / Technical PM)">
+    <topic id="SI-6a-L3-1">
+      <context>Section 2.1 provides system font stack but does not justify why system fonts are preferable to web fonts (e.g., Geist, Inter, Poppins) which are industry standard in 2026 design systems.</context>
+      <gap>Font stack recommendation to use system fonts is provided but no rationale for why Tailwind CSS system font stack is preferred over explicit font family stack, nor verification that all operating systems have acceptable fonts in fallback order.</gap>
+      <question>Add rationale: "System fonts chosen for (1) zero CDN cost, (2) native OS feel familiar to users, (3) fast load (fonts already cached). Trade-off: less brand consistency. If brand consistency required, Geist (free, Vercel-hosted) recommended for Phase 8."</question>
+    </topic>
+    <topic id="SI-6a-L3-2">
+      <context>Section 8 shows `@theme { --color-primary: #0052A3; }` syntax but does not cite Tailwind v4 documentation or provide verification that this directive exists in Feb 2026 release.</context>
+      <gap>Tailwind v4 configuration uses `@theme` directive syntax but does not verify this syntax is correct for Tailwind v4 (released Feb 2024). Syntax may differ from v3 or v4 final release.</gap>
+      <question>Verify via live research (Perplexity Sonar Pro): confirm Tailwind v4 current version (as of Feb 2026), correct `@theme` syntax, and any deprecations from v3.</question>
+    </topic>
+    <topic id="SI-6a-L3-3">
+      <context>Rule states "Always paired with text label" but provides generic guidance. For Ocean Golf context (golf bookings, approvals, issues), the specific label wording should be defined (e.g., status-specific vocabulary).</context>
+      <gap>Example text shows "Always paired with checkmark icon (✓) and text label" but does not specify what text label should be (e.g., "✓ Confirmed" vs. "✓ Success" vs. "✓ Course confirmed").</gap>
+      <question>Add label vocabulary guide: "Success badges: use 'Confirmed', 'Approved', 'Completed'. Warning badges: 'Pending', 'Awaiting', 'Flagged'. Error badges: 'Failed', 'Denied', 'Cancelled'."</question>
+    </topic>
+  </topic_group>
+
+</interview_brief>

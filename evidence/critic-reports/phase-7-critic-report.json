@@ -1,0 +1,21 @@
+{
+  "quality_score": 7,
+  "critical_issues": [
+    "FC-015 seed data enumerates only 13 courses (Quivira 1 + Diamante 2 + Palmilla 1 + Puerto Los Cabos 2 + Cabo del Sol 2 + Cabo Real 1 + Club Campestre 1 + Vidanta 1 + Twin Dolphin 1 + Chileno Bay 1 = 13), but the acceptance criteria on FC-015 states 'courses table has 14 rows', FC-031 checks for 14 courses, and FC-072 verifies 'all 14 course profiles'. One course is missing from the property/course enumeration, and the discrepancy will cause acceptance criteria failures across multiple cards.",
+    "Build window 'January through mid-February 2026' (D55-P7-017, Section 1.4) is chronologically impossible given the document generation date of March 2026, and directly contradicts D1 D55-P1-020 which states 'Build effort concentrated during slow season (May\u2013October 2026)' with 'Target platform launch before November 2026 peak season.' A Phase 7 developer following these timeline instructions would be confused about when to actually build."
+  ],
+  "contradictions": [
+    "Dave Torres is listed as from 'Phoenix, AZ' in FC-015 seed data, but the D1 Demo Requirements Flag names the scenario 'Dave from Dallas' and describes 'Dave from Dallas requesting his second annual Cabo trip.' The city should be consistent across deliverables.",
+    "Section 1.4 session structure specifies '4 sessions per week during January\u2013February' which contradicts D55-P1-020 ('Build effort concentrated during slow season May\u2013October 2026'). The entire session schedule section references a build window that conflicts with D1's stated timeline.",
+    "Pre-build checklist item #3 lists Supabase account email as 'concierge@oceangolf.mx' in the Credential Sequencing Map, but this email is never created in the pre-build checklist. Only lucia@oceangolf.mx is created in item #1. Rafael's @oceangolf.mx email creation is missing from the pre-build steps despite D55-P7-012 requiring all sign-ins use @oceangolf.mx accounts.",
+    "FC-019 inserts team members with email 'concierge@oceangolf.mx' for Rafael, but the Pre-Build Checklist and Credential Sequencing Map are inconsistent about whether this email exists \u2014 it appears as the Supabase account email but is never explicitly created as a Google Workspace user."
+  ],
+  "warnings": [
+    "FC-019 SQL uses 'ON CONFLICT DO NOTHING' without specifying conflict target columns, which may not behave as intended if no unique constraint matches the insert values.",
+    "The 30\u201345 hour estimate for 72 cards averages ~25\u201338 minutes per card, which seems optimistic for complex cards like FC-052 (branded PDF generation), FC-054 (Stripe integration with webhook handler), and FC-039\u2013FC-042 (4-card proposal wizard sequence).",
+    "FC-066 acceptance criteria says 'Trigger a server error (temporarily)' to test the 500 page, but provides no specific guidance for a non-technical founder on how to do this safely.",
+    "FC-031 creates a separate 'production operator' (is_demo_tenant=false) alongside the demo operator in the same Supabase project. The deliverable does not clearly explain how the founder switches between demo and production contexts in the UI, or how the onboarding flow in FC-067 bridges these two operator records.",
+    "Section 7 (Phase 2+ Feature Planning) lists Growth Batch 1 as 'Commission Invoicing (F-034): ~4 cards' but no actual build card specifications are provided for any Growth features \u2014 the section only gives rough card count estimates. This is stated as intentional but reduces the roadmap's usefulness for planning.",
+    "The Methodology Feedback section (item 6) identifies an information flow gap where D4's ALTER TABLE statements for deferred foreign keys require manual cross-referencing, but the build cards themselves do not call out which specific ALTER TABLE statements belong to which migration card (e.g., FC-008 mentions 'Add deferred FK constraints from group_members and clients' but the SQL is left to AI generation without explicit DDL)."
+  ]
+}

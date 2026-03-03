@@ -1,0 +1,189 @@
+{
+  "layer": 4,
+  "layer_name": "Founder Comprehension",
+  "phase": "6b",
+  "findings": [
+    {
+      "id": "L4-1",
+      "category": "must-fix",
+      "section": "Executive Summary",
+      "issue": "The deliverable uses heavy jargon (\"hunt-list-first design\", \"triage urgent items\", \"RED \u2192 YELLOW \u2192 BLUE \u2192 GREEN\") without explaining what these mean in business terms for a founder who doesn't know Ocean Golf's operational context.",
+      "evidence": "Executive summary opens with \"hunt-list-first design grounded in Lucia's actual operational workflow: triage urgent items (RED \u2192 YELLOW \u2192 BLUE \u2192 GREEN)\" with no explanation of what these colors mean or why this workflow matters to the business.",
+      "recommendation": "Rewrite the executive summary in plain business language: explain that the system prioritizes golf bookings needing immediate attention (red), soon (yellow), upcoming (blue), and locked/monitoring (green), and that Lucia works through them in that order because it maximizes responsiveness and client satisfaction."
+    },
+    {
+      "id": "L4-2",
+      "category": "must-fix",
+      "section": "Executive Summary",
+      "issue": "The founder (non-technical) will not understand why there are \"7 Pages\" and \"9 modals\" as distinct categories, or what that distinction means for build cost/timeline.",
+      "evidence": "Executive Summary lists \"MVP Page Inventory (7 Pages)\" and \"Interaction Modals (9 types)\" as separate, but provides no explanation of why modals are separate from pages or what this means for scope.",
+      "recommendation": "Add a brief explanation: \"Pages are full screens you navigate to. Modals are dialog boxes that pop up for quick actions (like sending a reminder). We have 7 full screens and 9 dialog types in MVP.\" Briefly note that this affects build cards in Phase 7."
+    },
+    {
+      "id": "L4-3",
+      "category": "must-fix",
+      "section": "Section 1.2 Dimensions",
+      "issue": "Sidebar width (256px), main content max-width (1400px), and detail panel width (384px) are specified with exact pixel values but without business context for why these dimensions matter or what the founder is paying for.",
+      "evidence": "Dimensions section states \"Sidebar: Width (expanded): 256px (fixed)\" and \"Max-width: 1400px (prevents very wide content from being unreadable)\" but doesn't explain the business impact (e.g., \"this width is wide enough for Lucia to see the hunt list while reading a detail panel, reducing clicks to switch context\").",
+      "recommendation": "For each critical dimension, add a one-line business justification. Example: \"Sidebar 256px wide: wide enough for Lucia to scan hunt list items (client name + trip dates + urgency badge) without scrolling left/right. Detail panel 384px: shows action buttons + quick context without scrolling down. These dimensions prevent Lucia from having to click back-and-forth between hunt list and detail.\""
+    },
+    {
+      "id": "L4-4",
+      "category": "should-improve",
+      "section": "Section 2.1 Sidebar Navigation",
+      "issue": "The statement \"Settings deferred to Phase 8 (when multiple team members exist)\" is confusing because it's unclear why settings need multiple team members to justify building them.",
+      "evidence": "Under sidebar nav table: \"Settings deferred to Phase 8 (when multiple team members exist). Not built for MVP.\"",
+      "recommendation": "Clarify: \"Settings page deferred to Phase 8 because MVP has only you (Rafael) and Lucia, so settings like notification preferences, user roles, and integrations aren't yet needed. Once you add a support team member, you'll need a settings page to manage their permissions and preferences.\""
+    },
+    {
+      "id": "L4-5",
+      "category": "must-fix",
+      "section": "Section 3.1 - Page 1: Hunt List",
+      "issue": "The hunt list urgency scoring algorithm (RED/YELLOW/BLUE/GREEN tiers) is referenced throughout but never explicitly explained to the founder in business terms.",
+      "evidence": "Section 3.1 specifies \"Four sections: RED (Critical), YELLOW (Urgent), BLUE (Upcoming), GREEN (Locked)\" and D55-P6B-004 lists thresholds (\"RED (24h+ overdue or <1 day to event)\") but the founder is never told *why* these tiers exist or *what business problem they solve*.",
+      "recommendation": "Add a \"Why This Matters\" paragraph to the Hunt List spec: \"Lucia has 30+ bookings at any time. Without urgency scoring, she'd see a flat list and might miss a course confirmation that's 24 hours overdue. The color tiers let her focus on what's actually urgent (red), what can wait a day (yellow), what's upcoming (blue), and what's locked/monitoring (green). This prevents lost confirmations and late payments.\""
+    },
+    {
+      "id": "L4-6",
+      "category": "should-improve",
+      "section": "Section 3.1 - Page 1: Hunt List, Detailed Specification",
+      "issue": "The \"Real-Time Updates\" subsection describes a technical feature (WebSocket or polling) without explaining the business value to the founder.",
+      "evidence": "Under \"Real-Time Updates\": \"Hunt list polling or WebSocket: Every 30 seconds (or on event trigger), check for status changes. If item urgency changes (e.g., course confirms, moves from RED to YELLOW), update immediately.\"",
+      "recommendation": "Add business context: \"Real-time updates mean Lucia doesn't have to refresh the page or wait 5 minutes to see that a course confirmed. If she has the hunt list open and a course contact replies via WhatsApp, the system automatically updates the list within seconds. This feels responsive and keeps her confident that the data is current.\""
+    },
+    {
+      "id": "L4-7",
+      "category": "should-improve",
+      "section": "Section 3.1 - Page 1: Hunt List, Example Hunt List Item",
+      "issue": "The HTML code block (`<li class=\"hunt-item\"...`) will confuse a non-technical founder and serves no purpose in a founder-facing deliverable.",
+      "evidence": "Includes a full HTML/JSX code snippet: `<li class=\"hunt-item\" data-booking-id=\"B-2024-001\"...>` with CSS classes and JSX syntax.",
+      "recommendation": "Remove the HTML code block entirely. Keep the text-based description and ASCII visual. If you want to show developers the component structure, that belongs in Phase 7 build specifications, not in the founder-facing page architecture document."
+    },
+    {
+      "id": "L4-8",
+      "category": "must-fix",
+      "section": "Section 3.2 Overlays, Overlay 1: Hunt List Detail Panel",
+      "issue": "The detail panel design is highly complex (5 action buttons, 5+ collapsible sections, real-time refresh logic) but the founder is never told why this complexity is necessary or how it reduces friction vs. a simpler design.",
+      "evidence": "Panel specification includes: \"Quick Context Section\", \"Action Buttons (Context-Dependent)\", \"Collapsible Sections\" with 5 different section types (Full Booking Details, Courses, Payment Status, Communication History, Notes), plus \"Real-Time Refresh\" logic. No business justification for any of this.",
+      "recommendation": "Add a \"Why This Design\" section: \"The detail panel is action-focused because Lucia's workflow is: (1) Open a hunt item, (2) See the problem in one glance (quick context), (3) Take action (button), (4) See the result update. If she has to scroll through booking details or payment history to find the action button, friction increases. By putting action buttons at the top and collapsing detailed sections, she can scan and act in 10 seconds for most bookings.\""
+    },
+    {
+      "id": "L4-9",
+      "category": "should-improve",
+      "section": "Section 3.3 - Modal 1: Send Reminder Modal",
+      "issue": "The phrase \"Pre-drafted message\" and \"editable text\" is technical jargon without founder context for why this matters.",
+      "evidence": "Modal 1 spec: \"Content | Editable text, recipient preview, send button\".",
+      "recommendation": "Expand to: \"Pre-drafted message (Lucia can edit it): The system generates a default reminder message like 'Hi Carlos, checking on the confirmation for Dallas group on Wed Oct 15 at 8:00 AM. Let me know ASAP!' Lucia can edit the message if she wants to add context, then sends it via WhatsApp/SMS/Email. This balances speed (default message is fast) with flexibility (she can personalize if needed).\""
+    },
+    {
+      "id": "L4-10",
+      "category": "must-fix",
+      "section": "Section 3.4 Feature 1: Real-Time Hunt List Updates",
+      "issue": "The technical description (WebSocket, polling, event listeners, re-sorting) will be lost on a non-technical founder and doesn't explain the business value.",
+      "evidence": "Feature description: \"WebSocket connection or polling (30-second intervals)\", \"Server broadcasts status change event via WebSocket to all connected clients\", \"JavaScript event listener updates hunt list item and re-sorts if needed\", \"Fallback: If WebSocket unavailable, polling every 30 seconds\".",
+      "recommendation": "Rewrite for founder comprehension: \"Real-time updates mean Lucia's hunt list automatically refreshes when a course confirms, client pays, or status changes\u2014without her having to reload the page or close and reopen the app. This keeps her confident the list is current and prevents her from working on items that are already resolved. Business impact: fewer missed updates, faster response times, better client satisfaction.\""
+    },
+    {
+      "id": "L4-11",
+      "category": "should-improve",
+      "section": "Section 4.1 Day Zero Flow",
+      "issue": "The onboarding flow is described in detailed steps but lacks business context for why each step matters (e.g., why is empty state important? what does it do for retention?).",
+      "evidence": "Step 4 describes \"Suggested onboarding prompt (inline, not modal)\" and Step 5 lists options Lucia can take, but doesn't explain the business goal of the onboarding flow.",
+      "recommendation": "Add an introductory paragraph: \"The goal of day zero onboarding is to get Lucia from 'account created' to 'taking her first action' as quickly as possible. Research shows that users who complete one action in their first session have 5x higher retention. Our onboarding is minimal (no intrusive tutorials) because Lucia is already a domain expert\u2014she knows how to manage golf bookings. We just need to orient her to *where* things are in Ocean Golf and let her start working.\""
+    },
+    {
+      "id": "L4-12",
+      "category": "should-improve",
+      "section": "Section 5.1 Toast Notification Types & Triggers",
+      "issue": "The decision to interrupt with a toast for \"Tier 2 approval decided\" but NOT for \"Course replied\" is not justified in business terms.",
+      "evidence": "Toast types table: \"Approval request submitted\" is a 5-second toast, but status updates like \"Course replied\" are described as \"silent\" (badge only) in Section 5.2.",
+      "recommendation": "Add reasoning: \"We interrupt (toast) only for decisions that require Lucia's immediate action. When Rafael approves/denies a tier 2 request, Lucia needs to know immediately because she may need to reply to the client. When a course replies, Lucia will see it next time she opens the hunt list\u2014it's good to know but not urgent. This keeps notification fatigue low while ensuring urgent decisions don't get missed.\""
+    },
+    {
+      "id": "L4-13",
+      "category": "must-fix",
+      "section": "Section 3, complete page inventory table (Section 3.6)",
+      "issue": "The table header row is formatted as `| # | Screen Name | URL Route | Layout | ...` but the table spans 9 columns and will be difficult for a founder to parse. More importantly, the founder is never told what they're supposed to do with this table.",
+      "evidence": "Table has columns: #, Screen Name, URL Route, Layout, Components, API Endpoints, MVP Priority, Notes. No explanation of what each column means or why the founder should care about API Endpoints or Priority Tier.",
+      "recommendation": "Add a brief preamble before the table: \"This table is the definitive list of every screen, dialog, and feature that gets built in MVP. Rows marked 'MVP' are included in your launch. Rows marked 'Phase 8' are deferred to the next release. 'API Endpoints' tells developers which backend connections each page needs (don't need to understand these, but note that every page depends on multiple backend systems working correctly).\""
+    },
+    {
+      "id": "L4-14",
+      "category": "should-improve",
+      "section": "Section 6, Complete Page Inventory Table",
+      "issue": "The large table (20 rows, 8+ columns) is presented without visual hierarchy or founder-friendly summary. A founder will not retain information from a 20-row table.",
+      "evidence": "Section 6 presents the entire page inventory as a single comprehensive table without breaking it into digestible chunks.",
+      "recommendation": "Restructure: (1) Add a summary statement before the table: \"MVP includes 6 full pages, 3 detail panels, 9 action dialogs, and 2 background features. Total: 20 user-facing elements.\" (2) Break the table into three mini-tables: Pages (6 rows), Overlays (3 rows), Modals (9 rows). (3) For each section, add a 1-2 sentence business purpose. Example: \"Pages are full screens. Modals are quick-action dialogs that don't require navigation.\""
+    },
+    {
+      "id": "L4-15",
+      "category": "should-improve",
+      "section": "Section 7, D-55 Running Ledger",
+      "issue": "The ledger uses technical language (WebSocket, localStorage, CSS media queries, .dark class) that a founder won't understand and doesn't need to.",
+      "evidence": "Ledger entries like D55-P6B-005 include: \"Implement WebSocket connection (preferred) or polling fallback. Broadcast status change events to all connected clients.\" and D55-P6B-017 includes \"CSS media queries for complex layouts\".",
+      "recommendation": "Simplify the ledger for founder readability. Remove implementation details (WebSocket, localStorage, CSS classes). Keep only: Decision, Business Reason, Constraint, and Status. Example: \"D55-P6B-005 | Hunt list updates in real-time when booking status changes | Lucia sees changes immediately without reloading page | Requires backend to notify frontend of status changes | Locked\". This way the founder understands the decision without getting lost in technical jargon."
+    },
+    {
+      "id": "L4-16",
+      "category": "must-fix",
+      "section": "Section 2.3 Role-Based Navigation Visibility",
+      "issue": "The statement \"MVP assumes only Owner + Operations. No role filtering needed. Role-based navigation deferred to Phase 8 when Support role is added.\" is contradictory\u2014the section specifies that Owner and Operations have different visible nav items, so role filtering *is* needed in MVP.",
+      "evidence": "Role table shows that \"Owner\" and \"Operations\" have the same visible sidebar items in MVP, then says \"No role filtering needed\" but also says Support role is added in Phase 8.",
+      "recommendation": "Clarify: \"In MVP, Owner (Rafael) and Operations (Lucia) both see the same sidebar (Hunt List, Dashboard, Clients, Courses). They have the same navigation because both are power users who need full access. In Phase 8, when you add a Support team member, we'll add a 'Support' role with limited nav (Hunt List and Clients only, no Dashboard or Courses). That's when role-based navigation becomes necessary.\""
+    },
+    {
+      "id": "L4-17",
+      "category": "should-improve",
+      "section": "Section 3.2, all overlays",
+      "issue": "The overlays are described as \"right-side slide-over (desktop), bottom sheet (mobile)\" but the founder is never told why this responsive adaptation matters or what user problem it solves.",
+      "evidence": "Overlay specifications all state \"Position: Right-side slide-over (desktop), bottom sheet (mobile)\" without explaining why.",
+      "recommendation": "Add a brief intro section for overlays: \"Overlays (detail panels and modals) adapt to screen size. On desktop, they slide in from the right so Lucia can see the hunt list while reading details. On mobile, they slide up from the bottom (easier to tap buttons with one hand). This keeps the interface comfortable on all device sizes.\""
+    },
+    {
+      "id": "L4-18",
+      "category": "should-improve",
+      "section": "Section 5, Notification System",
+      "issue": "The three-tier notification model (Toast, Badge, Email) is complex, and the founder is never told how these tiers prevent notification fatigue or improve user experience.",
+      "evidence": "Section 5 describes toast, badge, and email separately, but doesn't explain the tradeoff between over-notifying (user ignores all notifications) and under-notifying (user misses critical updates).",
+      "recommendation": "Add an introductory paragraph to Section 5: \"We use three notification channels to avoid alert fatigue. Toast interrupts are reserved for decisions only (Rafael approves/denies a tier 2 request). Badges quietly update the sidebar when statuses change (Lucia will see them next time she opens the app). Email digests summarize the week for Rafael without requiring real-time updates. This balance keeps Lucia focused while ensuring she doesn't miss anything important.\""
+    },
+    {
+      "id": "L4-19",
+      "category": "consider",
+      "section": "Section 1.4 Content Area Layout Patterns",
+      "issue": "The ASCII diagram for hunt list layout is helpful, but similar diagrams for Dashboard, Calendar, and other complex layouts would improve founder comprehension without adding technical jargon.",
+      "evidence": "Section 1.4 includes helpful ASCII diagrams for Hunt List (showing sections and items) and Dashboard (showing scorecard, red flags card, charts) but other pages (Client Database, Course Database) lack diagrams.",
+      "recommendation": "Add simple ASCII diagrams for all major page layouts (Client Database table, Course Database table, Calendar grid). These give the founder a quick visual reference without requiring technical knowledge."
+    },
+    {
+      "id": "L4-20",
+      "category": "should-improve",
+      "section": "Section 3.2, Overlay 2 and 3 (Client/Course Detail Panels)",
+      "issue": "The detail panels for Client and Course are identical in structure (same layout pattern, same collapsible sections pattern) but this similarity is not called out or explained.",
+      "evidence": "Client Detail Panel and Course Detail Panel are nearly identical in spec (both have header, contact info section, past activity section, preferences section, action buttons), but this is treated as coincidence rather than intentional design consistency.",
+      "recommendation": "Consolidate with a note: \"Client and Course detail panels follow the same structure: header with key info, contact details (always visible), history (collapsible), preferences/notes (collapsible), action buttons. This consistency helps users learn the interface faster\u2014they expect the same structure everywhere.\""
+    },
+    {
+      "id": "L4-21",
+      "category": "consider",
+      "section": "Entire document",
+      "issue": "The document is 60+ pages long and includes extensive technical detail (responsive breakpoints, modal triggers, API endpoint names) mixed with founder-facing content. This creates cognitive load and makes it hard for the founder to find the information they care about.",
+      "evidence": "The document includes sections like \"Detailed Specification\" for every page with pixel dimensions, HTML code blocks, and API endpoint names, interspersed with business-level overview sections.",
+      "recommendation": "Create a founder-facing summary (2-3 pages) as a standalone section at the very beginning: (1) What is Ocean Golf's page architecture? (2) What pages/screens exist? (3) How do they fit together? (4) What is the user's journey? Then link to the full technical spec (current document) for Phase 7 developers. This way, the founder gets the 5-minute version, and developers get the 60-page specification they need.\""
+    },
+    {
+      "id": "L4-22",
+      "category": "must-fix",
+      "section": "Section 8: Handoff to Phase 7",
+      "issue": "The handoff section says \"Lucia confirms: 'Yes, this matches how I work' or requests adjustments\" but provides no mechanism for the founder to validate the page architecture. The deliverable gives no guidance on what the founder should actually review or how to sign off.",
+      "evidence": "Section 8 states \"You (Rafael) review D8 with Lucia (2-day validation cycle)\" but offers no review template, checklist, or sign-off criteria.",
+      "recommendation": "Add a \"Founder Validation Checklist\" as a new subsection: \"(1) Does the hunt list match Lucia's actual daily workflow? (2) Do the four urgency tiers (RED/YELLOW/BLUE/GREEN) make sense for her? (3) Is the detail panel design fast enough for her to work through 20+ items per day? (4) Are all the action buttons (send reminder, payment link, etc.) things she actually needs to do? (5) Does the navigation feel intuitive?\" This gives Rafael a concrete list of things to validate with Lucia."
+    }
+  ],
+  "summary": {
+    "must_fix": 9,
+    "should_improve": 11,
+    "consider": 2,
+    "total": 22
+  }
+}

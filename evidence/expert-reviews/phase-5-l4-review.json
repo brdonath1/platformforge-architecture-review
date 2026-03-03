@@ -1,0 +1,173 @@
+{
+  "layer": 4,
+  "layer_name": "Founder Comprehension",
+  "phase": "5",
+  "findings": [
+    {
+      "id": "L4-1",
+      "category": "must-fix",
+      "section": "Executive Summary",
+      "issue": "Founder cannot understand what \"RLS policies\" or \"RBAC\" mean without explanation \u2014 technical jargon is used without plain-language translation.",
+      "evidence": "\"Role-based access control (RBAC) enforced at database and API level, not just UI. Lucia cannot access financial data or issue refunds, even if the frontend has a bug.\" \u2014 assumes founder knows what RBAC is; term is never defined.",
+      "recommendation": "Add a one-sentence plain-language definition after first use of every acronym: \"Role-based access control (RBAC) \u2014 a system that says 'Lucia can do this, but not that' \u2014 is enforced at three levels...\""
+    },
+    {
+      "id": "L4-2",
+      "category": "must-fix",
+      "section": "Part 1 (Infrastructure Decisions)",
+      "issue": "Neon PostgreSQL is recommended over Supabase PostgreSQL based on research that references a \"February 12, 2026 outage,\" but this deliverable is dated February 2026 \u2014 the research citation appears to be a future date or contains a temporal contradiction.",
+      "evidence": "\"Per Perplexity Sonar Pro research (February 2026)... February 12, 2026 outage (3+ hours, US-East-2...)\"",
+      "recommendation": "Verify the research date and correct the citation to a specific, verifiable date. If the research is current, use \"recent Feb 2026 outage\" language; if it's hypothetical, flag as illustrative rather than factual."
+    },
+    {
+      "id": "L4-3",
+      "category": "should-improve",
+      "section": "0.1 ORM Schema Translation",
+      "issue": "The ORM schema section includes detailed TypeScript code but does not explain to the founder what problem this solves or why it matters to them. Founder may not understand why Drizzle ORM schema definitions are necessary.",
+      "evidence": "Long code block with no preamble: \"File: `src/lib/db/schema.ts`\" followed by 100+ lines of TypeScript without founder-facing context.",
+      "recommendation": "Add a 2-3 sentence founder-facing paragraph before the code: \"This schema file is the blueprint for your database. It tells the system what data you're storing (bookings, payments, clients) and who can access it. Developers write the schema once; it automatically generates the right database structure and TypeScript type definitions \u2014 eliminating a whole class of bugs.\""
+    },
+    {
+      "id": "L4-4",
+      "category": "should-improve",
+      "section": "Part 2 (Authentication & Authorization)",
+      "issue": "Section 2.4 \"JWT Claims & RLS Evaluation\" is dense technical content without a founder-facing \"so what\" statement. Founder doesn't understand the business impact of correctly-configured JWT claims.",
+      "evidence": "Entire section 2.4 uses terms like \"JWT claims,\" \"RLS policy evaluation,\" \"claim signature verification\" without explaining why it matters to Ocean Golf's business.",
+      "recommendation": "Prepend a one-paragraph founder summary: \"When Lucia logs in, she gets a secret token that proves who she is and what she's allowed to do. That token contains her role (operations) and her business (rafael_cabo). Every time Lucia asks for data, the database checks that token and only shows her what her role allows. This is how the system prevents bugs or accidents from exposing confidential financial data.\""
+    },
+    {
+      "id": "L4-5",
+      "category": "must-fix",
+      "section": "Part 3 (API Design & Endpoints) - Section 3.1.1",
+      "issue": "TypeScript interface definitions are provided without context for a founder who may not use TypeScript. The founder cannot evaluate whether these interfaces are correct or complete for their business needs.",
+      "evidence": "\"export interface CreateBookingRequest { client_name: string; email: string; ... }\" \u2014 no explanation of why these specific fields exist or what happens if a field is missing.",
+      "recommendation": "Add a founder-facing table before the TypeScript code that maps each interface field to the business concept: \"Here's what data is collected when a client submits a booking form: Name (required), Email (required), Group size 1-4 (required)...\" Then note that TypeScript definitions ensure the code matches this contract."
+    },
+    {
+      "id": "L4-6",
+      "category": "should-improve",
+      "section": "Part 3 (API Design & Endpoints) - Tier 2 Approvals",
+      "issue": "The Tier 2 Approval endpoint flow is described technically (\"POST /api/v1/tier2-approvals\") without a narrative walkthrough of what the founder would actually experience when Lucia requests a course change.",
+      "evidence": "Section shows request/response JSON but no step-by-step narrative: \"Lucia clicks X \u2192 system sends Y \u2192 Rafael sees Z \u2192 Rafael clicks \u2192 Lucia is notified.\"",
+      "recommendation": "Add a 4-5 sentence narrative flow before the technical endpoint description: \"When Lucia needs to change a course, she clicks 'Request Course Change' in the app. The system asks her why. She explains and clicks 'Request Rafael's Approval.' Rafael gets a notification in his queue (not interrupted). He reviews it when he has time. Once he approves or denies, Lucia gets an email telling her the decision. If approved, the system automatically asks the new course to confirm.\""
+    },
+    {
+      "id": "L4-7",
+      "category": "must-fix",
+      "section": "Part 4 (State Management) - Section 4.1",
+      "issue": "TanStack Query is recommended without explaining what problem it solves or why a founder should care about \"cache invalidation\" and \"optimistic updates.\" These are developer concerns, not business concerns.",
+      "evidence": "\"Cache is 'stale.' Next time user needs data, API is called again... useQuery({ queryKey: ['bookings', { status: 'confirmed' }], ...\" \u2014 no founder-facing explanation.",
+      "recommendation": "Prepend a founder paragraph: \"TanStack Query is a system that remembers data the frontend has already loaded. If Lucia viewed the bookings list 2 minutes ago, the system shows her that cached copy instead of asking the server again. But if a new booking arrives via email notification, the cache is cleared and Lucia's screen auto-updates with the new booking. This keeps the dashboard fast while keeping it accurate.\" Then present the technical implementation for developers."
+    },
+    {
+      "id": "L4-8",
+      "category": "should-improve",
+      "section": "Part 6 (Security Architecture) - Section 6.2.5 File Upload Security",
+      "issue": "Extensive security implementation details for a file upload feature that doesn't exist in MVP. Founder may be confused about what's actually needed now vs. future, and why this section is so detailed for a future feature.",
+      "evidence": "\"No file uploads in MVP... However, future features may require file uploads... Security pipeline defined for future use\" followed by 150+ lines of code for something not built.",
+      "recommendation": "Move entire 6.2.5 section to an appendix or Phase 10 document (future features). For MVP (Section 6.2), note: \"File uploads are not needed for MVP. When future features require them (e.g., client document upload), the security architecture will follow these patterns: file size limits, MIME type validation, virus scanning, and secure storage.\""
+    },
+    {
+      "id": "L4-9",
+      "category": "should-improve",
+      "section": "Part 8.5 (Cookies & Local Storage Inventory)",
+      "issue": "Dense table of cookies and storage values without explaining why a founder should care about this inventory or what business/compliance impact it has.",
+      "evidence": "Table shows \"__session\" cookie, \"csrf-token,\" etc. with no explanation of GDPR, privacy policy, or user transparency implications.",
+      "recommendation": "Add a 2-sentence founder preamble: \"These are small files your browser stores to remember the user is logged in and keep their settings. You'll need to disclose these to clients in your privacy policy (Phase 8 will generate that). This inventory ensures you're not accidentally storing data you shouldn't be.\""
+    },
+    {
+      "id": "L4-10",
+      "category": "must-fix",
+      "section": "Glossary (end of document)",
+      "issue": "Glossary is incomplete. Terms like \"TanStack Query,\" \"Drizzle ORM,\" \"Railway,\" \"Clerk,\" and \"Supabase Storage\" are used extensively in the document but are not defined in the glossary.",
+      "evidence": "Glossary starts with \"API (Application Programming Interface)\" but ends after 20 terms, missing ~40% of technical terms introduced in the document.",
+      "recommendation": "Expand glossary to include: TanStack Query, Drizzle ORM, Railway, Clerk, Supabase Storage, JWT, RLS, RBAC, ORM, Neon, Stripe, SSE (Server-Sent Events), webhook, Docker, Middleware. For each, provide a 1-sentence plain-English definition."
+    },
+    {
+      "id": "L4-11",
+      "category": "should-improve",
+      "section": "PART 8: MONITORING & ALERTING (overall structure)",
+      "issue": "Monitoring section describes technical metrics (API response time, database query time) without explaining to founder what thresholds matter to the business. Founder cannot determine if \"200ms p95\" is good or bad for their use case.",
+      "evidence": "\"Target: <200ms p95 (95th percentile)\" \u2014 no explanation of what users experience at 200ms vs. 500ms or what the business impact is.",
+      "recommendation": "Add founder-facing context: \"An API response time of 200ms means Lucia waits 200 milliseconds (1/5 of a second) for the system to respond when she clicks a button. At 500ms+, she'll notice it feels slow. At 1 second, she'll consider refreshing the page. Target of 200ms ensures the dashboard feels snappy and responsive, even on a poor mobile connection.\""
+    },
+    {
+      "id": "L4-12",
+      "category": "should-improve",
+      "section": "Part 1 (Infrastructure Decisions) - All service selections",
+      "issue": "Every service is presented with three-tier pricing (Day Zero, Month 6, Year 1), but there is no master table aggregating total monthly cost at each tier. Founder must manually add up all services to understand cumulative burn rate.",
+      "evidence": "Database pricing, Auth pricing, Payments, Hosting, File Storage, Email/SMS \u2014 each has its own three-tier table, but no consolidated \"Total Monthly Cost\" view.",
+      "recommendation": "Add a summary table in the Executive Summary (or Part 1 conclusion) showing total monthly cost at three tiers: | Day Zero | Month 6 | Year 1 | Infrastructure | $10-50 | $100-200 | $400-1,000 |. This gives founder immediate visibility to cumulative cost trajectory."
+    },
+    {
+      "id": "L4-13",
+      "category": "must-fix",
+      "section": "Cross-Reference Manifest (D5)",
+      "issue": "Manifest shows 27 entries in \"decision_ledger_entries\" but only ~20 ADRs are documented in the \"ARCHITECTURE DECISION RECORD LEDGER\" section. Founder or downstream reviewer cannot verify if all decisions are captured.",
+      "evidence": "\"decision_ledger_entries: 27 (from prior phase 5 conversation)\" but ADR section shows D-55-P5-001 through D-55-P5-020 (20 entries).",
+      "recommendation": "Either: (1) Add the missing 7 ADRs (D-55-P5-021 through D-55-P5-027), or (2) Correct the manifest count to 20. Ensure every decision in the \"Exports\" section of the manifest has a corresponding ADR entry."
+    },
+    {
+      "id": "L4-14",
+      "category": "should-improve",
+      "section": "Part 5 (Service Integrations) - Email Service",
+      "issue": "Email service is marked \"TBD Phase 5 Part 2\" but the section includes detailed \"Integration Points\" that assume a selected provider. This creates contradiction: founder doesn't know which email service to choose, but is being told exactly how it will be integrated.",
+      "evidence": "\"Placeholder for Resend or SendGrid... Integration Points (Identical for both services): [detailed integration points follow]\"",
+      "recommendation": "Either: (1) Move the \"Integration Points\" section to a new phase-5-part-2 placeholder document, or (2) Note that these integration patterns apply regardless of which email provider is chosen, and will be finalized in Part 2. Clarify for founder: \"The exact email provider will be chosen in Part 2 based on current pricing and reliability. These integration points are the same regardless of which one we pick.\""
+    },
+    {
+      "id": "L4-15",
+      "category": "should-improve",
+      "section": "Part 9 (Deployment Checklist)",
+      "issue": "Checklist is comprehensive but has no associated playbook or runbook. Founder or launch team doesn't know what to do if a checklist item fails (e.g., \"Health Check: `/api/v1/health` responds successfully\" \u2014 what if it doesn't?).",
+      "evidence": "29-item checklist with no \"If X fails, do Y\" guidance. Referenced as \"Before launching to production, verify:\" but no next step if verification fails.",
+      "recommendation": "Add a note: \"See Phase 8 D8 (Operations Runbook) for troubleshooting steps if any checklist item fails. For example, if health check fails, see 'Health Check Endpoint Not Responding' troubleshooting guide in D8.\""
+    },
+    {
+      "id": "L4-16",
+      "category": "should-improve",
+      "section": "Entire Document Structure",
+      "issue": "Document is 15,000+ words with minimal visual hierarchy. Founder reading this will experience decision fatigue and may miss critical points. No executive summary callouts or TL;DR sections for specific decision areas.",
+      "evidence": "Parts 1-8 are all body text with headers; no callout boxes, decision summaries, or \"Why This Matters\" sidebars for founder attention.",
+      "recommendation": "Add visual callouts for founder-critical decisions: \"\ud83d\udd34 CRITICAL: 24-hour refund buffer is a business protection feature. Changing this requires explicit decision.\" or \"\ud83d\udcb0 COST TRIGGER: At Month 6, plan for $100-200/month infrastructure cost increase.\" These help founder quickly identify what they actually need to decide vs. what's implementation detail."
+    },
+    {
+      "id": "L4-17",
+      "category": "should-improve",
+      "section": "Part 2 (Authentication & Authorization) - Lucia's Tier System",
+      "issue": "Tier 1/2/3 system is explained procedurally (what happens when Lucia does X), but founder may not understand the business rationale for why these tiers are structured this way. Why is \"change group size\" Tier 1 but \"issue refund\" Tier 2?",
+      "evidence": "Section 2.5 lists Tier 1 decisions (Lucia decides alone) without explaining risk/business impact rationale for each tier assignment.",
+      "recommendation": "Add a table mapping each decision type to its risk/impact: | Decision | Impact | Risk | Tier | | Reschedule (same course) | Low (logistics) | Can recover with course call | 1 | | Issue refund | High (cash flow) | Cannot recover if wrong | 2 | | Cancel entire booking | Critical (client relationship + cash) | Major financial impact | 3 |. This shows founder the logic."
+    },
+    {
+      "id": "L4-18",
+      "category": "must-fix",
+      "section": "Part 3 (API Design) - Response Envelope Example",
+      "issue": "Error response envelope example shows \"VALIDATION_ERROR\" code but no definition of what error codes exist or how the frontend should handle each one. Founder cannot evaluate whether error handling is complete.",
+      "evidence": "\"error.code: 'VALIDATION_ERROR'\" \u2014 no appendix defining all possible error codes (FORBIDDEN, RATE_LIMITED, AUTH_TOKEN_EXPIRED, etc.) that the frontend must handle.",
+      "recommendation": "Add a section or appendix listing all error codes with their meanings and recommended client-side behavior: \"FORBIDDEN (403) \u2014 User lacks permission; show 'You cannot do this' message. AUTH_TOKEN_EXPIRED (401) \u2014 User must log in again. RATE_LIMITED (429) \u2014 Show 'Too many requests, wait 60 seconds.'\" This ensures developers don't miss error cases."
+    },
+    {
+      "id": "L4-19",
+      "category": "should-improve",
+      "section": "Part 7 (Deployment & Operations) - Git Workflow",
+      "issue": "Git workflow is described for engineers but founder doesn't understand the business implication of \"protect main branch\" or \"PR required.\" Why does Ocean Golf care about this specific workflow?",
+      "evidence": "\"main branch: Production code. Protected; can only merge via pull request.\" \u2014 no explanation of what risk is prevented by requiring PRs before production.",
+      "recommendation": "Add founder context: \"Every code change must be reviewed by a senior developer before it goes live (via pull request requirement). This catches bugs and security issues before they reach real users. Think of it as a second opinion on every change. The benefit: fewer production outages and fewer emergency fixes at 3 AM.\""
+    },
+    {
+      "id": "L4-20",
+      "category": "should-improve",
+      "section": "Cross-Reference Manifest",
+      "issue": "Manifest lists \"references_in\" from D3 and D4, but Phase 5 instructions state that D5 and D6 must be cross-validated before completion. No cross-validation guidance is present in the manifest for how D5 connects to D6 (API endpoints to API specs).",
+      "evidence": "\"cross-reference_manifest: D5 and D6 must be checked for consistency... API endpoint table is accompanied by...\" but manifest does not show D5\u2192D6 validation status or link.",
+      "recommendation": "Add to manifest: \"D5\u2194D6 cross-validation status: [ ] Every service in D5 services list appears in D6 integrations [ ] Every table referenced by D6 endpoints exists in D4 schema [ ] Auth requirements consistent between D5 and D6\". This ensures downstream phase has no surprises."
+    }
+  ],
+  "summary": {
+    "must_fix": 7,
+    "should_improve": 13,
+    "consider": 0,
+    "total": 20
+  }
+}

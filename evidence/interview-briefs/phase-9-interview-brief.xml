@@ -1,0 +1,50 @@
+<interview_brief phase="9">
+  <summary>16 should-improve items found across L2 (6), L3 (3), L4 (7) for Phase 9 deliverable.</summary>
+
+  <topic_group source="L2 -- Domain Expert (QA Director / Release Manager)">
+    <topic id="SI-9-L2-1">
+      <context>Section 5 states "This check was previously only in Phase 1E's pre-flight — extending it to Phase 9 catches contradictions introduced in later phases" but does not explain what Phase 1E's accessibility validation was or why these 5 checks are the correct extension of that logic.</context>
+      <gap>D-59 accessibility chain validation claims "D14 validation (all from manifests): D14 manifest exists" but the actual validation narrative in the subsection checks 5 items (D14 exists, components_covered matches, source_sections includes D7 references, D8 build cards reference D14, D20 includes accessibility maintenance) without explaining why these 5 specific checks constitute "D-59 chain of custody" or how they relate to the D-59 protocol referenced in the phase template.</gap>
+      <question>Add one-sentence explanation linking each of the 5 D-59 checks to the original Phase 1E pre-flight logic (e.g., "Check #1 verifies deliverable exists because Phase 1E baseline required D14 to exist" or similar), making the chain of custody logic transparent.</question>
+    </topic>
+    <topic id="SI-9-L2-2">
+      <context>Pass 2 validates values across D2/D4/D6 but stops there; no evidence that the value was checked in D8 build cards or D16 event definitions, which might reference the link expiration window in their specifications.</context>
+      <gap>Pass 2 claims "Magic link validity: D2 says 72 hours, D4 says 72 hours, D6 says 72 hours ✅ CONSISTENT" but does not reference or check D8 build cards (FC cards that implement magic link feature) or D16 analytics (which may need to track link expiration events) to verify these downstream specifications also assume 72-hour validity without drift.</gap>
+      <question>Extend Pass 2 value consistency checks to include downstream deliverables where the value is consequential (e.g., 72-hour magic link expiration implies: D8 Week 3 build card must handle 72-hour token, D16 must track link expiration event, D17 must have 72-hour reminder email). Spot-check at least 3 critical values across 4+ deliverables each.</question>
+    </topic>
+    <topic id="SI-9-L2-3">
+      <context>Issue 1 states "Dashboard indicator in F-002" as resolution but does not explain whether Phase 9 discovered the gap by comparing D2 manifest (missing monitoring method) against D8 build cards (D8 does not reference dashboard indicator), or whether this was a founder clarification from Phase 8 that Phase 9 is documenting.</context>
+      <gap>Each of the three "resolved" issues documents the decision outcome but does not explain the ROOT CAUSE discovery method: How did Phase 9 identify these gaps? Did manifest comparison reveal them, or were they pre-existing decisions from the decision ledger that Phase 9 is retroactively documenting?</gap>
+      <question>For each issue, add one sentence explaining the discovery method: "Phase 9 discovered this gap by comparing [manifest X field] against [manifest Y field]" or "This gap was flagged in Phase 8 decision ledger entry D55-P8-005; Phase 9 verified the correction was propagated to all downstream manifests."</question>
+    </topic>
+    <topic id="SI-9-L2-4">
+      <context>Completion gate lists "✅ Reference resolution complete" but preceding Section 6 shows only 10 reference pairs in the table; unclear if all possible cross-references were checked or only a sample.</context>
+      <gap>Completion gate item "Reference resolution complete: D20 outbound references verified" does not specify what "verified" means: Were references hand-checked for existence, or was an automated tool used? Were all 20+ references checked, or a sample? No audit methodology described.</gap>
+      <question>Add note to completion gate: "20+ cross-references audited via manifest field inspection (references_out matched against target deliverables' sections map); method: [automated cross-check / manual sample of X% / full enumeration]. Sample size: Y references checked, Z% coverage."</question>
+    </topic>
+    <topic id="SI-9-L2-5">
+      <context>Table defines validity only as "reference resolves to actual content" in the introductory text but does not explain semantic validity (is the reference used correctly, or just present?).</context>
+      <gap>Table shows "Status: ✅ VALID" for all 10 reference pairs but does not explain what "VALID" means: Does it mean reference resolves to an existing section, or does it mean the reference is used correctly in context? E.g., D1 → D2 "Status: ✅ VALID" could mean "D1 references D2 and D2 exists" OR "D1's revenue model constraints reference D2's user personas and the personas are used to derive constraints."</gap>
+      <question>Add definition: "VALID = reference resolves to existing section in target deliverable AND semantic context is appropriate (e.g., D1→D3 constraint reference matches D3 feature dependency). Semantic spot-checks performed on 3 critical references [specify which 3]; remainder checked for existence only."</question>
+    </topic>
+    <topic id="SI-9-L2-6">
+      <context>Certification lists 8 checkmarks (structural consistency, name consistency, value consistency, etc.) but the methodology for "holistic completeness" is not named; Section 7 provides a gap checklist but the connection to the certification statement is implicit.</context>
+      <gap>Certification statement claims "✅ Holistic product completeness confirmed" but does not reference the specific method used to confirm completeness: Was it the launch day gap checklist (Section 7), or the service/feature chains validation (Holistic Completeness section)? Different methods could yield different conclusions.</gap>
+      <question>Change certification to cite specific method: "✅ Holistic product completeness confirmed via Launch Day Gap Checklist (Section 7) and Service/Feature Chain Validation showing [N] complete chains out of [N] required."</question>
+    </topic>
+  </topic_group>
+
+  <topic_group source="L3 -- Downstream Consumer (Technical Program Manager)">
+    <topic id="SI-9-L3-1">
+      <context>"Section 2: Critical Clarifications Completed During Phase 10" but Phase 9 validation report is generated before Phase 10 begins; the clarifications must have been made during Phase 9 review, not Phase 10.</context>
+      <gap>Section title claims these are "Phase 10" clarifications but the Phase 9 report is being delivered BEFORE Phase 10 exists — this appears to be Phase 9 output being mislabeled as containing Phase 10 decisions, creating confusion about when these clarifications were made.</gap>
+      <question>Rename section to "Critical Clarifications Identified During Phase 9 Review" and clarify that these decisions are AWAITING implementation in Phase 8 deliverables, not already implemented.</question>
+    </topic>
+    <topic id="SI-9-L3-2">
+      <context>Template says D-55 format should include "(1) Decision — what changed, (2) Constraint — build impact, (3) Binds — which deliverables updated" but Section 5 only shows decision text without constraint/binds.</context>
+      <gap>Decision ledger format is shown for three issues, but the template's D-55 standard format (used in prior phases) is not matched — missing fields like "Constraint" and "Binds" that are defined in template behavioral rules for D-55 tracking.</gap>
+      <question>Reformat Section 5 decision ledger entries to follow D-55 standard: Decision | Constraint | Binds for all three clarifications, with specific list of affected deliverables and manifests.</question>
+    </topic>
+  </topic_group>
+
+</interview_brief>

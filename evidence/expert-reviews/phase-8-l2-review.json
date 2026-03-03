@@ -1,0 +1,173 @@
+{
+  "layer": 2,
+  "layer_name": "Domain Expert",
+  "phase": "8",
+  "findings": [
+    {
+      "id": "L2-1",
+      "category": "must-fix",
+      "section": "D9 Executive Summary",
+      "issue": "D9 credential guide references hosting provider selection from Phase 5 but doesn't specify which provider was selected, leaving blank placeholder.",
+      "evidence": "\"According to Phase 5 Technical Architecture, the selected hosting provider is: **[HOSTING_PROVIDER_FROM_D5]**\"",
+      "recommendation": "Insert the actual hosting provider decision (Railway, Vercel, or Render) from Phase 5 Cost Projection Model before Phase 7 begins, or flag this as a dependency that must be resolved in pre-build checklist."
+    },
+    {
+      "id": "L2-2",
+      "category": "must-fix",
+      "section": "D8 Section 2: Pre-Build Checklist",
+      "issue": "D8 references a hosting provider decision but leaves it blank with instruction to \"INSERT DECISION HERE,\" making the pre-build checklist incomplete.",
+      "evidence": "\"**Hosting provider selected from Phase 5 decision:** [INSERT DECISION HERE \u2014 which provider was selected in Phase 5 Cost Projection Model? Railway / Vercel / Render / Other?]\"",
+      "recommendation": "Confirm the Phase 5 hosting provider decision (should be locked by now) and insert the specific provider name into this section before April 15 build start, or this becomes a critical pre-build blocker."
+    },
+    {
+      "id": "L2-3",
+      "category": "must-fix",
+      "section": "D9 Section 1, C6: Hosting Provider Setup",
+      "issue": "All three hosting provider setup paths (Railway, Vercel, Render) are provided as \"adjust based on your provider,\" but the pre-build checklist should direct founder to ONE specific provider, not force founder to choose during build.",
+      "evidence": "\"**Which provider:** [INSERT DECISION FROM PHASE 5 COST PROJECTION MODEL]\" followed by three complete setup paths for different providers",
+      "recommendation": "Remove the conditional \"If using Railway/Vercel/Render\" structure and provide only the steps for the specific provider selected in Phase 5, eliminating ambiguity during pre-build phase."
+    },
+    {
+      "id": "L2-4",
+      "category": "must-fix",
+      "section": "D10 Section 1: Build Phase Costs",
+      "issue": "D10 references \"PlatformForge Phase 8 Engagement\" cost as \"$0\" claiming it's \"completed\" and \"part of overall platform cost,\" but this is inaccurate\u2014Phase 8 (this deliverable) is the engagement happening now, not already completed.",
+      "evidence": "\"**PlatformForge Phase 8 Engagement** | $0 | Completed; part of overall platform cost\"",
+      "recommendation": "Either remove this line (PlatformForge costs are not operational costs Rafael pays), or clarify that \"Phase 8 Engagement\" refers to Phase 7 build support (which should be listed with actual cost if applicable), not Phase 8 itself."
+    },
+    {
+      "id": "L2-5",
+      "category": "must-fix",
+      "section": "D10 Section 10: Handoff to Phase 7 Build Team",
+      "issue": "D10 references \"Phase 7 build team\" needing credential access, but D9 is addressed to founder (Rafael) doing the work, not an external build team. This creates confusion about who will execute the build.",
+      "evidence": "\"When Phase 7 build starts (April 15), the build team needs:\" followed by instructions about GitHub access, `.env.local`, and hosting provider credentials",
+      "recommendation": "Clarify D10's audience and the build execution model: is Rafael building solo with AI tool assistance (as D8 implies), or is there an external build team? If solo, revise D10 Section 10 to address Rafael directly. If team exists, define the team composition and update both D9 and D8 to specify team access requirements."
+    },
+    {
+      "id": "L2-6",
+      "category": "should-improve",
+      "section": "D9 Appendix D: Quick Reference Environment Variables",
+      "issue": "The template shows `NEXT_PUBLIC_SUPABASE_ANON_KEY` as `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` which is a JWT-style token, but doesn't explain what this is or why it's safe to be \"public\" (it's visible in browser), which could confuse founder about security.",
+      "evidence": "`.env.local` template shows \"`NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`\" without explaining it's a restricted token",
+      "recommendation": "Add a comment above the NEXT_PUBLIC variables: \"NEXT_PUBLIC_* keys are visible in browser\u2014these are restricted tokens, not your full database password. Your database is protected by Supabase RLS (Row Level Security) policies.\""
+    },
+    {
+      "id": "L2-7",
+      "category": "should-improve",
+      "section": "D8 Section 1: Build Overview for Founder",
+      "issue": "D8 states \"Total accounts to create: 9 services + 1 registrar + hosting provider = 11 credentials\" but D9 lists 11 accounts (GitHub, Supabase, Stripe, Resend, Domain Registrar, Hosting, Password Manager, WhatsApp, Twilio, Google Analytics, Sentry), which is 11 total, not 11 non-hosting-provider accounts. Math doesn't match.",
+      "evidence": "D8 summary says \"11 credentials\" but lists 11 distinct accounts (some during-build); D9 executive summary says \"Total accounts to create: 9 services + 1 registrar + hosting provider = 11 credentials\"",
+      "recommendation": "Clarify the count: separate pre-build accounts (immediate) from during-build accounts (FC-033, FC-075, etc.) so founder knows exactly how many to create before April 15. Update D8 Section 1 to match D9's accounting."
+    },
+    {
+      "id": "L2-8",
+      "category": "should-improve",
+      "section": "D10 Section 3: Monthly Operating Costs by Scale Tier",
+      "issue": "Cost projections for Hosting (Railway) show \"$5-20\" for Tier 1 and \"$10-30\" for Tier 2, but no explanation of what usage level triggers the cost. For a founder planning budget, \"variable costs with wide range\" is unhelpful without usage metrics (storage, bandwidth, compute minutes).",
+      "evidence": "Tier 1 Hosting: \"$5\u201320\" with note \"Railway charges for actual compute + storage used\" but no link between usage patterns and cost",
+      "recommendation": "Add a worked example for each hosting tier: \"Example Tier 1 usage: 1GB storage, 50GB bandwidth, 100 compute minutes = ~$10/month. Example Tier 2: 5GB storage, 300GB bandwidth, 500 compute minutes = ~$25/month.\" Founder can then estimate based on anticipated growth."
+    },
+    {
+      "id": "L2-9",
+      "category": "should-improve",
+      "section": "D11 Section 9: After Launch Maintenance",
+      "issue": "D11's quarterly maintenance checklist refers to tasks like \"Verify domain registration doesn't expire\" but doesn't specify HOW to verify (e.g., \"Log into registrar, check renewal date in dashboard, set up auto-renewal if available\"). Instructions should be intern-level.",
+      "evidence": "\"\u25a1 Verify domain registration doesn't expire\" appears as a single-line checklist item with no steps",
+      "recommendation": "Expand quarterly checklist items to include step-by-step verification procedures at intern level, or cross-reference the relevant section in D9 that covers logging into the registrar."
+    },
+    {
+      "id": "L2-10",
+      "category": "should-improve",
+      "section": "D12 Section 4: Data Inventory Cross-Reference to D4",
+      "issue": "D12 includes a data inventory table cross-referencing D4 schema, but the table entries show \"\u26a0\ufe0f PARTIALLY\" for api_logs and audit_log without explaining which COLUMNS in those tables contain personal data or what makes them \"partial.\"",
+      "evidence": "\"`api_logs` | \u26a0\ufe0f PARTIALLY | ip_address, endpoint, response_code, timestamp`\"",
+      "recommendation": "Clarify the \u26a0\ufe0f PARTIALLY entries: \"api_logs contains ip_address (personal data per GDPR), but not user PII directly. For privacy purposes, treat as personal data.\" This helps lawyer understand the scope when reviewing D12."
+    },
+    {
+      "id": "L2-11",
+      "category": "must-fix",
+      "section": "D12 Section 4: Data Inventory & D4 Cross-Reference Protocol",
+      "issue": "D12 instructs to \"perform a direct comparison of D12's data inventory against D4's personal_data_tables list\" to ensure completeness, but the actual comparison table provided shows hypothetical data (users, bookings, payments) without confirming these match the actual D4 schema that was generated in prior phases.",
+      "evidence": "\"Based on Ocean Golf database schema (D4), here's exactly which tables store personal data and how it's used:\" followed by a table with example entries, not verified against actual D4 output",
+      "recommendation": "Before D12 is finalized, verify the data inventory table against the actual D4 Database Schema provided in prior deliverables. If D4 schema differs from D12's assumptions, update D12's table accordingly. This is a prerequisite for attorney review."
+    },
+    {
+      "id": "L2-12",
+      "category": "should-improve",
+      "section": "D13 Section 6: Content Ownership Decision Gate",
+      "issue": "D13 presents content ownership as a binary choice (Users own vs. Ocean Golf owns) with examples, but doesn't explain the legal implications for Rafael\u2014e.g., if users own content, Ocean Golf has indemnity risk if user content is inaccurate; if Ocean Golf owns content, can users be restricted from competing?",
+      "evidence": "\"**FOUNDER CHOICE REQUIRED:** \u2610 Option A (Ocean Golf owns booking data) \u2610 Option B (User owns booking data)\" with brief rationales but no legal risk disclosure",
+      "recommendation": "Add a \"Legal Implications\" subsection for each option before the founder decision gate, noting indemnity, IP, and competitive risks. Also note that lawyer (during legal review of D12/D13) should confirm this choice is sound."
+    },
+    {
+      "id": "L2-13",
+      "category": "must-fix",
+      "section": "D8 Section 5.5: Service Integration Card Sequencing",
+      "issue": "D8 states \"Resend email service delivery & logging\" is a requirement but references a section that doesn't exist in the build cards template provided. FC-075 through FC-080 are named as email notification cards but D8 Section 5.5 describes requirements for \"simple log page\" and \"webhook handler\" that may not align with the actual card scope.",
+      "evidence": "\"**Ocean Golf will build:** A simple log page in the dashboard (Lucia can view: 'Payment link sent to Mike Thompson...'), Webhook handler to catch bounce notifications, Toast notification if email bounces\" vs. FC-075 card which lists only \"Resend API key setup, test via /api/email-test endpoint\"",
+      "recommendation": "Either (1) expand FC-075 card scope to include email delivery logging requirements, or (2) create a separate card (FC-078B or similar) for the email delivery log page. Clarify the scope so developer doesn't miss Rafael's operational requirement (delivery tracking essential for following up with clients)."
+    },
+    {
+      "id": "L2-14",
+      "category": "should-improve",
+      "section": "D8 Section 6: Build Timeline & Sprint Structure",
+      "issue": "D8 provides a detailed week-by-week calendar but doesn't account for \"founder decision latency\"\u2014some cards may block until founder provides input (e.g., D12's content ownership choice, D13's dispute resolution preference). Calendar assumes decisions are made synchronously, but D9/D12/D13 suggest decisions are \"pending.\"",
+      "evidence": "Sprint 1 Week 3 (May 3) shows \"Checkpoint 6 \u2713 First action works\" but doesn't flag that FC-032-035 may depend on Resend account being active, which requires founder to have created it (D9 C4 references it as pre-build).",
+      "recommendation": "Add a \"Decision Gate Timeline\" section showing which build cards are blocked by pending founder decisions (D12 Section 4 decisions, D13 Section 6 decision, etc.). Recommend decisions be finalized by April 1 at latest (2 weeks before build starts) to avoid timeline slip."
+    },
+    {
+      "id": "L2-15",
+      "category": "must-fix",
+      "section": "D8 Section 8: Verification Gates & Acceptance Criteria",
+      "issue": "D8 provides post-phase verification checklists but doesn't specify WHO runs each check (founder or build team), WHEN it's run (immediately after card completion or end of phase), or WHO needs to APPROVE the result (founder sign-off, or self-verification OK). This creates ambiguity about verification responsibility.",
+      "evidence": "\"**After Phase 1 (Scaffold):** [Checklist] App is Running Verification\" with no indication of approval gate (e.g., \"Founder reviews and signs off\" vs. \"Build team self-verifies and proceeds\")",
+      "recommendation": "Add ownership specification to each verification gate: \"After Phase 1, **founder runs these checks** (15 min) and confirms in Slack: '[Checkpoint 1 VERIFIED]'. Build team proceeds only after founder confirmation.\" This prevents ambiguous responsibility."
+    },
+    {
+      "id": "L2-16",
+      "category": "should-improve",
+      "section": "D8 Section 8: Verification Gates, After Phase 2",
+      "issue": "Post-Database verification includes \"Run seed script: npm run seed\" but doesn't explain what the founder should do if seed fails (error messages, rollback steps). This is a potential blocker left unresolved.",
+      "evidence": "\"Post-Database Testing Instruction (Founder): After all 12 database tables are created: 1. Open Supabase dashboard 2. Run seed script: npm run seed (populates test data) 3. Verify seed data appears...\"",
+      "recommendation": "Add error recovery: \"If `npm run seed` fails with error 'foreign key violation,' re-check that all 12 tables were created (verify in Supabase Table Editor). If error persists, contact build team. If seed succeeds but data appears partial, re-run: `npm run seed:reset` and verify again.\""
+    },
+    {
+      "id": "L2-17",
+      "category": "consider",
+      "section": "D10 Appendix E: Decision Ledger",
+      "issue": "D10's decision ledger includes decision D55-P8-010 (\"Real-time highlight flash timing deferred to prototype validation\") but this decision is about UI design and belongs in D7's decision log, not D10's cost/operations log. Placement is confusing.",
+      "evidence": "D10 Appendix E lists \"D55-P8-010: Real-time Item Highlight Flash Timing (DEFERRED)\" alongside cost decisions like \"D55-P8-001: Stripe Tier Strategy\"",
+      "recommendation": "Move D55-P8-010 to D7's decision log (it's a UI design decision), or clarify in D10 why this decision appears here (if it affects cost/timeline). Separate cost/ops decisions from UI decisions in the ledger."
+    },
+    {
+      "id": "L2-18",
+      "category": "should-improve",
+      "section": "D8 Section 12: Build Decision Records",
+      "issue": "D8 lists decisions D55-P7-001 through D55-P7-014 but decision D55-P7-011 (\"Email service: Resend selected\") contradicts D9's setup, which assumes Resend account \"to be created pre-build or during FC-075.\" Timing is unclear\u2014must it be pre-build (D9 C4) or can it wait until week 5 (FC-075)?",
+      "evidence": "D55-P7-011 says \"Resend account to be created pre-build or during FC-075\" but D9 lists it in \"During-Build Accounts (Create as Phase 7 Progresses)\" Section 3",
+      "recommendation": "Clarify Resend account timing: if it's needed for testing during sprint 1-2, it must be pre-build. If it's only needed for FC-075 (week 5), it can be during-build. Update D9 Section 3 to specify exact card trigger (FC-075) or move Resend to pre-build accounts (Section 1) if testing needs it earlier."
+    },
+    {
+      "id": "L2-19",
+      "category": "must-fix",
+      "section": "D9 Section 2: Environment Variables (.env.local)",
+      "issue": "D9 instructs to create `.env.local` with Resend API key, but also lists Resend under \"During-Build Accounts (Create as Phase 7 Progresses)\" Section 3, suggesting the account doesn't exist pre-build. This creates a catch-22: can't populate `.env.local` without Resend account, but Resend account isn't created until week 5.",
+      "evidence": "Section 2 shows \"`RESEND_API_KEY=re_YOUR_KEY_HERE`\" in `.env.local` template, but Section 3 says \"When to create: Week 3\u20134 of Phase 7 (May 1\u201310, 2026)\"",
+      "recommendation": "Either (1) move Resend to pre-build accounts (Section 1), with `.env.local` populated before April 15, or (2) update Section 2 to note \"Create `.env.local` with all required keys. If Resend account is not yet created, leave RESEND_API_KEY blank or commented out; it will be added before FC-075.\" Clarify the actual pre-build requirement."
+    },
+    {
+      "id": "L2-20",
+      "category": "should-improve",
+      "section": "D8 Section 3: Scaffold & Infrastructure",
+      "issue": "FC-001 instructions include both \"clone verified scaffold\" (Option A) and \"create from scratch with Next.js template\" (Option B), but Option A references a non-existent artifact (\"verified PlatformForge scaffold repository at [scaffoldteam@platformforge.io]\") that doesn't actually exist, making Option A impossible to execute.",
+      "evidence": "\"**Option A: From verified PlatformForge scaffold (if available)** Contact the Phase 7 team to request access to the verified scaffold repository at: [scaffoldteam@platformforge.io]\"",
+      "recommendation": "Remove Option A (it's not available) and make Option B the primary path. Or, if a verified scaffold exists, provide actual repository URL and access instructions instead of placeholder email."
+    }
+  ],
+  "summary": {
+    "must_fix": 9,
+    "should_improve": 10,
+    "consider": 1,
+    "total": 20
+  }
+}

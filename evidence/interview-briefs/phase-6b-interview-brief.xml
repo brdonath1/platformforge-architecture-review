@@ -1,0 +1,50 @@
+<interview_brief phase="6b">
+  <summary>22 should-improve items found across L2 (6), L3 (5), L4 (11) for Phase 6b deliverable.</summary>
+
+  <topic_group source="L2 -- Domain Expert (Design Director / Principal Designer)">
+    <topic id="SI-6b-L2-1">
+      <context>Phase research requirements section mentions "Research Point 6.2 — Design System Patterns from Similar Platforms" with trigger "Area 8 (Onboarding)" but no research findings are included in the deliverable. Section 0 research execution summary does not mention 6.2 results.</context>
+      <gap>The research point 6.2 (onboarding patterns) is referenced as executed but no actual research findings are provided—no competitor onboarding flows are analyzed or documented.</gap>
+      <question>Either execute research on onboarding patterns (Linear, Calendly, Stripe onboarding flows) and document findings in a "Research Results 6.2" subsection, or remove the research trigger reference and acknowledge it will be handled in Phase 6C.</question>
+    </topic>
+    <topic id="SI-6b-L2-2">
+      <context>Section 1.3 shows ASCII diagrams for each breakpoint but lacks numerical specifications like "At <640px breakpoint, sidebar transitions from 256px fixed to hamburger icon in 150ms ease-out animation, revealing full-width content area."</context>
+      <gap>The responsive layout specifications are conceptual diagrams (ASCII boxes) without exact breakpoint behavior specifications. The transition from sidebar-visible to hamburger-hidden is described but not quantified (at what exact breakpoint? what duration for the collapse animation?).</gap>
+      <question>Convert ASCII diagrams to measurable specifications: exact breakpoint pixel values, animation durations, sidebar collapse/expand timing, and Tailwind breakpoint classes to use (sm:, lg:, etc.).</question>
+    </topic>
+    <topic id="SI-6b-L2-3">
+      <context>Template states "conditional — only if Feature Registry includes dashboards, analytics, charts, or metrics" but the D3 Feature Registry is not provided or loaded in this review, so it's unclear whether dashboard scorecard stats require charts.</context>
+      <gap>The section states "If any features involve charts" but does not confirm whether Ocean Golf MVP includes dashboard charts/metrics. The Feature Registry (D3) is referenced but not loaded to verify chart requirements.</gap>
+      <question>Confirm D3 Feature Registry includes charting requirements, then finalize data visualization section. If charts are MVP, lock Recharts theme and chart type conventions. If deferred to Phase 8, remove Section 10 from Phase 6B scope.</question>
+    </topic>
+    <topic id="SI-6b-L2-4">
+      <context>Section 11 header states "only if Feature Registry includes search functionality" but no confirmation is provided. The "Global Search Results" page is described in Section 3 but it's unclear if this is MVP or Phase 8.</context>
+      <gap>Similar to charts: search experience is described as conditional but it's not confirmed whether Ocean Golf MVP includes search functionality. D3 Feature Registry is referenced but not loaded.</gap>
+      <question>Confirm D3 Feature Registry includes search as MVP feature, then finalize search specification. If search is MVP, lock search input behavior, results layout, and keyboard shortcuts. If deferred, remove Section 11 from Phase 6B scope.</question>
+    </topic>
+    <topic id="SI-6b-L2-5">
+      <context>Context section states "Add a `features` field (list of feature IDs) to the D7 manifest pages export" but this mapping is not provided in the page inventory. The "Feature ID(s)" column promised in page inventory table is not included.</context>
+      <gap>The deliverable claims to define all pages required by features but does not include the D3→page mapping mentioned as "IMPORTANT: Preserve the D3→page mapping" in context_load_manifest.</gap>
+      <question>Add Feature ID(s) column to page inventory table mapping each page to D3 Feature Registry features. Ensure every MVP feature has a corresponding page and vice versa.</question>
+    </topic>
+    <topic id="SI-6b-L2-6">
+      <context>Section 3.2 specifies "bottom sheet on mobile" but does not address what happens when user rotates phone to landscape—does the detail panel height change? Does it convert to side-by-side layout on landscape tablet?</context>
+      <gap>The Hunt List Detail Panel specification is comprehensive but lacks guidance on how it adapts to different mobile orientations (portrait vs. landscape on tablet/phone). Landscape mode behavior is not specified.</gap>
+      <question>Specify detail panel behavior in landscape orientation: does it remain bottom sheet or convert to side panel? What is the height/width breakpoint for this transition?</question>
+    </topic>
+  </topic_group>
+
+  <topic_group source="L3 -- Downstream Consumer (Engineering Manager / Technical PM)">
+    <topic id="SI-6b-L3-1">
+      <context>Modal 1 (Send Reminder) shows success path but does not specify: "If WhatsApp API fails, show error [inline message / toast]? Does modal stay open for retry or close?"</context>
+      <gap>Modals 1-9 are specified with request/response JSON but lack specification of error state (what if API call fails?), loading state (spinner, skeleton?), and whether modals remain open or close on error.</gap>
+      <question>Add subsection to each modal spec: "Error Handling: On API failure, [error message placement], [modal stay/close behavior], [retry mechanism]." Example: "On failed send, show red error banner in modal, keep modal open, provide Retry button."</question>
+    </topic>
+    <topic id="SI-6b-L3-2">
+      <context>Section 3.2 states "Polling every 30 seconds fetches updated hunt list" but does not specify behavior when user returns from inactive tab or when connection is lost for extended period.</context>
+      <gap>Real-time hunt list updates specify 30-second polling fallback and WebSocket as preferred, but no guidance on what happens if user tabs away for 30+ minutes and returns—does polling resume? Does WebSocket reconnect? How is stale data handled?</gap>
+      <question>Add specification: "Tab visibility handling: Pause polling/WebSocket when user tabs away. Resume when tab becomes active again. On resume: [check for stale data / full refresh / silent update]." Confirm tab management strategy with Lucia.</question>
+    </topic>
+  </topic_group>
+
+</interview_brief>

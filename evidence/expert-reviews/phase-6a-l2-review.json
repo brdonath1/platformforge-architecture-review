@@ -1,0 +1,173 @@
+{
+  "layer": 2,
+  "layer_name": "Domain Expert",
+  "phase": "6a",
+  "findings": [
+    {
+      "id": "L2-1",
+      "category": "must-fix",
+      "section": "0.1 Research Execution & Phase Context",
+      "issue": "Research Point 6.1 (UI Component Library Comparison) claims execution but provides no live research methodology, citation source, or execution date verification beyond \"February 28, 2026\".",
+      "evidence": "Section 0.1 states \"Status: EXECUTED (February 28, 2026)\" but provides a static comparison table with no Perplexity Sonar Pro query documentation, search parameters, or methodology showing how \"current data as of February 2026\" was obtained.",
+      "recommendation": "Add research methodology statement: engine used (Perplexity Sonar Pro), exact query string, execution timestamp, and explicit data freshness claim (e.g., \"verified live Feb 28 2026 09:00 UTC\")."
+    },
+    {
+      "id": "L2-2",
+      "category": "must-fix",
+      "section": "0.2 Research Point 6.2: Design System Patterns from Similar Platforms",
+      "issue": "Section claims \"EXECUTED\" but provides only generic pattern names (Linear, Calendly, Stripe, Notion) without research methodology, access dates, or verification that these patterns were actually reviewed on those platforms in February 2026.",
+      "evidence": "\"Research Method: Direct platform review + design pattern documentation\" is vague; no URLs, access dates, or screenshot references provided to prove the patterns were actually extracted from live platforms.",
+      "recommendation": "Specify: exact platforms accessed, URLs reviewed, access date/time, specific features examined (e.g., \"Accessed Linear's course list UI at linear.app/help on 2026-02-28 14:30 UTC, observed pagination pattern X\"), and how patterns map to Ocean Golf features."
+    },
+    {
+      "id": "L2-3",
+      "category": "must-fix",
+      "section": "0.3 Research Point 6.3: Accessibility Standard Updates",
+      "issue": "Section 0.3 claims WCAG 2.1 Level AA is \"current legal minimum\" but provides no live legal research source verification for the jurisdictional claims (US ADA, EU EN 301 549, Canada AODA, UK Equality Act, Mexico LFPDPPP) as of February 2026.",
+      "evidence": "URLs cited (https://www.justice.gov/crt..., https://www.w3.org/WAI...) are not dated or verified as current; no Perplexity Sonar Pro execution log provided; references to \"2021 Department of Justice guidance\" and \"EN 301 549:2023\" lack verification dates.",
+      "recommendation": "Document: Perplexity Sonar Pro execution timestamp, exact query for each jurisdiction, citation of specific law/guidance versions verified as current on Feb 28 2026, and confirmation that no new WCAG 3.0 requirements have become mandatory since research date."
+    },
+    {
+      "id": "L2-4",
+      "category": "must-fix",
+      "section": "0.4 Research Point 6.4: Developer Sentiment on UI Libraries",
+      "issue": "GitHub metrics (stars, issues, downloads) claim to be from \"Feb 2026\" but provide no timestamp, methodology, or verification that figures were live-checked (could be from training data).",
+      "evidence": "\"GitHub Activity (shadcn/ui, Feb 2026): Stars: 65,000+\" with no source URL, no timestamp showing when GitHub was accessed, no methodology showing how figures were extracted.",
+      "recommendation": "Add: explicit Grok/X search timestamp, query syntax used, number of posts/mentions reviewed, sentiment sample size (e.g., \"analyzed 50 recent posts from X dated Feb 2026\"), and direct links to example posts/issues cited."
+    },
+    {
+      "id": "L2-5",
+      "category": "must-fix",
+      "section": "1.2 Color Contrast Verification (WCAG 2.1 AA)",
+      "issue": "Contrast verification table claims all colors are \"verified via WebAIM\" but no WebAIM URLs, test dates, or test result IDs are provided to prove verification actually occurred.",
+      "evidence": "Section states \"All colors verified via WebAIM Contrast Checker (February 2026). No color combination fails WCAG 2.1 Level AA.\" but provides no links to WebAIM results, no screenshots, no test methodologies, no specific ratios with source URLs.",
+      "recommendation": "For each color combination, provide: WebAIM Contrast Checker URL with result screenshot or test ID, exact contrast ratio (e.g., \"15.3:1 (verified WebAIM test #xyz, Feb 28 2026)\"), and date tested."
+    },
+    {
+      "id": "L2-6",
+      "category": "must-fix",
+      "section": "Section 3: Spacing System - 3.1 Base Unit & Scale",
+      "issue": "Spacing scale is defined with \"base unit: 4px\" but no research or rationale is provided for why 4px is chosen (Tailwind default? Material Design standard? Performance justification?).",
+      "evidence": "Section states \"Base unit: 4px\" and \"All spacing in Ocean Golf is a multiple of 4\" but provides no \"why\" - just assertion with Tailwind and Material Design mentioned in passing without detail.",
+      "recommendation": "Add rationale: \"4px base unit chosen because (1) aligns with Tailwind v4 native spacing scale, (2) matches Material Design 4px grid, (3) browser rendering typically uses 4px granularity for optimal performance, (4) industry standard reduces custom value proliferation.\""
+    },
+    {
+      "id": "L2-7",
+      "category": "must-fix",
+      "section": "Section 4.1 Button System - Icon Library Specification",
+      "issue": "Icon library specification claims \"Heroicons (v2.0+)\" but provides no verification that this library is still available, maintained, and free as of February 2026.",
+      "evidence": "Section states \"Ocean Golf uses Heroicons (by Tailwind Labs) for all icon implementations\" with no live verification link, no pricing check, no maintenance status check, no alternative comparison if Heroicons becomes unavailable.",
+      "recommendation": "Add: link to current Heroicons repository, last commit date, download count/health, confirmation of free license (MIT), and fallback icon strategy if Heroicons becomes unmaintained."
+    },
+    {
+      "id": "L2-8",
+      "category": "must-fix",
+      "section": "Section 2.1 Font Stack",
+      "issue": "System font stack is specified but no performance testing or rendering verification is provided to confirm these fonts render consistently across operating systems (macOS, Windows, Linux, iOS, Android) as of February 2026.",
+      "evidence": "Section defines font-family stack but includes no cross-platform rendering test results, no screenshots showing consistency, no notes on OS-specific rendering variations (e.g., font smoothing, kerning differences).",
+      "recommendation": "Add: cross-platform rendering test results (macOS 13+, Windows 11, iOS 16+, Android 13+), screenshot examples showing font consistency, and notes on any OS-specific adjustments (font-smoothing, -webkit-font-smoothing, etc.) needed for consistency."
+    },
+    {
+      "id": "L2-9",
+      "category": "must-fix",
+      "section": "Section 5.3 Accessibility Baseline - 5.3 Touch Targets",
+      "issue": "Touch target specification cites WCAG 2.5.5 as \"Level AAA\" but this is not verified to be current or complete; WCAG 2.1 AA does not specify touch target size, so the 44\u00d744px requirement is elevated to AAA without clear founder acknowledgment.",
+      "evidence": "Section states \"Touch targets: 44\u00d744px CSS minimum (WCAG 2.5.5 Level AAA)\" but WCAG 2.1 Level AA (which is the stated compliance target in Section 5.1) does not define touch target size, so this is exceeding founder's stated requirement without explicit decision.",
+      "recommendation": "Clarify: (1) confirm whether founder approves exceeding WCAG 2.1 AA to include WCAG 2.5.5 (Level AAA), or (2) reduce touch target requirement to 32\u00d732px (WCAG 2.1 AA compliant) with documented trade-off, or (3) state explicitly \"Ocean Golf targets WCAG 2.1 Level AA + selected WCAG 2.5.5 controls (touch targets)\"."
+    },
+    {
+      "id": "L2-10",
+      "category": "must-fix",
+      "section": "Section 5.6 Keyboard Interaction Specification",
+      "issue": "Keyboard shortcuts table includes global slash (/) and question mark (?) shortcuts without documenting whether these are optional or required, and without testing that they don't conflict with browser/OS shortcuts or accessibility tool shortcuts.",
+      "evidence": "Section 5.6 shows \"/ (slash): Global (optional power user)\" and \"? (question mark): Global (optional power user)\" but provides no conflict analysis with common browser shortcuts (/=Firefox search, ?=help in many systems), no accessibility tool compatibility notes, no implementation guidance for detecting/preventing conflicts.",
+      "recommendation": "Add: conflict analysis showing these shortcuts don't collide with browser/OS/accessibility tool shortcuts, implementation logic to avoid interference (e.g., preventDefault only when input not focused), and note that these are truly optional (work without them)."
+    },
+    {
+      "id": "L2-11",
+      "category": "must-fix",
+      "section": "Section 6: Dark Mode Implementation - 6.1 Class-Based Dark Mode",
+      "issue": "Dark mode implementation specifies class-based approach but provides no testing evidence that the dark mode toggle works correctly on all browsers (Chrome, Safari, Firefox, mobile) or that CSS media query fallback is robust.",
+      "evidence": "Section describes the approach but shows no test results, no browser compatibility matrix, no handling of cases where user's system preference changes while app is running.",
+      "recommendation": "Add: browser compatibility test results (Chrome, Safari, Firefox, iOS Safari, Chrome Android), test cases for system preference change detection, and code showing how `prefers-color-scheme` is monitored and CSS updated dynamically."
+    },
+    {
+      "id": "L2-12",
+      "category": "must-fix",
+      "section": "Section 0: Design Token Registry - Comprehensive table near end",
+      "issue": "Design Token Registry table lists 13-point spacing scale but Section 3.1 claims the scale includes \"4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80, 96\" (13 values); table does not explicitly show all 13 values, causing potential implementer confusion about which scale is authoritative.",
+      "evidence": "Section 3.1 states \"Full spacing scale: 4px, 8px, 12px, 16px, 20px, 24px, 32px, 40px, 48px, 56px, 64px, 80px, 96px\" but the Design Token Registry table at end only shows `spacing-1` through `spacing-24` without clearly mapping each Tailwind class to the px value.",
+      "recommendation": "Ensure Design Token Registry table explicitly lists all 13 spacing values in sequential order with both px and Tailwind class name clearly visible for each (e.g., spacing-1=4px=`p-1`, spacing-2=8px=`p-2`, etc.), with no gaps or ambiguity."
+    },
+    {
+      "id": "L2-13",
+      "category": "should-improve",
+      "section": "Section 1.1 Color Palette Architecture",
+      "issue": "Light mode and dark mode color values are provided but no guidance on how to handle the transition (fade duration, easing function) or how to prevent color \"flash\" when user toggles dark mode.",
+      "evidence": "Section provides color values but does not specify CSS transition properties (e.g., `transition: background-color 200ms ease-out`) needed to smoothly animate color changes on dark mode toggle, potentially causing jarring visual flash.",
+      "recommendation": "Add: CSS transition duration and easing for dark mode toggle (e.g., \"Color transitions: 150ms ease-out to prevent harsh flashing\"), and note on how to detect prefers-color-scheme changes and update colors dynamically without page reload."
+    },
+    {
+      "id": "L2-14",
+      "category": "should-improve",
+      "section": "Section 4.2 Form Input System - Password Input Field",
+      "issue": "Password requirements checklist is designed but no guidance on whether password rules are enforced server-side or only validated client-side, creating potential security gap if client validation is bypassed.",
+      "evidence": "Section describes password requirements UI and real-time validation but does not state whether server must also validate (e.g., API endpoint validates password length, complexity before accepting) or if client-side validation alone is sufficient.",
+      "recommendation": "Add: explicit note that \"Password validation MUST be enforced server-side on API endpoints. Client-side validation is UX only; server validation is security-critical. API rejects weak passwords even if client validation is bypassed.\""
+    },
+    {
+      "id": "L2-15",
+      "category": "should-improve",
+      "section": "Section 8.2 Component Build Checklist",
+      "issue": "Checklist verifies \"Dark mode tested\" but does not specify what \"tested\" means (manual visual inspection? automated contrast testing? full coverage of all components?).",
+      "evidence": "Checklist item: \"[ ] Dark mode tested: Colors adjusted, not inverted; all text still readable\" is vague about test scope and methodology; does not specify whether all 28+ color combinations are tested or just spot-checked.",
+      "recommendation": "Clarify: \"Dark mode tested: All text/background color combinations verified for 4.5:1 contrast in dark mode via WebAIM; all components with background colors tested for visual consistency (no inverted colors creating harsh contrast); tested on Chrome, Safari, Firefox.\""
+    },
+    {
+      "id": "L2-16",
+      "category": "should-improve",
+      "section": "Glossary of Technical Terms - D-55 Ledger Schema",
+      "issue": "D-55 ledger entries (D55-P6A-001 through D55-P6A-014+) are referenced throughout but the ledger itself is not provided in this deliverable; entries are mentioned but not fully materialized as a standalone table for Phase 7 reference.",
+      "evidence": "Section 0 and conclusion mention \"D-55 running ledger updated\" and \"D-55 entries\" but the actual ledger table showing all P6A decisions is embedded only in passing; a standalone ledger table should be provided as a design system reference artifact.",
+      "recommendation": "Provide a standalone D-55 Phase 6A Decision Ledger table (separate from existing narrative) with columns: Entry ID, Decision, Constraint, Rationale, Binding Phase, Status; ensure all 14+ decisions are listed and can be indexed by Phase 7 developers."
+    },
+    {
+      "id": "L2-17",
+      "category": "should-improve",
+      "section": "Section 0.5: Founder Decision Checkpoints",
+      "issue": "Founder decision checkpoints describe pending validation but the structure suggests Lucia validation should occur during D7 review cycle, yet no explicit timeline or gate condition is provided for when D6A is considered \"locked\" vs. \"pending founder feedback\".",
+      "evidence": "Section states \"Awaiting 2-day founder validation cycle (post-D7 lockdown)\" and \"Status: Awaiting founder confirmation\" but does not specify: (1) what happens if founder rejects decisions, (2) timeline for re-iteration, (3) gate criteria for proceeding to D6B without founder approval.",
+      "recommendation": "Add: explicit founder validation gate with criteria: \"D7 is locked pending Lucia's approval of (1) color palette emotional alignment, (2) dark mode necessity, (3) component library flexibility. If Lucia requests changes: re-validate contrast, re-execute research point 6.2, re-lock D7 within 2 business days. If changes are substantial, Phase 6B start is delayed by up to 1 week.\""
+    },
+    {
+      "id": "L2-18",
+      "category": "consider",
+      "section": "Section 4.1 Button System - Loading State",
+      "issue": "Loading state specification shows spinner icon but does not provide guidance on spinner animation CSS (rotation duration, easing) or whether spinner should respect prefers-reduced-motion.",
+      "evidence": "Section describes \"spinner icon (16\u00d716px) + optional text\" but does not specify: `animation: spin 1s linear infinite;` or how to apply `@media (prefers-reduced-motion: reduce) { animation: none; }`.",
+      "recommendation": "Add: CSS animation specification for spinner (duration, easing, infinite rotation), and explicit note that \"Spinner animation respects prefers-reduced-motion: spinner is hidden and brief loading text shown instead if user has motion preferences enabled.\""
+    },
+    {
+      "id": "L2-19",
+      "category": "consider",
+      "section": "Section 1.3 Data Visualization Color Palette",
+      "issue": "Chart library selection is deferred to Phase 7 (\"confirmed for Phase 7 binding\") but D7 should specify the decision now to validate color palette compatibility with the chosen library.",
+      "evidence": "Section states \"Ocean Golf will use Recharts for data visualization (confirmed for Phase 7 binding as D-55-P6A-009)\" but this decision is not researched or justified in D7; it's deferred, potentially causing Phase 7 color palette mismatch if Recharts is not suitable.",
+      "recommendation": "Execute research point 6.2+ to evaluate chart libraries (Recharts, Victory, Nivo, Chart.js) for color palette customization, color-blind safety, and React integration; lock decision in D7 rather than deferring to Phase 7 to ensure color palette is library-compatible."
+    },
+    {
+      "id": "L2-20",
+      "category": "consider",
+      "section": "Section 5.14 Text Scaling to 200% - Testing Procedure",
+      "issue": "Testing procedure for 200% zoom states that \"Page layout adapts (single-column on mobile, not broken into multiple columns)\" but does not specify how to test this (manual zoom in browser? programmatic testing?) or which browsers/OS combinations to verify.",
+      "evidence": "Section describes the test but provides no methodology: \"Open page in browser, press Ctrl/Cmd + +...\" is manual; no mention of automated testing, cross-browser testing, or creating test cases for Phase 7 QA.",
+      "recommendation": "Add: specific test cases (manual + automated) and tool recommendations, e.g., \"Cypress test: zoom to 200%, verify no horizontal scrollbar appears; test on Chrome/Safari/Firefox; verify on mobile via device emulation; no text clipping in any component.\""
+    }
+  ],
+  "summary": {
+    "must_fix": 12,
+    "should_improve": 5,
+    "consider": 3,
+    "total": 20
+  }
+}

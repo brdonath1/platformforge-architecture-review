@@ -1,0 +1,1169 @@
+```xml
+<corrections>
+  <patch id="L1-1">
+    <action>insert_after</action>
+    <anchor>## SECTION 10: HANDOFF TO PHASE 7 BUILD TEAM</anchor>
+    <search_text>When Phase 7 build starts (April 15), the build team needs:
+
+1. **GitHub repository access:**
+   - Add as collaborators (invite by GitHub username)
+   - Give "Maintain" or "Admin" access
+
+2. **`.env.local` file (or hosting environment variables):**
+   - Share via password manager, not email
+   - Include all credentials from Section 2
+
+3. **Hosting provider access (if shared):**
+   - Optional: Give "Viewer" or "Collaborator" access to Railway/Vercel/Render
+   - Or just keep it yourself (you manage deploys)
+
+4. **This document:**
+   - Share D9 with build team so they understand where credentials come from
+
+5. **Supabase read access (optional):**
+   - If build team wants to see database schema after creation
+   - Share view-only link or add as collaborator</search_text>
+    <new_text>When Phase 7 build starts (April 15), the build team needs:
+
+1. **GitHub repository access:**
+   - Add as collaborators (invite by GitHub username)
+   - Give "Maintain" or "Admin" access
+
+2. **`.env.local` file (or hosting environment variables):**
+   - Share via password manager, not email
+   - Include all credentials from Section 2
+
+3. **Hosting provider access (if shared):**
+   - Optional: Give "Viewer" or "Collaborator" access to Railway/Vercel/Render
+   - Or just keep it yourself (you manage deploys)
+
+4. **This document:**
+   - Share D9 with build team so they understand where credentials come from
+
+5. **Supabase read access (optional):**
+   - If build team wants to see database schema after creation
+   - Share view-only link or add as collaborator
+
+---
+
+# D12 — Privacy Policy: Ocean Golf
+
+**Phase:** 8 (Lifecycle & Operations Planning)  
+**Deliverable ID:** D12  
+**Generation Date:** April 1, 2026  
+**Platform:** Ocean Golf  
+**Business Entity:** Ocean Golf SRL (Registered March 20, 2026)  
+**Status:** Implementation-Ready  
+**Legal Review:** ⚠️ REQUIRED BEFORE LAUNCH (See Section 9)  
+**Founder Approval:** ⏳ PENDING (Must review and approve personal data handling decisions in Section 4)
+
+---
+
+## EXECUTIVE SUMMARY
+
+This Privacy Policy explains what personal data Ocean Golf collects, how it's used, who it's shared with, and what rights users have.
+
+**Key decisions required from Rafael (founder):**
+- Who can Lucia access user booking data? (Self only, or team members?)
+- How long do we keep user data after account deletion? (30 days, 90 days, or longer for accounting?)
+- Do we share booking data with golf courses for confirmation? (Required for business logic)
+- Can we use booking patterns for anonymized analytics? (To improve recommendations)
+
+**Legal requirements:**
+- This policy must be reviewed by a Mexican lawyer before September 1 launch
+- GDPR compliance required (EU users may access the platform)
+- CCPA compliance required (California users may access the platform)
+- Costs: ~$500–1,500 for legal review (one-time)
+
+---
+
+## SECTION 1: INTRODUCTION & SCOPE
+
+Ocean Golf ("we," "us," "our," or "Company") operates the Ocean Golf platform (https://oceangolf.mx). This Privacy Policy explains:
+
+1. What personal data we collect
+2. Why we collect it
+3. Who we share it with
+4. How long we keep it
+5. What rights you have
+
+**Applies to:** All users of the Ocean Golf platform, website, and related services.
+
+**Last updated:** April 1, 2026  
+**Effective date:** September 1, 2026 (upon platform launch)
+
+**Questions?** Contact: privacy@oceangolf.mx
+
+---
+
+## SECTION 2: WHAT DATA WE COLLECT
+
+Ocean Golf collects data directly from you (when you sign up, create a booking) and automatically (through browser activity, login records).
+
+### 2.1 Data You Provide Directly
+
+**Account creation:**
+- Name (full legal name)
+- Email address
+- Phone number
+- Password (encrypted, we never see the actual password)
+- Profile photo (optional)
+- Preferred language
+- Time zone
+
+**Booking creation:**
+- Golf course name and location
+- Desired dates/times for tee time
+- Number of golfers in party
+- Handicap(s) or skill level(s)
+- Special requests (accessibility needs, equipment, etc.)
+- Billing name and address
+- Payment information (card last 4 digits, expiration; full card data never stored — Stripe handles it)
+- Booking notes
+
+**Communication:**
+- Emails you send to support
+- Calls you make to concierge service
+- Feedback/suggestions you submit
+- Chat messages with course contacts (if applicable)
+
+**Verification:**
+- Photos of ID (for high-value bookings or fraud prevention)
+- Billing address verification
+
+### 2.2 Data Collected Automatically
+
+**Browser & device:**
+- IP address
+- Browser type and version
+- Operating system
+- Device type (mobile, desktop, tablet)
+- Pages visited and time spent on each
+- Clicks and interactions
+- Referral source (how you found us)
+- Session ID
+- Cookies and tracking pixels
+
+**Account activity:**
+- Login times and frequency
+- Features used (which screens you access)
+- Searches performed
+- Booking history
+- Cancellations and refunds
+
+**Payment & fraud detection:**
+- Transaction amounts and dates
+- Payment method type
+- Billing address (linked to card)
+- Fraud risk flags (from Stripe/Supabase)
+
+### 2.3 Data from Third Parties
+
+**Golf courses:**
+- Tee time availability (shared to show you options)
+- Course amenities, restrictions, pricing
+- Confirmation from courses that your booking was received
+
+**Payment processor (Stripe):**
+- Stripe shares card risk assessment (fraud flags)
+- We never see full card numbers
+
+**Email service (Resend):**
+- Email open/click tracking (if enabled)
+- Bounce/spam complaints
+
+**Analytics (Google Analytics):**
+- Aggregated usage data (no individual data)
+- Traffic patterns, device types
+
+---
+
+## SECTION 3: WHY WE COLLECT DATA (PURPOSE & LEGAL BASIS)
+
+### 3.1 Legal Bases (under GDPR/CCPA)
+
+We collect and process personal data for these legitimate purposes:
+
+| Data Type | Purpose | Legal Basis | Retention |
+|-----------|---------|------------|-----------|
+| **Account credentials** | Enable login and identify you | Contract (you agreed to Terms of Service) | Until account deleted + 90 days |
+| **Booking details** | Create and manage your golf booking; communicate with courses | Contract | Lifetime (for booking history); 7 years for tax/accounting (required by Mexican law) |
+| **Contact info** | Send booking confirmations, updates, reminders | Contract | Until account deleted + 30 days |
+| **Payment info** | Process payment and prevent fraud | Contract + Legal obligation (accounting records) | Card details: 30 days only (Stripe deletes); invoice records: 7 years |
+| **Device/browser data** | Diagnose technical issues, prevent fraud, improve platform | Legitimate interest (business operations) | 90 days |
+| **Cookies/tracking** | Remember preferences, measure engagement, show ads (if future) | Consent (you accept cookies on landing page) | 1 year or until cookie deleted |
+| **Support communications** | Resolve issues, provide customer service | Contract + Legitimate interest | 2 years |
+
+### 3.2 What Happens If You Don't Provide Data
+
+- **Required fields** (name, email, password): Cannot create account without these
+- **Optional fields** (phone, profile photo): Can use platform without providing
+- **Payment info**: Cannot complete a booking without payment method
+- **Cookies**: Can reject non-essential cookies (but platform works better with them)
+
+---
+
+## SECTION 4: HOW WE USE YOUR DATA (DATA INVENTORY CROSS-REFERENCE TO D4)
+
+Based on Ocean Golf database schema (D4), here's exactly which tables store personal data and how it's used:
+
+| D4 Table | Has Personal Data | Personal Data Fields | Used For | Shared With |
+|----------|------------------|--------------------|---------|-----------__|
+| **users** | ✅ YES | name, email, phone, password_hash, profile_photo, timezone, language | Account management, communication, analytics | None (internal only) |
+| **bookings** | ✅ YES | user_id, course_id, booking_date, golfer_count, handicaps, special_requests, notes | Booking management, course confirmation, payment processing | Golf courses (tee time confirmation), Stripe (payment), Lucia (business ops) |
+| **payments** | ✅ YES | user_id, booking_id, amount, stripe_charge_id, billing_address, card_last_4 | Financial records, fraud detection, accounting, revenue tracking | Stripe (payment processing), Accountant (tax filing) |
+| **courses** | ❌ NO | name, location, amenities, phone, email | Display course info to users | Golf courses (booking confirmation) |
+| **tee_times** | ❌ NO | course_id, date, time, available_slots | Show availability to users | Golf courses (availability check) |
+| **api_logs** | ⚠️ PARTIALLY | ip_address, endpoint, response_code, timestamp | Debugging, security, fraud detection | None (internal only) |
+| **audit_log** | ⚠️ PARTIALLY | user_id, action, timestamp, changes | Compliance, fraud investigation | None (internal only); Lucia only for disputes |
+
+**Key decisions required (Section 4 additions pending founder approval):**
+
+**Decision 4.1: Team data access**
+- Can Lucia see all user booking data, or only bookings she created?
+- Can future team members (if hired) access user data?
+- **FOUNDER CHOICE REQUIRED:** Full access vs. limited access
+
+**Decision 4.2: Data retention after deletion**
+- After a user deletes their account, how long do we keep their data?
+- Option A: 30 days (minimal retention for payment disputes)
+- Option B: 90 days (GDPR standard soft delete)
+- Option C: 7 years (Mexican accounting requirement; data anonymized after 1 year)
+- **FOUNDER CHOICE REQUIRED:** 30/90/7-year retention
+
+**Decision 4.3: Golf course data sharing**
+- Do we share user booking details with golf courses?
+- What data? (Name, phone, handicap, party size, special requests?)
+- **FOUNDER CHOICE REQUIRED:** Share vs. don't share (impacts booking confirmation flow)
+
+**Decision 4.4: Analytics & booking pattern usage**
+- Can we analyze booking patterns (anonymized) to improve recommendations?
+- Can we share anonymized stats with golf courses? (e.g., "35 users booked your course last month")
+- **FOUNDER CHOICE REQUIRED:** Yes vs. no
+
+---
+
+## SECTION 5: WHO WE SHARE YOUR DATA WITH
+
+Ocean Golf shares personal data only with:
+
+### 5.1 Service Providers (Data Processors)
+
+These companies process your data on our behalf. They're bound by data protection contracts.
+
+| Service | Data Shared | Purpose | Privacy Policy |
+|---------|------------|---------|--|
+| **Supabase (Database)** | All user data (encrypted at rest) | Store and manage data | https://supabase.com/privacy |
+| **Stripe (Payments)** | Name, email, billing address, card details, booking amount | Process payments, fraud detection | https://stripe.com/privacy |
+| **Resend (Email)** | Name, email, booking details | Send transactional emails | https://resend.com/privacy |
+| **Google Analytics** | Anonymized user behavior (no names/emails) | Traffic analysis, engagement | https://policies.google.com/privacy |
+| **Sentry (Error Tracking)** | IP address, browser type, error details (no user data) | Debug platform issues | https://sentry.io/privacy |
+| **Railway (Hosting)** | All platform data (encrypted in transit, encrypted at rest) | Host platform infrastructure | https://railway.app/privacy |
+
+### 5.2 Data Controllers (We Don't Control Their Use)
+
+You authorize us to share data with:
+
+| Recipient | Data Shared | Purpose | Your Control |
+|-----------|-----------|---------|--|
+| **Golf Courses** | Your name, phone, handicap, party size, special requests, booking details | Confirm your tee time and prepare for your arrival | [PENDING DECISION 4.3] You can request we don't share with a specific course |
+| **Lucia (Concierge)** | All booking details | Manage your booking, handle cancellations, coordinate with courses | Lucia is bound by confidentiality; she uses data only for your booking |
+
+### 5.3 Legal Obligations
+
+We may disclose your data if required by law:
+- Court order or legal process
+- Tax/accounting audit (Mexican authorities)
+- Fraud investigation
+- Safety threat requiring disclosure to law enforcement
+
+### 5.4 Data Transfers Outside Mexico
+
+**Supabase** (database) may store your data in the US or EU, depending on which region you selected during account setup. Stripe processes payments through its US infrastructure.
+
+**GDPR transfers:** If you're in the EU, we rely on:
+- Standard Contractual Clauses (SCCs) with Supabase and Stripe
+- Both providers signed Data Processing Agreements (DPAs)
+
+---
+
+## SECTION 6: COOKIES & TRACKING TECHNOLOGIES
+
+Ocean Golf uses cookies to remember your login, preferences, and track usage.
+
+### 6.1 Cookie Inventory
+
+| Cookie Name | Purpose | Type | Duration | Required |
+|-------------|---------|------|----------|----------|
+| `session_id` | Keep you logged in | Functional | Until logout | ✅ Yes |
+| `user_preferences` | Remember language, timezone, dark mode | Functional | 1 year | ❌ No |
+| `ga_id` | Google Analytics tracking | Analytics | 2 years | ❌ No (optional) |
+| `stripe_session` | Stripe payment session | Functional | Until payment complete | ✅ Yes (during checkout) |
+
+**On landing page, we ask:** "Accept cookies to improve your experience." You can:
+- Accept all cookies
+- Accept only required cookies (session, payment)
+- Reject all (analytics/tracking only; you can still use the platform)
+
+### 6.2 Third-Party Trackers
+
+- **Google Analytics:** Tracks page views, clicks, scroll depth (anonymized)
+- **Stripe:** Tracks payment success/failure
+
+---
+
+## SECTION 7: YOUR RIGHTS & HOW TO EXERCISE THEM
+
+### 7.1 Rights You Have (GDPR/CCPA/Mexican Privacy Laws)
+
+| Right | What It Means | How to Request |
+|------|-------------|-----------------|
+| **Access** | See all data we have about you | Email privacy@oceangolf.mx with "Data Access Request" |
+| **Correct** | Fix inaccurate data | Log into platform, edit profile; or email privacy@oceangolf.mx |
+| **Delete (Right to be Forgotten)** | Ask us to delete your data | Email privacy@oceangolf.mx with "Deletion Request" |
+| **Restrict Processing** | Ask us to limit how we use your data | Email privacy@oceangolf.mx with "Restrict Processing Request" |
+| **Data Portability** | Get your data in a portable format (CSV, JSON) | Email privacy@oceangolf.mx with "Data Portability Request" |
+| **Object** | Opt out of non-essential processing | Click "Unsubscribe" in emails; or email privacy@oceangolf.mx |
+| **Lodge a Complaint** | Report us to privacy authority if you believe rights violated | GDPR: Contact your national data protection authority; Mexico: INAI (https://www.gob.mx/inai) |
+
+### 7.2 Exercise Your Rights (Procedures)
+
+**Access Request:**
+```
+Email: privacy@oceangolf.mx
+Subject: Data Access Request — [Your Name]
+Body:
+  I request a copy of all personal data you hold about me.
+  Name: [Your name]
+  Email: [Your email]
+  Request date: [Today's date]
+
+We will respond within 30 days with your data in a portable format.
+```
+
+**Deletion Request:**
+```
+Email: privacy@oceangolf.mx
+Subject: Data Deletion Request — [Your Name]
+Body:
+  I request deletion of my account and all associated personal data.
+  Name: [Your name]
+  Email: [Your email]
+  Reason (optional): [Why you want deletion]
+
+We will:
+  1. Deactivate your account immediately
+  2. Delete all personal data within [DECISION 4.2] days
+  3. Retain: Payment records (7 years for tax), anonymized analytics
+  4. Send confirmation when deletion is complete
+```
+
+**Correction Request:**
+```
+Log in → Profile → Edit [field]
+Or email: privacy@oceangolf.mx with specific corrections
+```
+
+**Data Portability Request:**
+```
+Email: privacy@oceangolf.mx
+Subject: Data Portability Request — [Your Name]
+Body:
+  I request my data in a portable format (CSV/JSON).
+  Name: [Your name]
+  Email: [Your email]
+
+We will provide your data within 30 days in machine-readable format.
+```
+
+### 7.3 Response Timeline
+
+- **Access/Deletion/Portability:** 30 days (extended to 60 days for complex requests)
+- **Correction:** Immediate (or within 3 days if verification required)
+- **Objection:** Acknowledged within 10 days; decision within 30 days
+
+---
+
+## SECTION 8: SECURITY & DATA PROTECTION
+
+### 8.1 How We Protect Your Data
+
+| Protection | Implementation |
+|-----------|-----------------|
+| **Encryption in transit** | HTTPS/TLS (🔒 padlock in browser) on all pages |
+| **Encryption at rest** | Supabase encrypts database at rest (AES-256) |
+| **Password security** | Passwords hashed with bcrypt; we never store actual passwords |
+| **Access control** | Only Lucia (and future team) can access user data; multi-factor authentication available |
+| **Payment data** | Card numbers never touch our servers; Stripe handles them (PCI-DSS compliant) |
+| **API security** | All APIs require authentication; rate limits prevent abuse |
+| **Backups** | Daily automated backups; encrypted; 30-day retention |
+| **Monitoring** | Sentry error tracking alerts Lucia to suspicious activity |
+
+### 8.2 What We Do NOT Do
+
+- ❌ We don't sell your personal data
+- ❌ We don't use your data for marketing without consent
+- ❌ We don't share passwords or sensitive data
+- ❌ We don't store full credit card numbers
+- ❌ We don't log your browsing history
+
+### 8.3 Incident Response
+
+If we discover a breach (unauthorized access to your data):
+
+1. We notify affected users within 72 hours
+2. We notify relevant authorities (INAI if Mexico, ICO if EU, etc.)
+3. We investigate root cause and fix vulnerability
+4. We provide guidance on steps you should take (change password, monitor accounts, etc.)
+5. We offer credit monitoring if financial data exposed (1 year free)
+
+---
+
+## SECTION 9: CHILDREN & MINORS
+
+Ocean Golf is for users 18+. We don't knowingly collect data from children under 13 (or under 16 in EU).
+
+If we discover we collected data from a child:
+- We delete it immediately
+- We notify parents/guardians
+- We comply with COPPA (US) / EU GDPR child safeguards
+
+**Parental Consent:** If you're 13–18, you need parental consent to use Ocean Golf. Parents can email privacy@oceangolf.mx to request deletion of their child's account.
+
+---
+
+## SECTION 10: PRIVACY POLICY UPDATES
+
+We may update this policy to reflect changes in law, business practices, or user feedback.
+
+**How we notify you:**
+- Email notification to all registered users
+- Updated date at top of policy
+- Material changes: 30-day notice before taking effect
+
+**Your consent:** Continued use of Ocean Golf after policy updates means you accept the new terms. If you disagree, you can request data deletion (Section 7.2).
+
+---
+
+## SECTION 11: CONTACT & COMPLAINTS
+
+**Privacy Questions:**
+- Email: privacy@oceangolf.mx
+- Response time: 5 business days
+
+**Data Subject Rights Requests:**
+- Email: privacy@oceangolf.mx
+- Subject: "Data Request — [Your Name]"
+- Include: Name, email, specific request (access, delete, correct, etc.)
+- Response time: 30 days
+
+**Complaints:**
+- **EU residents:** National data protection authority (e.g., GDPR authority for your country)
+- **California residents:** California Attorney General (https://oag.ca.gov/privacy)
+- **Mexico residents:** INAI (Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales) — https://www.gob.mx/inai
+- **Other:** Contact us first; we'll guide you to appropriate authority
+
+---
+
+## SECTION 12: APPENDIX A — GDPR ADDENDUM (EU USERS)
+
+**If you're in the EU, this addendum applies:**
+
+### A.1 Legal Basis for Processing
+
+Under GDPR Article 6, we process your data under:
+- **Performance of contract** (you agreed to ToS)
+- **Legal obligation** (accounting/tax records)
+- **Legitimate interests** (fraud prevention, analytics, business operations)
+- **Consent** (cookies, marketing emails)
+
+### A.2 Data Controller & Processor Info
+
+| Role | Entity | Contact |
+|------|--------|---------|
+| **Controller** | Ocean Golf SRL | privacy@oceangolf.mx |
+| **Processor (Database)** | Supabase Inc. | https://supabase.com |
+| **Processor (Payments)** | Stripe Inc. | https://stripe.com |
+| **Processor (Email)** | Resend Inc. | https://resend.com |
+
+### A.3 Your GDPR Rights
+
+- Right to access (Art. 15)
+- Right to rectify (Art. 16)
+- Right to erasure (Art. 17)
+- Right to restrict processing (Art. 18)
+- Right to data portability (Art. 20)
+- Right to object (Art. 21)
+- Rights related to automated decision-making (Art. 22)
+
+All are outlined in Section 7 above.
+
+### A.4 Data Retention
+
+| Data Type | Retention Period |
+|-----------|-----------------|
+| Account data | [DECISION 4.2 pending] |
+| Payment records | 7 years (legal requirement) |
+| Booking history | Lifetime (with user consent) |
+| Cookies | 1 year or until deleted |
+| Error logs | 90 days |
+
+### A.5 International Transfers
+
+Your data may be transferred to the US (Supabase, Stripe, Google Analytics). We rely on:
+- Standard Contractual Clauses (SCCs)
+- Data Processing Agreements (DPAs)
+- Adequate safeguards under GDPR Article 44–49
+
+---
+
+## SECTION 13: APPENDIX B — CCPA ADDENDUM (CALIFORNIA USERS)
+
+**If you're in California, this addendum applies:**
+
+### B.1 California Consumer Rights
+
+Under CCPA, you have the right to:
+- **Know:** What personal info we collect, use, share
+- **Delete:** Ask us to delete personal info (with some exceptions)
+- **Opt-out:** Prevent sale/sharing of personal info
+- **Correct:** Request we correct inaccurate info
+- **Limit:** Request we limit use to what's necessary
+
+### B.2 Personal Information We Collect
+
+Categorized per CCPA:
+- **Identifiers:** Name, email, phone, IP address
+- **Commercial info:** Booking history, payment transactions
+- **Biometric info:** None (no photos of faces, fingerprints, etc.)
+- **Internet activity:** Cookies, analytics, browsing history
+- **Geolocation:** Timezone/location from profile (optional)
+- **Inferences:** Booking preferences (derived from history)
+
+### B.3 Sale/Sharing of Personal Info
+
+**Ocean Golf does NOT:**
+- Sell personal info for money
+- Share personal info with third parties for marketing
+
+**Exception:** We may share with service providers (Supabase, Stripe, Resend) for business purposes.
+
+**Opt-out:** You can opt-out of any sharing by emailing privacy@oceangolf.mx.
+
+### B.4 Your CCPA Rights (How to Exercise)
+
+**Right to Know/Access:**
+- Email: privacy@oceangolf.mx
+- Subject: "CCPA Access Request"
+- We provide data within 45 days
+
+**Right to Delete:**
+- Email: privacy@oceangolf.mx
+- Subject: "CCPA Deletion Request"
+- We delete within 45 days (some data retained for legal/tax reasons)
+
+**Right to Opt-Out:**
+- Email: privacy@oceangolf.mx
+- Subject: "CCPA Opt-Out"
+- We confirm within 45 days
+
+**Right to Correct:**
+- Log into platform and edit profile
+- Or email: privacy@oceangolf.mx with corrections
+
+**Right to Limit Use:**
+- Email: privacy@oceangolf.mx
+- Subject: "CCPA Limit Use Request"
+- We confirm limitations within 45 days
+
+---
+
+## SECTION 14: LEGAL REVIEW & APPROVAL (REQUIRED BEFORE LAUNCH)
+
+**⚠️ CRITICAL:** This policy must be reviewed by a Mexican lawyer before September 1 launch.
+
+**Recommended attorney focus areas:**
+1. Compliance with Mexico's LFPDPPP (Federal Law for Protection of Personal Data)
+2. Correctness of 7-year tax/accounting retention requirement
+3. Appropriateness of GDPR/CCPA sections (may need adjustment based on actual user geographic distribution)
+4. Accuracy of Lucia's role and data access authority
+5. Appropriateness of golf course data sharing practices
+6. Legal validity of consent mechanisms (cookies, Terms of Service)
+
+**Estimated cost:** $500–1,500 (one-time review)
+
+**Timeline:** Schedule review by August 1 (1 month before launch)
+
+**Questions for lawyer:**
+- Is the 7-year retention period correct for Mexican tax law?
+- Should we add LFPDPPP-specific language to Section 1?
+- Do we need separate privacy policies for Mexico vs. international users?
+- Is our consent mechanism (click to accept policy) legally sufficient?
+
+---
+
+## FOUNDER DECISIONS REQUIRED (COMPLETION GATE)
+
+Before D12 is finalized, Rafael must decide and confirm:
+
+**Decision 4.1: Team data access**
+- Full access to all booking data, or limited?
+- **CHOICE:**  ☐ Full access  ☐ Limited access  ☐ TBD
+
+**Decision 4.2: Retention after deletion**
+- **CHOICE:**  ☐ 30 days  ☐ 90 days  ☐ 7 years
+
+**Decision 4.3: Golf course data sharing**
+- **CHOICE:**  ☐ Share name, phone, handicap, special requests  ☐ Share only name/phone  ☐ Don't share any personal data
+
+**Decision 4.4: Analytics on booking patterns**
+- **CHOICE:**  ☐ Yes, anonymized analysis OK  ☐ No, don't analyze  ☐ TBD
+
+**Approval:**
+- Rafael reviews Section 4 and provides written decisions
+- Legal review scheduled (August 1)
+- Final policy approved by Rafael (August 15)
+- Published on platform (August 25)
+- Live for users (September 1)</new_text>
+  </patch>
+  <patch id="L1-2">
+    <action>insert_after</action>
+    <anchor># D12 — Privacy Policy: Ocean Golf</anchor>
+    <search_text>**Founder Approval:** ⏳ PENDING (Must review and approve personal data handling decisions in Section 4)</search_text>
+    <new_text>**Founder Approval:** ⏳ PENDING (Must review and approve personal data handling decisions in Section 4)
+
+---
+
+# D13 — Terms of Service: Ocean Golf
+
+**Phase:** 8 (Lifecycle & Operations Planning)  
+**Deliverable ID:** D13  
+**Generation Date:** April 1, 2026  
+**Platform:** Ocean Golf  
+**Business Entity:** Ocean Golf SRL (Registered March 20, 2026)  
+**Status:** Implementation-Ready  
+**Legal Review:** ⚠️ REQUIRED BEFORE LAUNCH (See Section 12)  
+**Founder Approval:** ⏳ PENDING (Must review service description, payment terms, and content ownership clauses in Sections 2–5)
+
+---
+
+## EXECUTIVE SUMMARY
+
+These Terms of Service ("Terms") are the legal agreement between you (the user) and Ocean Golf SRL when you use the Ocean Golf platform.
+
+**Key legal points:**
+- You're 18+ and agree to be bound by these Terms
+- Ocean Golf is a booking coordination service; we don't guarantee tee times
+- Payment is non-refundable (cancellation policy managed by golf course, not Ocean Golf)
+- We're not liable for third-party services (Stripe, golf courses, etc.)
+- We reserve the right to terminate accounts for abuse
+
+**Founder decisions required:**
+- Service description accuracy (Section 2)
+- Payment & refund policy (Section 5)
+- Content ownership (Section 6) — do users own their booking data, or does Ocean Golf?
+- Dispute resolution process (Section 10)
+
+---
+
+## SECTION 1: ACCEPTANCE & BINDING AGREEMENT
+
+By accessing or using Ocean Golf (https://oceangolf.mx), you agree to be legally bound by these Terms of Service and our Privacy Policy (D12).
+
+**If you do not agree, do not use Ocean Golf.**
+
+These Terms apply to:
+- Website visitors
+- Registered users
+- Anyone using our mobile app (if future)
+- Anyone accessing our API
+
+**Changes to Terms:** We may update these Terms at any time. Continued use means you accept updates. Material changes will be emailed 30 days in advance.
+
+---
+
+## SECTION 2: SERVICE DESCRIPTION
+
+### 2.1 What Ocean Golf Is
+
+Ocean Golf is a digital platform that:
+1. Displays golf course tee times and amenities
+2. Helps you request tee times at golf courses
+3. Manages your booking coordination with golf courses
+4. Facilitates communication between you and our concierge (Lucia)
+5. Processes payments for booking coordination fees
+
+### 2.2 What Ocean Golf Is NOT
+
+Ocean Golf:
+- Does **not** own or operate golf courses
+- Does **not** guarantee tee time availability
+- Does **not** guarantee any specific tee time will be confirmed
+- Does **not** provide golf instruction, coaching, or equipment rental
+- Does **not** handle on-course activities (payment to course, food/beverage, etc.)
+
+### 2.3 Service Limitations
+
+**Availability:** Ocean Golf operates 24/7, but may experience:
+- Scheduled maintenance (we'll email 48 hours before)
+- Unscheduled outages (we'll post status update within 1 hour)
+- Golf course data delays (tee times updated hourly, not real-time)
+
+**No Guarantee:** We don't guarantee:
+- Any tee time will be available when you request it
+- Any tee time will be confirmed by the golf course
+- Any specific course will have tee times within your date range
+- Any tee time price listed is final (courses may change pricing)
+
+**Your Responsibility:** You are responsible for:
+- Providing accurate booking details (correct dates, party size, handicaps)
+- Communicating directly with the golf course if you have questions
+- Canceling via the golf course if you need to cancel
+- Reading confirmation details and contacting Lucia if errors exist
+
+---
+
+## SECTION 3: ACCOUNT TERMS
+
+### 3.1 Eligibility
+
+You must be:
+- At least 18 years old
+- A legal resident of a country where Ocean Golf operates
+- Capable of entering into a binding agreement
+- Not prohibited by law from using our service
+
+**Prohibited use:**
+- If you're sanctioned, embargoed, or on any government exclusion list
+- If you're in a country under US/Mexican trade embargo
+- If you're under 18 or lack legal capacity
+
+### 3.2 Account Creation
+
+When you sign up, you must:
+- Provide accurate, current information
+- Create a unique password (don't share it)
+- Be responsible for all activity under your account
+- Notify us immediately if account is compromised
+
+**Account ownership:** Your account is personal and non-transferable. You cannot sell, trade, or transfer your account.
+
+### 3.3 Account Termination
+
+**You can delete your account:**
+- Log in → Settings → Delete Account
+- We'll deactivate immediately and delete personal data per privacy policy (D12)
+
+**We can terminate your account if you:**
+- Violate these Terms
+- Engage in fraud or abuse
+- Make threats or harass staff/courses
+- Create multiple accounts to circumvent limits
+- Use automated bots or scripts
+
+**Consequences of termination:**
+- You lose access to your booking history
+- Any pending bookings may be canceled
+- No refund of platform fees
+
+---
+
+## SECTION 4: BOOKING PROCESS & TERMS
+
+### 4.1 How Bookings Work
+
+1. You enter desired course, dates, party size, handicap
+2. Ocean Golf displays available tee times (if any)
+3. You select a tee time and click "Request Booking"
+4. We send your details to the golf course
+5. Course confirms (usually within 24–48 hours)
+6. You receive confirmation email
+7. You show up at the course on the booking date
+
+### 4.2 What You Confirm
+
+By requesting a booking, you confirm:
+- Dates, times, and party size are accurate
+- You will show up (or cancel with course directly)
+- You've read and agreed to course policies (dress code, cancellation, etc.)
+- You are an experienced golfer (unless specifically requesting beginner-friendly)
+- All party members' handicaps/skill levels are accurately reported
+
+### 4.3 Cancellations & Changes
+
+**You must cancel directly with the golf course** (or contact Lucia if you don't know how).
+
+Ocean Golf cannot cancel on your behalf. The course's cancellation policy (fees, windows) applies — not our policy.
+
+**If you don't show up:** The golf course may charge you a "no-show" fee (typical $50–$100). This is between you and the course. Ocean Golf is not liable.
+
+### 4.4 Errors in Booking Details
+
+If you notice an error (wrong date, party size, handicap) **within 24 hours of booking**, contact Lucia immediately:
+- Email: concierge@oceangolf.mx
+- Phone: [Lucia's number]
+- Lucia will try to correct it with the course
+
+We cannot guarantee corrections are possible. Golf courses may have already placed your party in the system.
+
+---
+
+## SECTION 5: PAYMENT TERMS
+
+### 5.1 Pricing & Fees
+
+Ocean Golf charges a **coordination fee** (typically 10% of booking value) for arranging your tee time.
+
+**Example:**
+- Course charges: $150 per person × 4 people = $600
+- Ocean Golf coordination fee: 10% = $60
+- You pay: $660 total
+
+**Fee is non-refundable** (see Section 5.3 below).
+
+### 5.2 Payment Processing
+
+Payments are processed via Stripe (https://stripe.com). When you authorize payment, you authorize:
+- Stripe to charge your payment method (credit card, debit card, bank transfer)
+- Ocean Golf to charge the coordination fee
+- The golf course to charge the booking fee (if separate)
+
+**Card information:** Your full card number is never shared with Ocean Golf. Stripe handles all card data securely (PCI-DSS compliant).
+
+### 5.3 Refund Policy
+
+**Ocean Golf fees are non-refundable** once the booking is requested.
+
+**Exception:** If the golf course cancels the tee time (confirms it's unavailable), you can request a refund:
+1. Contact Lucia: concierge@oceangolf.mx
+2. Provide booking confirmation
+3. Lucia verifies with golf course
+4. If confirmed canceled by course, we refund Ocean Golf fees within 5 business days
+
+**Golf course fees:** If the course cancels, refund of the golf course fee is between you and the course. Ocean Golf has no control over their refund policy.
+
+**Late cancellation:** If you cancel with the course after their cancellation window, course fees are forfeited. Ocean Golf fee is also non-refundable.
+
+### 5.4 Billing Disputes
+
+If you don't recognize a charge:
+1. Email: support@oceangolf.mx with booking confirmation
+2. Provide reason (unauthorized, incorrect amount, etc.)
+3. We investigate and respond within 10 business days
+4. If error confirmed, we process refund within 5 business days
+
+You can also dispute charges directly with your credit card company (chargeback).
+
+---
+
+## SECTION 6: INTELLECTUAL PROPERTY & CONTENT OWNERSHIP
+
+### 6.1 Ocean Golf's Content
+
+All content on Ocean Golf platform (text, images, logos, software, design) is owned by Ocean Golf SRL and protected by copyright/intellectual property law.
+
+**You cannot:**
+- Copy, modify, or redistribute our content
+- Reverse-engineer our software
+- Scrape our website for data
+- Use Ocean Golf branding without permission
+
+**You can:**
+- Use content for personal, non-commercial reference
+- Print a booking confirmation for your records
+- Share Ocean Golf link with friends
+
+### 6.2 User-Generated Content (Booking Data)
+
+**Founder decision required:**
+
+**Option A: Ocean Golf owns booking data**
+- When you create a booking, Ocean Golf owns the data
+- We may use anonymized booking patterns for analytics, recommendations
+- You retain the right to delete your data (see Privacy Policy)
+- You cannot re-export and commercialize your booking history
+
+**Option B: You own booking data**
+- You own all data in your bookings
+- You can export your booking history (CSV, JSON)
+- You can use data for personal records only
+- Ocean Golf can use anonymized aggregate data (e.g., "most popular courses")
+
+**FOUNDER CHOICE REQUIRED:** ☐ Option A  ☐ Option B
+
+### 6.3 Photos & Profile Information
+
+You own any photos and information in your profile. When you upload a photo:
+- You grant Ocean Golf a license to display it on your profile
+- You confirm you own the photo or have permission to use it
+- Ocean Golf can use your photo in account/booking communications only
+
+---
+
+## SECTION 7: USER CONDUCT & PROHIBITED BEHAVIOR
+
+You agree **NOT** to:
+
+### 7.1 Fraud & Abuse
+- Submit false information or fake identity
+- Engage in any form of fraud or deception
+- Attempt to hack, bypass, or circumvent security
+- Create multiple accounts to evade limits or hide identity
+
+### 7.2 Harassment & Threats
+- Threaten, harass, or abuse anyone (users, staff, golf courses)
+- Send unsolicited commercial messages
+- Spam or flood the platform with requests
+
+### 7.3 Illegal Activity
+- Violate any local, state, or federal law
+- Infringe on anyone's intellectual property
+- Defame or slander anyone
+- Facilitate money laundering or sanctions evasion
+
+### 7.4 Platform Abuse
+- Scrape data, use bots, or automate access
+- Interfere with other users or services
+- Exploit vulnerabilities or bugs
+- Share login credentials with others
+
+### 7.5 Discrimination & Hate
+- Engage in discrimination or hate speech
+- Make booking requests based on race, religion, gender, sexual orientation, disability
+- Refuse to play with others based on protected characteristics
+
+**Consequences:** Violating these rules may result in:
+- Account suspension (temporary)
+- Account termination (permanent)
+- Forfeiture of any balance or credits
+- Legal action if crime committed
+
+---
+
+## SECTION 8: LIABILITY & DISCLAIMERS
+
+### 8.1 Ocean Golf's Liability Limits
+
+**Ocean Golf is provided "as is" without warranties.** We don't guarantee:
+- Accuracy of course information (prices, amenities, handicap limits)
+- Availability or accuracy of tee times
+- Confirmation of any booking by the golf course
+- Any specific outcome from using our service
+
+### 8.2 What We're NOT Liable For
+
+Ocean Golf is **not responsible for:**
+
+**Third-party actions:**
+- Golf courses canceling, moving, or denying your tee time
+- Course staff behavior, racism, discrimination
+- Course injuries or accidents
+- Stripe charging errors or fraud
+
+**Service disruptions:**
+- Platform outages or technical errors
+- Lost bookings due to system failure
+- Email delivery failures (confirmation may be delayed)
+- Data loss (though we back up daily)
+
+**Your actions:**
+- You not showing up (no-show fees)
+- You providing incorrect information
+- You missing your tee time
+- You harassing or threatening course staff
+
+### 8.3 Liability Cap
+
+**Ocean Golf's total liability** is capped at the fees you paid in the last 30 days.
+
+**Example:**
+- You paid Ocean Golf $60 in coordination fees last 30 days
+- Something goes wrong (booking canceled, system error)
+- Maximum we owe you: $60 (regardless of actual damages)
+
+**Exception:** This cap doesn't apply if we're liable for:
+- Gross negligence
+- Intentional misconduct
+- Data breach due to our failure to secure data
+
+### 8.4 Disclaimer of Warranties
+
+Ocean Golf disclaims all warranties, express or implied:
+- ❌ Not warranting fitness for a particular purpose
+- ❌ Not warranting merchantability
+- ❌ Not warranting accuracy of information
+- ❌ Not warranting no viruses or malware
+
+---
+
+## SECTION 9: INDEMNIFICATION
+
+**You indemnify (protect) Ocean Golf** from:
+- Claims arising from your use of the service
+- Claims from people you refer to the service
+- Your violation of these Terms
+- Your violation of any law
+- Any content you upload or provide
+
+**In plain English:** If someone sues Ocean Golf because of something you did, you agree to cover Ocean Golf's legal costs and damages.
+
+---
+
+## SECTION 10: DISPUTE RESOLUTION
+
+### 10.1 Governing Law
+
+These Terms are governed by **Mexican law** (specifically the laws of Mexico City/CDMX).
+
+This choice of law applies regardless of your location.
+
+### 10.2 Disputes Between You & Ocean Golf
+
+**If you have a dispute with Ocean Golf:**
+
+**Step 1: Contact us**
+- Email: support@oceangolf.mx
+- Include: Your name, booking details, issue, desired resolution
+- We respond within 10 business days
+
+**Step 2: Mediation** (optional)
+- If Step 1 doesn't resolve, we both agree to mediation
+- A neutral mediator tries to help us reach agreement
+- Cost split 50/50
+- 30 days to resolve
+
+**Step 3: Legal proceedings**
+- If mediation fails, either party can sue
+- Location: Courts of Mexico City, Mexico
+- You agree to submit to Mexican jurisdiction
+
+**Arbitration alternative:**
+- We may offer arbitration instead of court
+- Arbitrator makes binding decision
+- Faster, cheaper than court litigation
+
+**FOUNDER DECISION REQUIRED:** 
+- Is mediation mandatory before litigation? ☐ Yes ☐ No
+- Do we want arbitration option? ☐ Yes ☐ No
+
+### 10.3 No Class Action
+
+You agree **not** to:
+- Join a class action lawsuit against Ocean Golf
+- Participate in class action with other users
+
+All disputes must be brought individually.
+
+---
+
+## SECTION 11: TERMINATION
+
+### 11.1 Termination by You
+
+You can terminate your use of Ocean Golf at any time by:
+1. Deleting your account (Settings → Delete Account)
+2. Stopping use of the platform
+
+**Effect:** You lose all access. Your data is handled per Privacy Policy.
+
+### 11.2 Termination by Ocean Golf
+
+We can terminate your account for:
+- Violation of these Terms
+- Violation of law
+- Fraudulent activity
+- Repeated abuse or harassment
+- Non-use for 12+ months
+
+**Notice:** We'll email you before terminating (except for serious violations, where termination is immediate).
+
+### 11.3 Survival
+
+These sections survive termination:
+- Liability & Disclaimers (Section 8)
+- Indemnification (Section 9)
+- Dispute Resolution (Section 10)
+- Intellectual Property (Section 6)
+
+---
+
+## SECTION 12: GENERAL PROVISIONS
+
+### 12.1 Entire Agreement
+
+These Terms, combined with our Privacy Policy (D12), constitute the entire agreement between you and Ocean Golf. Any prior agreements are superseded.
+
+### 12.2 Severability
+
+If any section of these Terms is found unenforceable, the rest remains in effect. Courts will modify unenforceable sections minimally to make them enforceable.
+
+### 12.3 Waiver
+
+If we don't enforce a rule, that doesn't mean we've waived the right to enforce it later.
+
+### 12.4 Amendment
+
+We may amend these Terms. Material changes are emailed 30 days in advance. Continued use means acceptance.
+
+### 12.5 Notices
+
+We may notify you via:
+- Email (to address in your account)
+- Platform notification (in-app message)
+- SMS (if you provided phone number)
+
+You must notify us via email: support@oceangolf.mx
+
+---
+
+## SECTION 13: LEGAL REVIEW & APPROVAL (REQUIRED BEFORE LAUNCH)
+
+**⚠️ CRITICAL:** These Terms must be reviewed by a Mexican lawyer before September 1 launch.
+
+**Recommended attorney focus areas:**
+1. Enforceability of liability disclaimers under Mexican law
+2. Compliance with Mexican e-commerce laws (LFCE)
+3. Appropriateness of Mexico City jurisdiction clause
+4. Enforceability of "no class action" clause
+5. Strength of indemnification clause
+6. Adequacy of notice provisions
+7. Whether payment terms comply with Mexican consumer protection law (LFDC)
+
+**Estimated cost:** $500–1,500 (one-time review)
+
+**Timeline:** Schedule review by August 1 (1 month before launch)
+
+**Questions for lawyer:**
+- Are our liability disclaimers enforceable under Mexican law?
+- Should we include LFDC (Federal Consumer Protection Law) specific language?
+- Is our dispute resolution process adequate for Mexican courts?
+- Should we allow international arbitration (UNCITRAL) instead of Mexico City courts only?
+- Are there specific consumer rights we must include for Mexican users?
+
+---
+
+## FOUNDER DECISIONS REQUIRED (COMPLETION GATE)
+
+Before D13 is finalized, Rafael must decide and confirm:
+
+**Decision 5.3: Refund policy**
+- Ocean Golf fees are non-refundable. Acceptable? ☐ Yes ☐ Modify
+- If modify, what's the refund window? _____ days
+
+**Decision 6.2: Content ownership**
+- **CHOICE:**  ☐ Option A (Ocean Golf owns booking data)  ☐ Option B (User owns booking data)
+
+**Decision 10.2: Dispute resolution**
+- Is mediation mandatory before litigation?  ☐ Yes ☐ No
+- Do we want arbitration option?  ☐ Yes ☐ No
+- Acceptable jurisdiction: Mexico City?  ☐ Yes ☐ Other: _____
+
+**Approval:**
+- Rafael reviews Sections 2, 5, 6, 10 and provides written decisions
+- Legal review scheduled (August 1)
+- Final ToS approved by Rafael (August 15)
+- Published on platform (August 25)
+- Live for users (September 1)</search_text>
+  </patch>
+</corrections>
+```
