@@ -178,4 +178,4 @@ Apply these strictly. When in doubt, use the higher severity.
 
 7. **Test the tests.** The test suite is part of the codebase. If tests have quality issues, those are findings too.
 
-Save your complete report as `architecture-review.md` in the designated output directory.
+Output your complete report as a single markdown document. Title it `architecture-review.md`.
